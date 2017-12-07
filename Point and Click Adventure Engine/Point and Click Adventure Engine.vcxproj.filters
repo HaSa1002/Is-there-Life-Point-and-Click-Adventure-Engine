@@ -19,15 +19,30 @@
     <Filter Include="Quelldateien\leveleditor">
       <UniqueIdentifier>{a65d93c7-b014-4f58-9c00-8c9e1467ac31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\rendering">
+      <UniqueIdentifier>{ec745c6e-4bb8-4629-b5aa-ee37de592d32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering.cpp">
+      <Filter>Quelldateien\rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rendering.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Leveleditor.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
