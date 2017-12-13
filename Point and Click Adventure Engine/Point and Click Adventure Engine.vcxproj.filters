@@ -22,6 +22,12 @@
     <Filter Include="Quelldateien\rendering">
       <UniqueIdentifier>{ec745c6e-4bb8-4629-b5aa-ee37de592d32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\libs">
+      <UniqueIdentifier>{7a15e5c1-7caa-49a5-993e-df704fa7dc6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\libs\imgui">
+      <UniqueIdentifier>{9a2f2d8e-80c4-42fa-b6b4-c85fb8780d07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -30,16 +36,55 @@
     <ClCompile Include="Rendering.cpp">
       <Filter>Quelldateien\rendering</Filter>
     </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui-SFML.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Rendering.h">
+    <ClInclude Include="Rendering.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Leveleditor.h">
+    <ClInclude Include="Leveleditor.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="Game.hpp">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Menue.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Headerdateien\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig-SFML.h">
+      <Filter>Headerdateien\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Headerdateien\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Headerdateien\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui-SFML.h">
+      <Filter>Headerdateien\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_rect_pack.h">
+      <Filter>Headerdateien\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_textedit.h">
+      <Filter>Headerdateien\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_truetype.h">
+      <Filter>Headerdateien\libs\imgui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
-#include "Game.h"
-#include "Leveleditor.h"
+#include "Game.hpp"
+#include "Leveleditor.hpp"
 
 #include <SFML\Main.hpp>
 
