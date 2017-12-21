@@ -1,5 +1,12 @@
 #pragma once
 
+#include "Rendering.hpp"
+#include "Menuemanager.hpp"
+#include <SFML\Window.hpp>
+#include <AF\xml.h>
+#include <imgui.h>
+
+
 
 namespace pc {
 	class Leveleditor
@@ -10,7 +17,11 @@ namespace pc {
 		void start();
 		void main();
 
-	private:
+		void processEvents();
 
+	private:
+		Lvleditor::Menuemanager menue;
+		Rendering renderer;
+		
 	};
-}
+} //pc

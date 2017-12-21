@@ -1,28 +1,15 @@
 #pragma once
-
-#ifndef PC_MENUE
-#define PC_MENUE
-
-//Header
-#include "imgui.h"
-#include "imgui-SFML.h"
-#include <SFML\Window\Event.hpp>
+#include <string>
 
 
 namespace pc {
-	class Menue {
-	public:
-		Menue();
-		~Menue();
+	namespace Lvleditor {
+		class Menue {
+		public:
+			virtual void draw()=0;
+			virtual auto reportOpeningAction()->std::string=0;
+		};
 
-		void handleEvent(sf::Event event);
-
-
-
-
-	private:
-
-	};
-}
-
-#endif // !PC_MENUE
+		
+	} //Lvleditor
+} //pc

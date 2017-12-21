@@ -75,11 +75,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Software\SFML-2.4.2\include;D:\Software\sfgui-0.3.2-vs2017-32\include;D:\Software\itl\itl\libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Software\SFML-2.4.2\include;D:\Software\sfgui-0.3.2-vs2017-32\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include\IMGUI</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>D:\Software\SFML-2.4.2\lib;D:\Software\TGUI-0.8-dev\lib;D:\Software\sfgui-0.3.2-vs2017-32\lib;D:\Software\itl\itl\libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-audio-d.lib;sfml-graphics-d.lib;sfml-main-d.lib;sfml-network-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfgui-d.lib;Advanced_Filestreams-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Software\SFML-2.4.2\lib;D:\Software\TGUI-0.8-dev\lib;D:\Software\sfgui-0.3.2-vs2017-32\lib;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;sfml-audio-d.lib;sfml-graphics-d.lib;sfml-main-d.lib;sfml-network-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfgui-d.lib;Advanced_Filestreams-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -96,13 +96,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Software\SFML-2.4.2\include;D:\Software\sfgui-0.3.2-vs2017-32\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include\AF;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Software\SFML-2.4.2\include;D:\Software\sfgui-0.3.2-vs2017-32\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include\IMGUI</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>D:\Software\SFML-2.4.2\lib;D:\Software\sfgui-0.3.2-vs2017-32\lib;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-system.lib;sfml-audio.lib;sfml-graphics.lib;sfml-network.lib;sfml-window.lib;openal32.lib;sfgui.lib;Advanced_Filestreams.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-system.lib;sfml-audio.lib;sfml-graphics.lib;sfml-network.lib;sfml-window.lib;openal32.lib;sfgui.lib;Advanced_Filestreams.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -119,26 +119,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="imgui-helper.cpp" />
     <ClCompile Include="imgui-SFML.cpp" />
     <ClCompile Include="imgui.cpp" />
+    <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
+    <ClCompile Include="Leveleditor.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mainmenue.cpp" />
+    <ClCompile Include="Menue.cpp" />
+    <ClCompile Include="Menuemanager.cpp" />
+    <ClCompile Include="Objectmanager.cpp" />
     <ClCompile Include="Rendering.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp" />
-    <ClInclude Include="imconfig-SFML.h" />
-    <ClInclude Include="imconfig.h" />
-    <ClInclude Include="imgui-SFML.h" />
-    <ClInclude Include="imgui.h" />
-    <ClInclude Include="imgui_internal.h" />
+    <ClInclude Include="imgui-helper.h" />
     <ClInclude Include="Leveleditor.hpp" />
+    <ClInclude Include="Mainmenue.hpp" />
     <ClInclude Include="Menue.hpp" />
+    <ClInclude Include="Menuemanager.hpp" />
+    <ClInclude Include="Objectmanager.hpp" />
     <ClInclude Include="Pipeline.hpp" />
     <ClInclude Include="Rendering.hpp" />
-    <ClInclude Include="stb_rect_pack.h" />
-    <ClInclude Include="stb_textedit.h" />
-    <ClInclude Include="stb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
