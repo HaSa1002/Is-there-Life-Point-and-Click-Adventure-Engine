@@ -32,12 +32,13 @@ namespace pc {
 			this->title = title;
 	}
 
-	Rendering::Rendering()
-	{
+	Rendering::Rendering() {
+
 	}
 
-	Rendering::~Rendering()
-	{
+	Rendering::~Rendering() {
+		if (isOpen())
+			window.close();
 	}
 
 	void Rendering::addGUI(bool imGui_drawing)
