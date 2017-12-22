@@ -25,10 +25,10 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "Menue.hpp"
-//Dependencies
+
 #include <SFML\Window.hpp>
 #include <SFML\Graphics.hpp>
-//STD Library
+
 #include <vector>
 #include <memory>
 
@@ -272,7 +272,6 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		void zoom(const float factor, const bool animated);
 
-
 	private:
 
 		////////////////////////////////////////////////////////////
@@ -298,7 +297,7 @@ namespace pc {
 /// this engine. It allows you to render sf::Drawables and the
 /// gui (wheter it is imgui or in the future cegui).
 /// 
-/// As the engine is this class not completed yet, what means
+/// As the engine this class is not completed yet, what means
 /// that it is constantly improved, changed and/or updated.
 /// 
 /// ToDos:

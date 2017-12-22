@@ -1,7 +1,7 @@
 #pragma once
 //#pragma comment(linker, "/SUBSYSTEM:Windows /ENTRY:mainCRTStartup")
 #include "Game.hpp"
-#include "Leveleditor.hpp"
+#include "Editor.hpp"
 
 #include <SFML\Main.hpp>
 #include <SFML\Graphics.hpp>
@@ -15,8 +15,8 @@ int main(int argc, char* argv[]) {
 			intoEngine = true;
 	}
 	if (intoEngine) {
-		pc::Leveleditor Leveleditor;
-		Leveleditor.start();
+		pc::Editor editor;
+		editor.start();
 	}
 	/*else {
 		pc::Game Game;

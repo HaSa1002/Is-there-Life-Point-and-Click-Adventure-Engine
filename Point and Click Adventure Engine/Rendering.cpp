@@ -9,7 +9,7 @@ namespace pc {
 		{
 			window.draw(*drawable);
 		}
-		if (drawImGui)
+		if (draw_imgui)
 			ImGui::SFML::Render(window);
 		window.display();
 	}
@@ -43,7 +43,7 @@ namespace pc {
 
 	void Rendering::imgui_rendering(bool draw)
 	{
-		drawImGui = draw;
+		draw_imgui = draw;
 	}
 
 	void Rendering::closeWindow() {

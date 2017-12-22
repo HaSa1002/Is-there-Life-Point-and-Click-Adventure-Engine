@@ -51,9 +51,6 @@
     <ClCompile Include="Menuemanager.cpp">
       <Filter>Quelldateien\leveleditor</Filter>
     </ClCompile>
-    <ClCompile Include="Leveleditor.cpp">
-      <Filter>Quelldateien\leveleditor</Filter>
-    </ClCompile>
     <ClCompile Include="Mainmenue.cpp">
       <Filter>Quelldateien\leveleditor</Filter>
     </ClCompile>
@@ -78,11 +75,11 @@
     <ClCompile Include="imgui-SFML.cpp">
       <Filter>Quelldateien\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Quelldateien\leveleditor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Leveleditor.hpp">
-      <Filter>Headerdateien\Engine\Leveleditor</Filter>
-    </ClInclude>
     <ClInclude Include="Game.hpp">
       <Filter>Headerdateien\Engine\Game</Filter>
     </ClInclude>
@@ -107,11 +104,11 @@
     <ClInclude Include="imgui-helper.h">
       <Filter>Headerdateien\libs</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.hpp">
+      <Filter>Headerdateien\Engine\Leveleditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-    <None Include="Styleguide.md">
-      <Filter>Ressourcendateien</Filter>
-    </None>
   </ItemGroup>
 </Project>

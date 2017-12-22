@@ -1,7 +1,7 @@
 ﻿////////////////////////////////////////////////////////////
 // 
-// SFML Point and Click Adventure Engine (ITLengine)
-// Copyright (c) 2017 Johannes Witt
+// ITLengine - Is there Life? Point and Click Adventure Engine
+// Copyright (c) 2017 Johannes Witt (johawitt@outlook.de)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
@@ -21,23 +21,24 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "Leveleditor.hpp"
+#include "Editor.hpp"
 #include "imgui-helper.h"
-// Dependencies
+
 #include <imgui-SFML.h>
-// STD Library
+
 #include <iostream>
 
 namespace pc {
-	Leveleditor::Leveleditor() {
+
+	Editor::Editor() {
 
 	}
 
-	Leveleditor::~Leveleditor() {
+	Editor::~Editor() {
 
 	}
 
-	void Leveleditor::start() {
+	void Editor::start() {
 		//Startup
 		renderer.createWindow();
 		ImGui::SFML::Init(renderer.getWindowObject());
@@ -48,17 +49,17 @@ namespace pc {
 		ImGui::SFML::Shutdown();
 	}
 
-	void Leveleditor::main() {
+	void Editor::main() {
 		renderer.getWindowObject().resetGLStates();
 		sf::Clock clock;
 		while (renderer.isOpen()) {
 			this->processEvents();
 			menue.draw(renderer);
-			renderer.redraw();
+			renderer.render();
 		}
 	}
 
-	void Leveleditor::processEvents() {
+	void Editor::processEvents() {
 		sf::Event event;
 		while (renderer.getWindowObject().pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);

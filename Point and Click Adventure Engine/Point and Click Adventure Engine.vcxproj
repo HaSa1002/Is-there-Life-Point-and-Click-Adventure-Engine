@@ -124,7 +124,7 @@
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
-    <ClCompile Include="Leveleditor.cpp" />
+    <ClCompile Include="Editor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mainmenue.cpp" />
     <ClCompile Include="Menue.cpp" />
@@ -135,7 +135,7 @@
   <ItemGroup>
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="imgui-helper.h" />
-    <ClInclude Include="Leveleditor.hpp" />
+    <ClInclude Include="Editor.hpp" />
     <ClInclude Include="Mainmenue.hpp" />
     <ClInclude Include="Menue.hpp" />
     <ClInclude Include="Menuemanager.hpp" />
@@ -145,7 +145,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-    <None Include="Styleguide.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
