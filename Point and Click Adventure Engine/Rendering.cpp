@@ -3,9 +3,9 @@
 #include <imgui-SFML.h>
 
 namespace pc {
-	void Rendering::redraw() {
+	void Rendering::render() {
 		window.clear();
-		for each (sf::Drawable* drawable in draw_list)
+		for each (std::shared_ptr<sf::Drawable> drawable in draw_list)
 		{
 			window.draw(*drawable);
 		}
@@ -41,9 +41,9 @@ namespace pc {
 			window.close();
 	}
 
-	void Rendering::addGUI(bool imGui_drawing)
+	void Rendering::imgui_rendering(bool draw)
 	{
-		drawImGui = imGui_drawing;
+		drawImGui = draw;
 	}
 
 	void Rendering::closeWindow() {
@@ -69,7 +69,7 @@ namespace pc {
 		this->offset += offset;
 	}
 
-	void Rendering::zoom(const float factor) {
+	void Rendering::zoom(const float factor, bool anitmated) {
 		view.zoom(factor);
 	}
 
@@ -80,7 +80,7 @@ namespace pc {
 		view.zoom(1);
 	}
 
-	void Rendering::remove(const sf::Drawable* element) {
+	void Rendering::remove(std::shared_ptr<sf::Drawable> element) {
 
 	}
 }

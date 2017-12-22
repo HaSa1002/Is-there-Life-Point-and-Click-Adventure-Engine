@@ -41,7 +41,7 @@ namespace pc {
 		//Startup
 		renderer.createWindow();
 		ImGui::SFML::Init(renderer.getWindowObject());
-		renderer.addGUI(1);
+		renderer.imgui_rendering();
 		menue.open("mainmenue");
 		this->main();
 		//End
