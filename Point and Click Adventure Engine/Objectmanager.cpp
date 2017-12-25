@@ -21,13 +21,13 @@ namespace pc {
 				"  \"xxx\"      display lines containing \"xxx\"\n"
 				"  \"xxx,yyy\"  display lines containing \"xxx\" or \"yyy\"\n"
 				"  \"-xxx\"     hide lines containing \"xxx\"");
-			objectFilter.Draw("Search", 333);
+			object_filter.Draw("Search", 333);
 			ImGui::BeginChild("Objectlist", ImVec2(380, 150), 1);
-			for each (std::string line in objectList)
+			for each (std::string line in object_list)
 			{
-				if (objectFilter.PassFilter(line.data())) {
+				if (object_filter.PassFilter(line.data())) {
 					if (ImGui::Selectable(line.data())) {
-						inputBuffer = line;
+						input_buffer = line;
 					}
 
 				}
@@ -48,9 +48,9 @@ namespace pc {
 			ImGui::Button("Save", ImVec2(93.5, 0));
 			ImGui::EndChild();
 			ImGui::NextColumn();
-			ImGui::InputText("Key", inputBuffer, inputBuffer.capacity());
-			ImGui::InputText("Default name", inputBuffer, inputBuffer.capacity());
-			ImGui::InputText("Path", inputBuffer, inputBuffer.capacity());
+			ImGui::InputText("Key", input_buffer, input_buffer.capacity());
+			ImGui::InputText("Default name", input_buffer, input_buffer.capacity());
+			ImGui::InputText("Path", input_buffer, input_buffer.capacity());
 
 
 			ImGui::Checkbox("interactable", &testing);
