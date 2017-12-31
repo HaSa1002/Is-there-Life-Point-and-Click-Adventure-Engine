@@ -19,17 +19,11 @@
     <Filter Include="Quelldateien\leveleditor">
       <UniqueIdentifier>{a65d93c7-b014-4f58-9c00-8c9e1467ac31}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Quelldateien\rendering">
-      <UniqueIdentifier>{ec745c6e-4bb8-4629-b5aa-ee37de592d32}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Headerdateien\libs">
       <UniqueIdentifier>{7a15e5c1-7caa-49a5-993e-df704fa7dc6e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Headerdateien\Engine">
       <UniqueIdentifier>{8f07923a-369d-488b-881c-f7cf32cafa28}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\Engine\universal">
-      <UniqueIdentifier>{1392518f-01d5-4ad4-a208-ef9b7c0cc5f0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Headerdateien\Engine\Game">
       <UniqueIdentifier>{f1d58522-93f7-4eea-9ccc-d8d6e9b67d43}</UniqueIdentifier>
@@ -40,13 +34,19 @@
     <Filter Include="Quelldateien\imgui">
       <UniqueIdentifier>{58a23b61-1026-4a08-b67e-ed578d7bd314}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\system">
+      <UniqueIdentifier>{ec745c6e-4bb8-4629-b5aa-ee37de592d32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Engine\system">
+      <UniqueIdentifier>{1392518f-01d5-4ad4-a208-ef9b7c0cc5f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Rendering.cpp">
-      <Filter>Quelldateien\rendering</Filter>
+      <Filter>Quelldateien\system</Filter>
     </ClCompile>
     <ClCompile Include="Menuemanager.cpp">
       <Filter>Quelldateien\leveleditor</Filter>
@@ -84,16 +84,19 @@
     <ClCompile Include="Localisation.cpp">
       <Filter>Quelldateien\leveleditor</Filter>
     </ClCompile>
+    <ClCompile Include="Pipeline.cpp">
+      <Filter>Quelldateien\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp">
       <Filter>Headerdateien\Engine\Game</Filter>
     </ClInclude>
     <ClInclude Include="Pipeline.hpp">
-      <Filter>Headerdateien\Engine\universal</Filter>
+      <Filter>Headerdateien\Engine\system</Filter>
     </ClInclude>
     <ClInclude Include="Rendering.hpp">
-      <Filter>Headerdateien\Engine\universal</Filter>
+      <Filter>Headerdateien\Engine\system</Filter>
     </ClInclude>
     <ClInclude Include="Mainmenue.hpp">
       <Filter>Headerdateien\Engine\Leveleditor</Filter>
@@ -118,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="Localisation.hpp">
       <Filter>Headerdateien\Engine\Leveleditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception.hpp">
+      <Filter>Headerdateien\Engine\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

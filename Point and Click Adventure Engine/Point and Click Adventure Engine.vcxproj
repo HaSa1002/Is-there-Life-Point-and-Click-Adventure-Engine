@@ -131,10 +131,12 @@
     <ClCompile Include="Menue.cpp" />
     <ClCompile Include="Menuemanager.cpp" />
     <ClCompile Include="Objectmanager.cpp" />
+    <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="Rendering.cpp" />
     <ClCompile Include="Scenemanager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Exception.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="imgui-helper.h" />
     <ClInclude Include="Editor.hpp" />
