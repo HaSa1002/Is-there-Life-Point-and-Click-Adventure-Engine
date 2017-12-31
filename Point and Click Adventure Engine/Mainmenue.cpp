@@ -22,8 +22,8 @@ namespace pc {
 			ImGui::Text("Version 0.0.1.0-dev");
 			ImGui::Separator();
 			ImGui::Columns(2, "col", 0);
-			if (ImGui::Button("Load Scene")) {
-
+			if (ImGui::Button("Scenemanager")) {
+				opening_action = "scenemanager";
 			}
 			if (ImGui::Button("Objectmanager")) {
 				opening_action = "objectmanager";
@@ -39,7 +39,7 @@ namespace pc {
 
 			}
 			if (ImGui::Button("Localisation")) {
-
+				opening_action = "localisation";
 			}
 			if (ImGui::Button("Scripts")) {
 
@@ -60,6 +60,9 @@ namespace pc {
 			std::string temp = opening_action;
 			opening_action = "";
 			return temp;
+		}
+		auto Mainmenue::reportClosingAction() -> std::string {
+				return "";
 		}
 
 	}

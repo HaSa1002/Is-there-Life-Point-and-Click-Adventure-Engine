@@ -13,15 +13,18 @@ namespace pc {
 		}
 
 		void Objectmanager::draw() {
-			ImGui::Begin("Objectmanager");
+			ImGui::Begin("Objectmanager", &is_open);
 			ImGui::Columns(2, "col", 0);
-
-			ImGui::Text("Filter usage:\n"
-				"  \"\"         display all lines\n"
-				"  \"xxx\"      display lines containing \"xxx\"\n"
-				"  \"xxx,yyy\"  display lines containing \"xxx\" or \"yyy\"\n"
-				"  \"-xxx\"     hide lines containing \"xxx\"");
 			object_filter.Draw("Search", 333);
+			if (ImGui::IsItemHoveredRect()) {
+				ImGui::BeginTooltip();
+				ImGui::Text("Filter usage:\n"
+					"  \"\"         display all lines\n"
+					"  \"xxx\"      display lines containing \"xxx\"\n"
+					"  \"xxx,yyy\"  display lines containing \"xxx\" or \"yyy\"\n"
+					"  \"-xxx\"     hide lines containing \"xxx\"");
+				ImGui::EndTooltip();
+			}
 			ImGui::BeginChild("Objectlist", ImVec2(380, 150), 1);
 			for each (std::string line in object_list)
 			{
@@ -76,6 +79,14 @@ namespace pc {
 			std::string temp = opening_action;
 			opening_action = "";
 			return temp;
+		}
+		auto Objectmanager::reportClosingAction() -> std::string {
+			if (!is_open) {
+				is_open = 1;
+				return "objectmanager";
+			}
+			else
+				return "";
 		}
 		void Objectmanager::loadObjects() {
 

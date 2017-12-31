@@ -48,4 +48,23 @@ namespace ImGui
 		return changed;
 	}
 
+	bool InputTextMultiline(const char* label, std::string& str, size_t maxInputSize, const ImVec2& size,
+		ImGuiInputTextFlags flags, ImGuiTextEditCallback callback, void* user_data)
+	{
+		if (str.size() > maxInputSize) { // too large for editing
+			ImGui::Text(str.c_str());
+			return false;
+		}
+
+		std::string buffer(str);
+		buffer.resize(maxInputSize);
+		bool changed = ImGui::InputTextMultiline(label, &buffer[0], maxInputSize, size, flags, callback, user_data);
+		// using string as char array
+		if (changed) {
+			auto i = buffer.find_first_of('\0');
+			str = buffer.substr(0u, i);
+		}
+		return changed;
+	}
+
 } // end of namespace ImGui
