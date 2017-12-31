@@ -39,7 +39,7 @@ namespace pc {
 			/// It draws the menue
 			///
 			////////////////////////////////////////////////////////////
-			virtual void draw()=0;
+			virtual void draw() = 0;
 
 			////////////////////////////////////////////////////////////
 			/// Reports an Opening Action used for menues
@@ -47,7 +47,15 @@ namespace pc {
 			/// returns id of the openingAction
 			///
 			////////////////////////////////////////////////////////////
-			virtual auto reportOpeningAction()->std::string=0;
+			virtual auto reportOpeningAction()->std::string = 0;
+
+			////////////////////////////////////////////////////////////
+			/// reports if a menue was closed
+			///
+			/// returns id of the openingAction
+			///
+			////////////////////////////////////////////////////////////
+			virtual auto reportClosingAction()->std::string = 0;
 		};
 
 		

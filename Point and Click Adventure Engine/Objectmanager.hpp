@@ -27,6 +27,7 @@
 #include "Menue.hpp"
 #include "imgui-helper.h"
 
+#include <imgui.h>
 #include <imgui-SFML.h>
 
 #include <vector>
@@ -62,6 +63,12 @@ namespace pc {
 			///
 			////////////////////////////////////////////////////////////
 			auto reportOpeningAction()->std::string;
+
+			////////////////////////////////////////////////////////////
+			/// reports opening action
+			///
+			////////////////////////////////////////////////////////////
+			auto reportClosingAction()->std::string;
 		private:
 
 			////////////////////////////////////////////////////////////
@@ -80,6 +87,7 @@ namespace pc {
 			// Members
 			////////////////////////////////////////////////////////////
 			std::string					input_buffer;						/// buffer
+			bool						is_open = 1;						/// states the window_open_state
 			std::string					opening_action = "";				/// opening action
 			ImGuiTextFilter				object_filter;						/// filter
 			std::vector<std::string>	object_list{ "bg.te", "bg.lp" };	/// filterliste

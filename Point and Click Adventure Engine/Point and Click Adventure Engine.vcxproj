@@ -125,23 +125,27 @@
     <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
     <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="Localisation.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mainmenue.cpp" />
     <ClCompile Include="Menue.cpp" />
     <ClCompile Include="Menuemanager.cpp" />
     <ClCompile Include="Objectmanager.cpp" />
     <ClCompile Include="Rendering.cpp" />
+    <ClCompile Include="Scenemanager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="imgui-helper.h" />
     <ClInclude Include="Editor.hpp" />
+    <ClInclude Include="Localisation.hpp" />
     <ClInclude Include="Mainmenue.hpp" />
     <ClInclude Include="Menue.hpp" />
     <ClInclude Include="Menuemanager.hpp" />
     <ClInclude Include="Objectmanager.hpp" />
     <ClInclude Include="Pipeline.hpp" />
     <ClInclude Include="Rendering.hpp" />
+    <ClInclude Include="Scenemanager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
