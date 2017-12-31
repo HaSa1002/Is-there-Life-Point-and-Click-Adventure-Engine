@@ -67,4 +67,14 @@ namespace ImGui
 		return changed;
 	}
 
+	void displayFilterUsage() {
+		ImGui::BeginTooltip();
+		ImGui::Text("Filter usage:\n"
+			"  \"\"         display all lines\n"
+			"  \"xxx\"      display lines containing \"xxx\"\n"
+			"  \"xxx,yyy\"  display lines containing \"xxx\" or \"yyy\"\n"
+			"  \"-xxx\"     hide lines containing \"xxx\"");
+		ImGui::EndTooltip();
+	}
+
 } // end of namespace ImGui

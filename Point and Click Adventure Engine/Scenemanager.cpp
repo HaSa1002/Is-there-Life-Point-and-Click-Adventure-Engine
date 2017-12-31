@@ -15,15 +15,8 @@ namespace pc {
 			ImGui::Begin("Scenemanager", &is_open);
 			ImGui::Columns(2, "col", 0);
 			object_filter.Draw("Search", 333);
-			if (ImGui::IsItemHoveredRect()) {
-				ImGui::BeginTooltip();
-				ImGui::Text("Filter usage:\n"
-					"  \"\"         display all lines\n"
-					"  \"xxx\"      display lines containing \"xxx\"\n"
-					"  \"xxx,yyy\"  display lines containing \"xxx\" or \"yyy\"\n"
-					"  \"-xxx\"     hide lines containing \"xxx\"");
-				ImGui::EndTooltip();
-			}
+			if (ImGui::IsItemHoveredRect())
+				ImGui::displayFilterUsage();
 			ImGui::BeginChild("Objectlist", ImVec2(380, 150), 1);
 			for each (std::string line in object_list)
 			{

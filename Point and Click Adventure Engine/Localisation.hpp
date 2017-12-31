@@ -31,6 +31,7 @@
 
 #include <vector>
 #include <list>
+#include <map>
 
 namespace pc {
 	namespace Lvleditor {
@@ -40,6 +41,16 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		class Localisation :public Menue {
 		public:
+			///////////////////////////////////////////////////////////
+			/// Struct of the Localise-items
+			///
+			////////////////////////////////////////////////////////////
+			struct Item {
+				std::string text;
+				std::string audio_path;
+			};
+
+
 			////////////////////////////////////////////////////////////
 			/// Default Constructor
 			///
@@ -71,8 +82,16 @@ namespace pc {
 			auto reportClosingAction()->std::string;
 		private:
 
+			///////////////////////////////////////////////////////////
+			/// loads the languagekeys from file
+			///
+			////////////////////////////////////////////////////////////
 			void loadLanguages();
 
+			///////////////////////////////////////////////////////////
+			/// 
+			///
+			////////////////////////////////////////////////////////////
 			void saveLanguages();
 
 			void showModalLanguages();
@@ -83,20 +102,30 @@ namespace pc {
 
 			void selectKey(const std::string& key);
 
+			void removeKey(const std::string& key);
+
+			void showModalError();
+
 			////////////////////////////////////////////////////////////
 			// Members
 			////////////////////////////////////////////////////////////
 			bool		is_open = 1;			///
 			std::string	opening_action = "";	/// states the Action
 			ImGuiTextFilter				object_filter;						/// filter
-			std::vector<std::string>	object_list{ "bg.te", "bg.lp" };	/// filterliste
 			std::vector<std::string>	languages{ "EN", "DE" };
 			int							language_index = 0;
 			std::string					current_key = "";
 			bool						modal_is_open = 1;
-			std::string					add_key = "";
+			std::string					language_code = "";
 			int							modal_language_index = 0;
 			std::string					text = "";
+			std::map<std::string, Item> localise_keys;
+			std::string					audio_path = "";
+			std::string					original_key;
+			bool						show_error = 0;
+			bool						supress_modal_showing = 0;
+			bool						supress_modal_delete_showing = 0;
+			bool						show_remove = 0;
 		};
 	} //Lvleditor
 } //pc
