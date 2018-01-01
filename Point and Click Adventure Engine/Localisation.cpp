@@ -165,6 +165,7 @@ namespace pc {
 				current_key = "";
 				text = "";
 				audio_path = "";
+				original_key = "";
 			
 		}
 
