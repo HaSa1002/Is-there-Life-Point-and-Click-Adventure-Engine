@@ -31,6 +31,8 @@
 #include <imgui-SFML.h>
 
 #include <vector>
+#include <map>
+#include <string>
 #include <memory>
 
 namespace pc {
@@ -41,6 +43,17 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		class Objectmanager : public Menue {
 		public:
+
+			struct Object {
+				bool		collectable;	/// 
+				bool		complex;		/// 
+				bool		interactable;	/// 
+				bool		lookable;		/// 
+				std::string name;			/// 
+				std::string path;			/// 
+				std::string	script;			/// 
+				bool		usable;			/// 
+			};
 
 			////////////////////////////////////////////////////////////
 			/// Default Constructor
@@ -87,20 +100,21 @@ namespace pc {
 			////////////////////////////////////////////////////////////
 			void saveObjects();
 
+			void update(const std::string & key);
+
 			////////////////////////////////////////////////////////////
 			// Members
 			////////////////////////////////////////////////////////////
-			std::string						input_buffer;						/// buffer
-			bool							is_open = 1;						/// states the window_open_state
+			bool							is_open = true;						/// states the window_open_state
 			std::string						opening_action = "";				/// opening action
 			ImGuiTextFilter					object_filter;						/// filter
-			std::vector<std::string>		object_list{ "bg.te", "bg.lp" };	/// filterliste
-			std::vector<int>				open_menues;						/// open_menues
-			bool							t1;									/// t1_buffer
-			bool							t2;									/// t2_buffer
-			bool							t3;									/// t3_buffer
-			bool							testing;							/// testing buffer
+			std::map<std::string, Object>	object_list;				/// filterliste
+			Object							current_object;
+			std::string						current_object_key;
 			std::shared_ptr<Objectmanager>	ptr;								/// this shared pointer
+			std::string						original_key = "";
+			bool							show_error = false;
+			bool							supress_error_showing = false;
 		};
 	}
 }
