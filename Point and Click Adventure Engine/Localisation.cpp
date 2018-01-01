@@ -1,4 +1,5 @@
 #include "Localisation.hpp"
+#include "UtilityWindows.hpp"
 #include "imgui-helper.h"
 
 #include <SFML\Window\Keyboard.hpp>
@@ -69,7 +70,7 @@ namespace pc {
 				std::cout << audio_path;
 			}
 			if (show_error)
-				showModalError();
+				UtilityWindows::errorModal("Error: Key is not valid!", show_error);
 			if (show_remove)
 				removeKey(current_key);
 			ImGui::End();
@@ -193,18 +194,6 @@ namespace pc {
 				else
 					show_error = true;
 				show_remove = false;
-				ImGui::CloseCurrentPopup();
-			}
-			ImGui::EndPopup();
-		}
-
-
-		void Localisation::showModalError() {
-			ImGui::OpenPopup("Error##Empty");
-			ImGui::BeginPopupModal("Error##Empty");
-			ImGui::TextColored(ImVec4(255, 0, 0, 255), "Error: Key is not valid!");
-			if (ImGui::Button("OK##modal_empty", ImVec2(100, 20))) {
-				show_error = false;
 				ImGui::CloseCurrentPopup();
 			}
 			ImGui::EndPopup();
