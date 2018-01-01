@@ -26,3 +26,12 @@ struct Pair {
 		second = same;
 	}
 };
+
+template<typename T>
+inline T pc::Data4<T>::operator=(T same)
+{
+	first = same;
+	second = same;
+	third = same;
+	fourth = same;
+}

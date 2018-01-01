@@ -29,16 +29,23 @@
 namespace pc {
 
 	template <typename T>
-	struct Pair{
+	struct Data2 {
 		T first;
 		T second;
 
 		T operator=(T same);
 	};
 
-	typedef Pair<std::string> StringGroup;
+	typedef Data2<std::string> StringGroup;
 
-	
+	template <typename T>
+	struct Data4 {
+		T first;
+		T second;
+		T third;
+		T fourth;
+		T operator=(T same);
+	};
 
 }
 #include "Datatypes.inl"
