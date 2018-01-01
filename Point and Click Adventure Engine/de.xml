@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localise code="de">
+  <objects>
+
+  </objects>
+  <story>
+
+  </story>
+  <menue>
+    <mainmenue>
+      <continue>Fortsetzen</continue>
+      <loadSavegame>Spielstand laden</loadSavegame>
+      <settings>Einstellungen</settings>
+    </mainmenue>
+  </menue>
+</localise>

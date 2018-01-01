@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localise code="en">
+  <objects>
+    
+  </objects>
+  <story>
+    
+  </story>
+  <menue>
+    <mainmenue>
+      <continue>Continue</continue>
+      <loadSavegame>Load Savegame</loadSavegame>
+      <settings>Settings</settings>
+    </mainmenue>
+    <pausemenue>
+      
+    </pausemenue>
+  </menue>
+</localise>

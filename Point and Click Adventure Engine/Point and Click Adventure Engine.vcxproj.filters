@@ -40,6 +40,9 @@
     <Filter Include="Headerdateien\Engine\system">
       <UniqueIdentifier>{1392518f-01d5-4ad4-a208-ef9b7c0cc5f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Ressourcendateien\localisation">
+      <UniqueIdentifier>{1a8e8815-a956-4c2d-80c3-f53cb9a84a75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -128,5 +131,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="en.xml">
+      <Filter>Ressourcendateien\localisation</Filter>
+    </Xml>
+    <Xml Include="de.xml">
+      <Filter>Ressourcendateien\localisation</Filter>
+    </Xml>
+    <Xml Include="savegame_list.xml">
+      <Filter>Ressourcendateien\localisation</Filter>
+    </Xml>
+    <Xml Include="localisation_list.xml">
+      <Filter>Ressourcendateien\localisation</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
