@@ -24,8 +24,12 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include "Datatypes.hpp"
+
 #include <string>
 #include <queue>
+#include <map>
+#include <vector>
 
 namespace pc {
 	////////////////////////////////////////////////////////////
@@ -45,13 +49,17 @@ namespace pc {
 		/// Task Code to know what should be done
 		///
 		////////////////////////////////////////////////////////////
-		enum TaskCode {
+		enum class TaskCode {
 			XmlLoad,
 			XmlSave,
 			LangcodeLoad,
 			LangcodeSave,
 			LocaliseLoad,
 			LocaliseSave,
+			ObjectsSave,
+			ObjectsLoad,
+			SavegameLoad,
+			SavegameSave,
 
 		};
 
@@ -59,7 +67,7 @@ namespace pc {
 		/// States the task state
 		///
 		///////////////////////////////////////////////////////////
-		enum State {
+		enum class State {
 			UnknownState = -1,			/// State is unknown
 			Accepted,					/// Task is accepted
 			Queued,						/// Task is queued
@@ -75,6 +83,22 @@ namespace pc {
 			ErrorFileNotFound,			/// A File wasn't found
 			ErrorThreading,				/// Error occured with the threading
 			UnknownId					/// The given id is not set
+		};
+
+		union Data {
+			std::reference_wrapper<std::map<std::string, StringGroup>> scenelist;
+			std::reference_wrapper<std::vector<std::string>> language_codes;
+			std::reference_wrapper<std::map<std::string, StringGroup>> language;
+			
+
+		};
+
+
+		struct Task {
+			const TaskCode code;
+			const std::string task_id;
+			Data data;
+			State state;
 		};
 
 		////////////////////////////////////////////////////////////
@@ -151,7 +175,7 @@ namespace pc {
 
 	private:
 
-		//std::queue
+		std::queue<Task> queue;
 	};
 }
 #endif // !PC_PIPELINE
