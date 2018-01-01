@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 // 
 // ITLengine - Is there Life? Point and Click Adventure Engine
-// Copyright (c) 2017 Johannes Witt (johawitt@outlook.de)
+// Copyright (c) 2017-2018 Johannes Witt (johawitt@outlook.de)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
