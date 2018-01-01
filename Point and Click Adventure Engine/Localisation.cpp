@@ -26,9 +26,10 @@ namespace pc {
 			for each (std::pair<std::string, Item> line in localise_keys)
 			{
 				if (object_filter.PassFilter(line.first.data())) {
-					if (ImGui::Selectable(line.first.data()))
+					if (ImGui::Selectable(line.first.data())) {
 						selectKey(line.first.data());
-					original_key = line.first.data();
+						original_key = line.first.data();
+					}
 					if (ImGui::IsItemHovered()) {
 						ImGui::BeginTooltip();
 						ImGui::Text(line.second.text.data());
@@ -143,7 +144,7 @@ namespace pc {
 						//Key was changed, so delete the old
 						localise_keys.erase(original_key);
 					}
-					localise_keys.emplace(std::pair<std::string, Item>(current_key, item));
+					localise_keys.insert(std::pair<std::string, Item>(current_key, item));
 				}
 			}
 			else {
@@ -157,6 +158,7 @@ namespace pc {
 				auto current = localise_keys.find(key);
 				if (current != localise_keys.end()) {
 					current_key = key;
+					original_key = key;
 					text = current->second.text;
 					audio_path = current->second.audio_path;
 					return;
