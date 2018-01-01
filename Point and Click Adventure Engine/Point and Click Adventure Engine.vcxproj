@@ -134,6 +134,7 @@
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="Rendering.cpp" />
     <ClCompile Include="Scenemanager.cpp" />
+    <ClCompile Include="UtilityWindows.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Datatypes.hpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Pipeline.hpp" />
     <ClInclude Include="Rendering.hpp" />
     <ClInclude Include="Scenemanager.hpp" />
+    <ClInclude Include="UtilityWindows.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
