@@ -128,9 +128,15 @@
     <ClInclude Include="Exception.hpp">
       <Filter>Headerdateien\Engine\system</Filter>
     </ClInclude>
+    <ClInclude Include="Datatypes.hpp">
+      <Filter>Headerdateien\Engine\system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="Datatypes.inl">
+      <Filter>Headerdateien\Engine\system</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="en.xml">
