@@ -2,8 +2,6 @@
 
 #include "imgui-SFML.h"
 
-#include <iostream>
-
 
 namespace pc {
 	namespace Lvleditor {
