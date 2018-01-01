@@ -46,6 +46,12 @@ namespace pc {
 		///
 		////////////////////////////////////////////////////////////
 		enum TaskCode {
+			XmlLoad,
+			XmlSave,
+			LangcodeLoad,
+			LangcodeSave,
+			LocaliseLoad,
+			LocaliseSave,
 
 		};
 
@@ -61,6 +67,7 @@ namespace pc {
 			Paused,						/// Task is paused
 			WaitingForResource,			/// Task waits for a different resource (intern)
 			WaitingForFileInput,		/// Task needs a specific file entered
+			WaitingForTask,				/// Thread waits for a new Task
 			Completed,					/// Task is completed and can be collected
 			Aborded,					/// Task was aborded
 			Error,						/// An unknown Error occured
@@ -144,6 +151,7 @@ namespace pc {
 
 	private:
 
+		//std::queue
 	};
 }
 #endif // !PC_PIPELINE
