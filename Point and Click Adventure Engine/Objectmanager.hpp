@@ -31,6 +31,7 @@
 #include <imgui-SFML.h>
 
 #include <vector>
+#include <memory>
 
 namespace pc {
 	namespace Lvleditor {
@@ -40,6 +41,7 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		class Objectmanager : public Menue {
 		public:
+
 			////////////////////////////////////////////////////////////
 			/// Default Constructor
 			///
@@ -69,6 +71,8 @@ namespace pc {
 			///
 			////////////////////////////////////////////////////////////
 			auto reportClosingAction()->std::string;
+
+			auto getPtr()->const std::shared_ptr<Objectmanager>;
 		private:
 
 			////////////////////////////////////////////////////////////
@@ -86,16 +90,17 @@ namespace pc {
 			////////////////////////////////////////////////////////////
 			// Members
 			////////////////////////////////////////////////////////////
-			std::string					input_buffer;						/// buffer
-			bool						is_open = 1;						/// states the window_open_state
-			std::string					opening_action = "";				/// opening action
-			ImGuiTextFilter				object_filter;						/// filter
-			std::vector<std::string>	object_list{ "bg.te", "bg.lp" };	/// filterliste
-			std::vector<int>			open_menues;						/// open_menues
-			bool						t1;									/// t1_buffer
-			bool						t2;									/// t2_buffer
-			bool						t3;									/// t3_buffer
-			bool						testing;							/// testing buffer
+			std::string						input_buffer;						/// buffer
+			bool							is_open = 1;						/// states the window_open_state
+			std::string						opening_action = "";				/// opening action
+			ImGuiTextFilter					object_filter;						/// filter
+			std::vector<std::string>		object_list{ "bg.te", "bg.lp" };	/// filterliste
+			std::vector<int>				open_menues;						/// open_menues
+			bool							t1;									/// t1_buffer
+			bool							t2;									/// t2_buffer
+			bool							t3;									/// t3_buffer
+			bool							testing;							/// testing buffer
+			std::shared_ptr<Objectmanager>	ptr;								/// this shared pointer
 		};
 	}
 }

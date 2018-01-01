@@ -4,7 +4,7 @@
 namespace pc {
 	namespace Lvleditor {
 		Scenemanager::Scenemanager() {
-
+			ptr = std::make_shared<Scenemanager>(*this);
 		}
 
 		Scenemanager::~Scenemanager() {
@@ -67,6 +67,11 @@ namespace pc {
 				return "scenemanager";
 			}
 			else return "";
+		}
+		auto Scenemanager::getPtr() -> const std::shared_ptr<Scenemanager>
+		{
+				const std::shared_ptr<Scenemanager> const_ptr = ptr;
+				return const_ptr;
 		}
 	}
 }

@@ -25,12 +25,14 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "Menue.hpp"
+#include "Datatypes.hpp"
 
 #include <imgui.h>
 #include <imgui-SFML.h>
 
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace pc {
 	namespace Lvleditor {
@@ -40,6 +42,7 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		class Scenemanager : public Menue {
 		public:
+
 			////////////////////////////////////////////////////////////
 			/// Default Constructor
 			///
@@ -71,6 +74,8 @@ namespace pc {
 			///
 			////////////////////////////////////////////////////////////
 			auto reportClosingAction()->std::string;
+
+			auto getPtr()->const std::shared_ptr<Scenemanager>;
 		private:
 
 			////////////////////////////////////////////////////////////
@@ -84,6 +89,7 @@ namespace pc {
 			std::string scene_id;
 			std::string name;
 			std::string description;
+			std::shared_ptr<Scenemanager>	ptr;								/// this shared pointer
 		};
 
 

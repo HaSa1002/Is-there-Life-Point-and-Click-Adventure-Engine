@@ -5,7 +5,7 @@ namespace pc {
 
 
 		Objectmanager::Objectmanager() {
-
+			ptr = std::make_shared<Objectmanager>(*this);
 		}
 
 		Objectmanager::~Objectmanager() {
@@ -16,7 +16,7 @@ namespace pc {
 			ImGui::Begin("Objectmanager", &is_open);
 			ImGui::Columns(2, "col", 0);
 			object_filter.Draw("Search", 333);
-			if (ImGui::IsItemHoveredRect())
+			if (ImGui::IsItemHoveredRect() && ImGui::IsWindowFocused())
 				ImGui::displayFilterUsage();
 			ImGui::BeginChild("Objectlist", ImVec2(380, 150), 1);
 			for each (std::string line in object_list)
@@ -80,6 +80,11 @@ namespace pc {
 			}
 			else
 				return "";
+		}
+		auto Objectmanager::getPtr() -> const std::shared_ptr<Objectmanager>
+		{
+			const std::shared_ptr<Objectmanager> const_ptr = ptr;
+			return const_ptr;
 		}
 		void Objectmanager::loadObjects() {
 

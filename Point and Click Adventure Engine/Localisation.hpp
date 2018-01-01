@@ -25,6 +25,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "Menue.hpp"
+#include "Datatypes.hpp"
 
 #include <imgui.h>
 #include <imgui-SFML.h>
@@ -32,6 +33,7 @@
 #include <vector>
 #include <list>
 #include <map>
+#include <memory>
 
 namespace pc {
 	namespace Lvleditor {
@@ -41,15 +43,6 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		class Localisation :public Menue {
 		public:
-			///////////////////////////////////////////////////////////
-			/// Struct of the Localise-items
-			///
-			////////////////////////////////////////////////////////////
-			struct Item {
-				std::string text;
-				std::string audio_path;
-			};
-
 
 			////////////////////////////////////////////////////////////
 			/// Default Constructor
@@ -80,6 +73,9 @@ namespace pc {
 			///
 			////////////////////////////////////////////////////////////
 			auto reportClosingAction()->std::string;
+
+			auto getPtr()->const std::shared_ptr<Localisation>;
+
 		private:
 
 			///////////////////////////////////////////////////////////
@@ -119,13 +115,14 @@ namespace pc {
 			std::string					language_code = "";
 			int							modal_language_index = 0;
 			std::string					text = "";
-			std::map<std::string, Item> localise_keys;
+			std::map<std::string, StringGroup> localise_keys;
 			std::string					audio_path = "";
 			std::string					original_key;
 			bool						show_error = 0;
 			bool						supress_modal_showing = 0;
 			bool						supress_modal_delete_showing = 0;
 			bool						show_remove = 0;
+			std::shared_ptr<Localisation>	ptr;								/// this shared pointer
 		};
 	} //Lvleditor
 } //pc

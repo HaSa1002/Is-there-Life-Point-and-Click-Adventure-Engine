@@ -88,7 +88,7 @@ namespace pc {
 			////////////////////////////////////////////////////////////
 			// Members
 			////////////////////////////////////////////////////////////
-			std::list<Menue*>					active_menues;		/// shared ptr!!!!????
+			std::list<std::shared_ptr<Menue>>	active_menues;		/// 
 			std::list<std::string>				active_menues_id;	///
 			sf::Clock							clock;				///
 			Mainmenue							mainmenue;			///

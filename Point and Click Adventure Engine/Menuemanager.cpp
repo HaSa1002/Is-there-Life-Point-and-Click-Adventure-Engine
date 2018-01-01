@@ -2,6 +2,8 @@
 
 #include "imgui-SFML.h"
 
+#include <iostream>
+
 
 namespace pc {
 	namespace Lvleditor {
@@ -21,17 +23,18 @@ namespace pc {
 				if (menue_id == menue)
 					return;
 			}
-			if (menue_id == "mainmenue") {
-				active_menues.push_back(&mainmenue);
+			if (menue_id == "mainmenue") { 
+				const auto ptr = std::make_shared<Mainmenue>(mainmenue);
+				active_menues.push_back(ptr);
 			}
 			if (menue_id == "objectmanager") {
-				active_menues.push_back(&objectmanager);
+				active_menues.push_back(objectmanager.getPtr());
 			}
 			if (menue_id == "scenemanager") {
-				active_menues.push_back(&scenemanager);
+				active_menues.push_back(scenemanager.getPtr());
 			}
 			if (menue_id == "localisation") {
-				active_menues.push_back(&localisation);
+				active_menues.push_back(localisation.getPtr());
 			}
 				
 			active_menues_id.push_back(menue_id);
@@ -41,13 +44,13 @@ namespace pc {
 			if (menue_id == "")
 				return 0;
 			if (menue_id == "objectmanager") {
-				active_menues.remove(&objectmanager);
+				active_menues.remove(objectmanager.getPtr());
 			}
 			if (menue_id == "scenemanager") {
-				active_menues.remove(&scenemanager);
+				active_menues.remove(scenemanager.getPtr());
 			}
 			if (menue_id == "localisation") {
-				active_menues.remove(&localisation);
+				active_menues.remove(localisation.getPtr());
 			}
 
 			active_menues_id.remove(menue_id);
@@ -56,7 +59,7 @@ namespace pc {
 
 		void Menuemanager::draw(pc::Rendering& renderer) {
 			ImGui::SFML::Update(renderer.getWindowObject(), clock.restart());
-			for each (pc::Lvleditor::Menue* menue in active_menues)
+			for each (std::shared_ptr<Menue> menue in active_menues)
 			{
 				menue->draw();
 				open(menue->reportOpeningAction());

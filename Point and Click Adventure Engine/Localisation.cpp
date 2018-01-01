@@ -7,14 +7,15 @@
 namespace pc {
 	namespace Lvleditor {
 		Localisation::Localisation() {
-
+			ptr = std::make_shared<Localisation>(*this);
 		}
 
 		Localisation::~Localisation() {
 
 		}
 
-		void Localisation::draw() {
+		void Localisation::draw() {		
+
 			ImGui::Begin("Localisation", &is_open);
 			ImGui::Columns(2, "col", 0);
 
@@ -23,8 +24,7 @@ namespace pc {
 				ImGui::displayFilterUsage();
 
 			ImGui::BeginChild("Objectlist", ImVec2(380, 150), 1);
-			for each (std::pair<std::string, Item> line in localise_keys)
-			{
+			for each (std::pair<std::string, StringGroup> line in localise_keys) {
 				if (object_filter.PassFilter(line.first.data())) {
 					if (ImGui::Selectable(line.first.data())) {
 						selectKey(line.first.data());
@@ -32,8 +32,8 @@ namespace pc {
 					}
 					if (ImGui::IsItemHovered()) {
 						ImGui::BeginTooltip();
-						ImGui::Text(line.second.text.data());
-						ImGui::Text(line.second.audio_path.data());
+						ImGui::Text(line.second.first.data());
+						ImGui::Text(line.second.second.data());
 						ImGui::EndTooltip();
 					}
 				}
@@ -93,6 +93,12 @@ namespace pc {
 			
 		}
 
+		auto Localisation::getPtr() -> const std::shared_ptr<Localisation>
+		{
+			const auto const_ptr = ptr;
+			return const_ptr;
+		}
+
 		void Localisation::loadLanguages() {
 
 		}
@@ -130,12 +136,12 @@ namespace pc {
 		void Localisation::selectKey(const std::string & key) {
 			if (current_key != "") {
 				auto current = localise_keys.find(current_key);
-				Item item;
-				item.text = text;
-				item.audio_path = audio_path;
+				StringGroup item;
+				item.first = text;
+				item.second = audio_path;
 				if (current != localise_keys.end()) {
-					localise_keys.at(current_key).audio_path = audio_path;
-					localise_keys.at(current_key).text = text;
+					localise_keys.at(current_key).first = audio_path;
+					localise_keys.at(current_key).second = text;
 				}
 				else {
 					//Key was changed or is non-existent
@@ -144,7 +150,7 @@ namespace pc {
 						//Key was changed, so delete the old
 						localise_keys.erase(original_key);
 					}
-					localise_keys.insert(std::pair<std::string, Item>(current_key, item));
+					localise_keys.insert(std::pair<std::string, StringGroup>(current_key, item));
 				}
 			}
 			else {
@@ -159,8 +165,8 @@ namespace pc {
 				if (current != localise_keys.end()) {
 					current_key = key;
 					original_key = key;
-					text = current->second.text;
-					audio_path = current->second.audio_path;
+					text = current->second.first;
+					audio_path = current->second.second;
 					return;
 				}
 			}
