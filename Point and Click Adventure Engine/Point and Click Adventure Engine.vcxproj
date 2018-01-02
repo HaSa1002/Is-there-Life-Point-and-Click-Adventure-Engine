@@ -160,7 +160,10 @@
     <Xml Include="de.xml" />
     <Xml Include="en.xml" />
     <Xml Include="localisation_list.xml" />
+    <Xml Include="part1.xml" />
+    <Xml Include="parts.xml" />
     <Xml Include="savegame_list.xml" />
+    <Xml Include="test_scene.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

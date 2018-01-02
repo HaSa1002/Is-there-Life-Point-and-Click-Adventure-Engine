@@ -157,5 +157,14 @@
     <Xml Include="localisation_list.xml">
       <Filter>Ressourcendateien\localisation</Filter>
     </Xml>
+    <Xml Include="parts.xml">
+      <Filter>Ressourcendateien\localisation</Filter>
+    </Xml>
+    <Xml Include="part1.xml">
+      <Filter>Ressourcendateien\localisation</Filter>
+    </Xml>
+    <Xml Include="test_scene.xml">
+      <Filter>Ressourcendateien</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
