@@ -31,7 +31,6 @@ namespace pc {
 		//Prevent double construction
 		if (pipeline_is_constructed)
 			throw(Exception::Pipeline_is_constructed);
-		
 		pipeline_is_constructed = true;
 	}
 

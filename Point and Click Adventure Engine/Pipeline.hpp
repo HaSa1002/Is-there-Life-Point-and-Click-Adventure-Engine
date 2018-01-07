@@ -33,8 +33,8 @@
 
 namespace pc {
 	////////////////////////////////////////////////////////////
-	// It blocks a second construction of the pipeline, as it
-	// then would be stupid to build such a wrapper
+	/// It blocks a second construction of the pipeline, as it
+	/// then would be stupid to build such a wrapper
 	////////////////////////////////////////////////////////////
 	bool pipeline_is_constructed = false;
 

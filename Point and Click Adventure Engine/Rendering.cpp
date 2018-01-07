@@ -5,8 +5,7 @@
 namespace pc {
 	void Rendering::render() {
 		window.clear();
-		for each (std::shared_ptr<sf::Drawable> drawable in draw_list)
-		{
+		for each (std::shared_ptr<sf::Drawable> drawable in draw_list) {
 			window.draw(*drawable);
 		}
 		if (draw_imgui)
