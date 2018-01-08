@@ -27,18 +27,14 @@
 #include "MessageTypes.hpp"
 
 #include <string>
+#include <vector>
 
 namespace pc {
 	namespace mb {
 
-		union Data {
-			std::string string;
-
-		};
-
 		struct Message {
 			MessageType type;
-			Data		data;
+			std::vector<const void*> data;
 		};
 	}
 }

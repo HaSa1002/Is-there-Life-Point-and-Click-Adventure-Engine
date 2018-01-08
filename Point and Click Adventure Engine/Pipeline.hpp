@@ -174,7 +174,7 @@ namespace pc {
 		auto getTaskCode(const std::string& task_id)->TaskCode;
 
 	private:
-
+		Task task;
 		std::queue<Task> queue;
 	};
 }

@@ -27,8 +27,9 @@
 
 namespace pc {
 	namespace mb {
-		enum class MessageType	{
+		enum MessageType	{
 			ALL,
+			Tree,
 
 			Sum
 		};

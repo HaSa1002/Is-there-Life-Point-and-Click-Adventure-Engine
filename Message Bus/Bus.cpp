@@ -27,6 +27,7 @@
 
 namespace pc {
 	namespace mb {
+		bool message_bus_constructed;
 		Bus::Bus() {
 			message_bus_constructed = true;
 		}
@@ -34,22 +35,37 @@ namespace pc {
 		Bus::~Bus() {
 			message_bus_constructed = false;
 		}
-		/// TODO: finish
-		void Bus::send(Message message) {
+
+		void Bus::send(const Message& message) {
 			for (const std::pair<size_t, Subscription>& i : bound_reciever) {
-				i.second.second(message);
+				for (unsigned int j = 0; j < i.second.first.size(); j++) {
+					if (i.second.first.at(j) == message.type) {
+						i.second.second(message);
+						break;
+					}
+				}
 			}
 		}
 
-		auto Bus::subscribe(std::vector<MessageType>& types, Reciever reciever)->std::size_t{
+		auto Bus::subscribe(const std::vector<MessageType>& types, Reciever reciever)->std::size_t{
 			std::size_t hash_reciever = std::hash<Reciever*>{}(&reciever);
 			std::vector<MessageType> input(bound_reciever.find(hash_reciever)->second.first);
-			input.emplace(input.end(), types);
+			for (unsigned int i = 0; i < types.size(); ++i) {
+				input.push_back(types.at(i));
+			}
 			bound_reciever.insert_or_assign(hash_reciever, Subscription(input, reciever));
 			return hash_reciever;
 		}
 
-		void Bus::unsubscribe(std::vector<MessageType>& types, Reciever reciever) {
+		auto Bus::subscribe(const MessageType& type, Reciever reciever)->std::size_t {
+			std::size_t hash_reciever = std::hash<Reciever*>{}(&reciever);
+			std::vector<MessageType> input(bound_reciever.find(hash_reciever)->second.first);
+			input.push_back(type);
+			bound_reciever.insert_or_assign(hash_reciever, Subscription(input, reciever));
+			return hash_reciever;
+		}
+
+		void Bus::unsubscribe(const std::vector<MessageType>& types, Reciever reciever) {
 			auto hash_reciever = std::hash<Reciever*>{}(&reciever);
 			assert(bound_reciever.find(hash_reciever) != bound_reciever.end());
 			auto vec = bound_reciever.at(hash_reciever).first;

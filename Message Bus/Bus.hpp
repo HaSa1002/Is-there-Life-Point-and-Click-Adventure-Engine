@@ -34,7 +34,7 @@
 namespace pc {
 	namespace mb {
 
-		bool message_bus_constructed = false;
+		extern bool message_bus_constructed;
 
 		typedef std::function<void(Message)> Reciever;
 		typedef std::pair<std::vector<MessageType>, Reciever> Subscription;
@@ -44,9 +44,10 @@ namespace pc {
 			Bus();
 			~Bus();
 
-			void send(Message message);
-			auto subscribe(std::vector<MessageType>& types, Reciever reciever)->std::size_t;
-			void unsubscribe(std::vector<MessageType>& types, Reciever reciever);
+			void send(const Message& message);
+			auto subscribe(const std::vector<MessageType>& types, Reciever reciever)->std::size_t;
+			auto subscribe(const MessageType& type, Reciever reciever)->std::size_t;
+			void unsubscribe(const std::vector<MessageType>& types, Reciever reciever);
 			void unsubscribe(const MessageType & type, Reciever reciever);
 			void unsubscribe(Reciever reciever);
 
