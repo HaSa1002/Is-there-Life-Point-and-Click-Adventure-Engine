@@ -3,26 +3,38 @@
 #include <imgui-SFML.h>
 
 namespace pc {
-	void Rendering::render() {
-		window.clear();
-		for each (std::shared_ptr<sf::Drawable> drawable in draw_list) {
-			window.draw(*drawable);
-		}
-		if (draw_imgui)
-			ImGui::SFML::Render(window);
-		window.display();
+
+	Rendering::Rendering(mb::Bus& message_bus) : bus{ message_bus } {
+		//std::function<void(mb::Message)> render_reciever = [this](mb::Message message) {};
+		std::function<void(mb::Message)> render_reciever = [this](mb::Message message) {
+			this->reciever(message);
+		};
+		bus.subscribe(mb::MessageType::sfEvent, render_reciever);
 	}
 
+
+	////////////////////////////////////////////////////////////
+	Rendering::~Rendering() {
+		if (isOpen())
+			window.close();
+	}
+
+
+	////////////////////////////////////////////////////////////
 	void Rendering::createWindow() {
 		video_mode = sf::VideoMode(1600, 900);
 		window.create(video_mode, title, sf::Style::Resize | sf::Style::Close);
 	}
 
+
+	////////////////////////////////////////////////////////////
 	void Rendering::createWindow(sf::VideoMode video_mode) {
 		this->video_mode = video_mode;
 		window.create(video_mode, title, sf::Style::Resize);
 	}
 
+
+	////////////////////////////////////////////////////////////
 	void Rendering::createWindow(const std::string& title, const bool fullscreen, sf::VideoMode video_mode) {
 		this->fullscreen = fullscreen;
 		if (fullscreen)
@@ -33,47 +45,50 @@ namespace pc {
 		this->video_mode = video_mode;
 	}
 
-	Rendering::Rendering(mb::Bus& message_bus) : bus{ message_bus } {
-		//std::function<void(mb::Message)> render_reciever = [this](mb::Message message) {};
-		std::function<void(mb::Message)> render_reciever = [this](mb::Message message) {
-			this->reciever(message);
-		};
-		bus.subscribe(mb::MessageType::sfEvent, render_reciever);
-	}
 
-	Rendering::~Rendering() {
-		if (isOpen())
-			window.close();
-	}
-
-	void Rendering::imgui_rendering(bool draw)
-	{
-		draw_imgui = draw;
-	}
-
+	////////////////////////////////////////////////////////////
 	void Rendering::closeWindow() {
 		window.close();
 	}
 
+
+	////////////////////////////////////////////////////////////
 	auto Rendering::getVideoModes()-> const std::vector<sf::VideoMode> {
 		return sf::VideoMode::getFullscreenModes();
 	}
 
-	auto Rendering::getWindowObject() -> sf::RenderWindow&
-	{
+
+	////////////////////////////////////////////////////////////
+	auto Rendering::getWindowObject() -> sf::RenderWindow& {
 		return this->window;
 	}
 
-	bool Rendering::isOpen()
-	{
+
+	////////////////////////////////////////////////////////////
+	void Rendering::imgui_rendering(bool draw) {
+		draw_imgui = draw;
+	}
+
+
+	////////////////////////////////////////////////////////////
+	bool Rendering::isOpen() {
 		return window.isOpen();
 	}
 
+
+	////////////////////////////////////////////////////////////
 	void Rendering::move(const sf::Vector2f& offset) {
 		view.move(offset);
 		this->offset += offset;
 	}
 
+
+	////////////////////////////////////////////////////////////
+	void Rendering::remove(std::shared_ptr<sf::Drawable> element) {
+
+	}
+
+	////////////////////////////////////////////////////////////
 	void Rendering::reciever(mb::Message message) {
 		const sf::Event* event = static_cast<const sf::Event*>(message.data.at(0));
 		switch (event->type) {
@@ -132,10 +147,20 @@ namespace pc {
 		}
 	}
 
-	void Rendering::zoom(const float factor, bool anitmated) {
-		view.zoom(factor);
+
+	////////////////////////////////////////////////////////////
+	void Rendering::render() {
+		window.clear();
+		for each (std::shared_ptr<sf::Drawable> drawable in draw_list) {
+			window.draw(*drawable);
+		}
+		if (draw_imgui)
+			ImGui::SFML::Render(window);
+		window.display();
 	}
 
+
+	////////////////////////////////////////////////////////////
 	void Rendering::reset() {
 		view.move(-this->offset);
 		this->offset = sf::Vector2f(0, 0);
@@ -143,7 +168,11 @@ namespace pc {
 		view.zoom(1);
 	}
 
-	void Rendering::remove(std::shared_ptr<sf::Drawable> element) {
 
+	////////////////////////////////////////////////////////////
+	void Rendering::zoom(const float factor, bool anitmated) {
+		view.zoom(factor);
 	}
+
+
 }
