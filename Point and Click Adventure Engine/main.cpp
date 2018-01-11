@@ -1,11 +1,9 @@
 #pragma once
-//#pragma comment(linker, "/SUBSYSTEM:Windows /ENTRY:mainCRTStartup")
+#pragma comment(linker, "/SUBSYSTEM:Windows /ENTRY:mainCRTStartup")
 #include "Game.hpp"
 #include "Editor.hpp"
 
 #include <SFML\Main.hpp>
-#include <SFML\Graphics.hpp>
-
 
 
 int main(int argc, char* argv[]) {
