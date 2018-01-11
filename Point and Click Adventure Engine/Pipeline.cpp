@@ -25,9 +25,8 @@
 #include "Pipeline.hpp"
 
 namespace pc {
-	
 
-	Pipeline::Pipeline() {
+	Pipeline::Pipeline(mb::Bus& message_bus) :bus{ message_bus } {
 		//Prevent double construction
 		if (pipeline_is_constructed)
 			throw(Exception::Pipeline_is_constructed);

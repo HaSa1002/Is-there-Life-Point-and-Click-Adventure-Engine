@@ -26,6 +26,8 @@
 ////////////////////////////////////////////////////////////
 #include "Datatypes.hpp"
 
+#include <Bus.hpp>
+
 #include <string>
 #include <queue>
 #include <map>
@@ -36,7 +38,7 @@ namespace pc {
 	/// It blocks a second construction of the pipeline, as it
 	/// then would be stupid to build such a wrapper
 	////////////////////////////////////////////////////////////
-	bool pipeline_is_constructed = false;
+	static bool pipeline_is_constructed = false;
 
 	////////////////////////////////////////////////////////////
 	/// Class that handles all File actions
@@ -107,7 +109,7 @@ namespace pc {
 		/// This should ONLY constructed ONCE!
 		///
 		///////////////////////////////////////////////////////////
-		Pipeline();
+		Pipeline(mb::Bus& message_bus);
 
 		////////////////////////////////////////////////////////////
 		/// Default deconstructor
@@ -174,7 +176,7 @@ namespace pc {
 		auto getTaskCode(const std::string& task_id)->TaskCode;
 
 	private:
-		Task task;
+		mb::Bus& bus;
 		std::queue<Task> queue;
 	};
 }

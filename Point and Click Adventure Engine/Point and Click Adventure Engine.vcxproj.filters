@@ -93,6 +93,9 @@
     <ClCompile Include="UtilityWindows.cpp">
       <Filter>Quelldateien\leveleditor</Filter>
     </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Quelldateien\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp">
@@ -136,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="UtilityWindows.hpp">
       <Filter>Headerdateien\Engine\Leveleditor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.hpp">
+      <Filter>Headerdateien\Engine\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
