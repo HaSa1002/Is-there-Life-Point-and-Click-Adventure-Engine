@@ -14,25 +14,31 @@ namespace pc {
 	}
 
 	void Rendering::createWindow() {
-		window.create(sf::VideoMode(1600, 900), "ITLengine", sf::Style::Default);
-		title = "ITLengine";
+		video_mode = sf::VideoMode(1600, 900);
+		window.create(video_mode, title, sf::Style::Resize | sf::Style::Close);
 	}
 
 	void Rendering::createWindow(sf::VideoMode video_mode) {
-		window.create(video_mode, "ITLengine", sf::Style::Default);
-		title = "ITLengine";
+		this->video_mode = video_mode;
+		window.create(video_mode, title, sf::Style::Resize);
 	}
 
 	void Rendering::createWindow(const std::string& title, const bool fullscreen, sf::VideoMode video_mode) {
-			if (fullscreen)
-				window.create(video_mode, title, sf::Style::Fullscreen);
-			else
-				window.create(video_mode, title, sf::Style::Default);
-			this->title = title;
+		this->fullscreen = fullscreen;
+		if (fullscreen)
+			window.create(video_mode, title, sf::Style::Fullscreen);
+		else
+			window.create(video_mode, title, sf::Style::Default);
+		this->title = title;
+		this->video_mode = video_mode;
 	}
 
-	Rendering::Rendering() {
-
+	Rendering::Rendering(mb::Bus& message_bus) : bus{ message_bus } {
+		//std::function<void(mb::Message)> render_reciever = [this](mb::Message message) {};
+		std::function<void(mb::Message)> render_reciever = [this](mb::Message message) {
+			this->reciever(message);
+		};
+		bus.subscribe(mb::MessageType::sfEvent, render_reciever);
 	}
 
 	Rendering::~Rendering() {
@@ -66,6 +72,64 @@ namespace pc {
 	void Rendering::move(const sf::Vector2f& offset) {
 		view.move(offset);
 		this->offset += offset;
+	}
+
+	void Rendering::reciever(mb::Message message) {
+		const sf::Event* event = static_cast<const sf::Event*>(message.data.at(0));
+		switch (event->type) {
+		case sf::Event::Closed:
+			closeWindow();
+			break;
+		case sf::Event::Resized:
+			closeWindow();
+			video_mode = sf::VideoMode(event->size.width, event->size.height);
+			createWindow(title, fullscreen, video_mode);
+			break;
+		case sf::Event::LostFocus:
+			break;
+		case sf::Event::GainedFocus:
+			break;
+		case sf::Event::TextEntered:
+			break;
+		case sf::Event::KeyPressed:
+			break;
+		case sf::Event::KeyReleased:
+			break;
+		case sf::Event::MouseWheelMoved:
+			break;
+		case sf::Event::MouseWheelScrolled:
+			break;
+		case sf::Event::MouseButtonPressed:
+			break;
+		case sf::Event::MouseButtonReleased:
+			break;
+		case sf::Event::MouseMoved:
+			break;
+		case sf::Event::MouseEntered:
+			break;
+		case sf::Event::MouseLeft:
+			break;
+		case sf::Event::JoystickButtonPressed:
+			break;
+		case sf::Event::JoystickButtonReleased:
+			break;
+		case sf::Event::JoystickMoved:
+			break;
+		case sf::Event::JoystickConnected:
+			break;
+		case sf::Event::JoystickDisconnected:
+			break;
+		case sf::Event::TouchBegan:
+			break;
+		case sf::Event::TouchMoved:
+			break;
+		case sf::Event::TouchEnded:
+			break;
+		case sf::Event::SensorChanged:
+			break;
+		default:
+			break;
+		}
 	}
 
 	void Rendering::zoom(const float factor, bool anitmated) {

@@ -26,6 +26,8 @@
 ////////////////////////////////////////////////////////////
 #include "Menue.hpp"
 
+#include <Bus.hpp>
+
 #include <SFML\Window.hpp>
 #include <SFML\Graphics.hpp>
 
@@ -43,10 +45,10 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		/// Default Constructor
 		///
-		/// Does nothing.
+		/// Sets the Messagebus;
 		///
 		////////////////////////////////////////////////////////////
-		Rendering();
+		Rendering(mb::Bus& message_bus);
 
 		////////////////////////////////////////////////////////////
 		/// Default Deconstructor
@@ -195,6 +197,14 @@ namespace pc {
 		void move(const sf::Vector2f& offset);
 
 		////////////////////////////////////////////////////////////
+		/// Recieves the messages from the Message Bus and calls
+		/// the nessessary methods
+		/// 
+		///
+		////////////////////////////////////////////////////////////
+		void reciever(mb::Message messages);
+
+		////////////////////////////////////////////////////////////
 		/// Renders the content in the draw lists
 		///
 		/// The Rendering order is defined in the draw lists, but
@@ -277,14 +287,17 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		// Member data
 		////////////////////////////////////////////////////////////
-		bool										draw_imgui = false;	/// States if imGui should be drawn
-		std::vector<std::shared_ptr<sf::Drawable>>	draw_list;			/// Contains pointers to the objects, that should be drawn
-		std::vector<std::shared_ptr<sf::Drawable>>	gui_list;			/// Contains pointers to the objects, that should be drawn as gui (in foreground)
-		sf::Vector2f								offset;				/// The absolut position the view has to (0,0)
-		std::string									title = "PnCAE";	/// Stores the title of the window, as it is possible required when recreating the window
-		sf::View									view;				/// Our Camera that we are controlling
-		sf::RenderWindow							window;				/// Window we are rendering to
-		float										zoom_level = 1.f;	/// The absolut zoom_level to the initated one
+		mb::Bus&									bus;					/// Message Bus
+		bool										draw_imgui = false;		/// States if imGui should be drawn
+		std::vector<std::shared_ptr<sf::Drawable>>	draw_list;				/// Contains pointers to the objects, that should be drawn
+		bool										fullscreen = false;		/// < States if the window should be constructed in Fullscreenmode
+		std::vector<std::shared_ptr<sf::Drawable>>	gui_list;				/// Contains pointers to the objects, that should be drawn as gui (in foreground)
+		sf::Vector2f								offset;					/// The absolut position the view has to (0,0)
+		std::string									title = "ITLengine";	/// Stores the title of the window, as it is possible required when recreating the window
+		sf::VideoMode								video_mode;				/// Stores the video_mode
+		sf::View									view;					/// Our Camera that we are controlling
+		sf::RenderWindow							window;					/// Window we are rendering to
+		float										zoom_level = 1.f;		/// The absolut zoom_level to the initated one
 	};
 } // namespace pc
 
