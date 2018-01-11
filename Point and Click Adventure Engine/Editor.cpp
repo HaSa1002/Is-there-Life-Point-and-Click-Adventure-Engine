@@ -40,9 +40,9 @@ namespace pc {
 
 	void Editor::start() {
 		//Startup
-		renderer.createWindow();
-		ImGui::SFML::Init(renderer.getWindowObject());
-		renderer.imgui_rendering();
+		engine.getRendering().createWindow();
+		ImGui::SFML::Init(engine.getRendering().getWindowObject());
+		engine.getRendering().imgui_rendering(true);
 		menue.open("mainmenue");
 		this->main();
 		//End
@@ -50,22 +50,23 @@ namespace pc {
 	}
 
 	void Editor::main() {
-		renderer.getWindowObject().resetGLStates();
+		engine.getRendering().getWindowObject().resetGLStates();
 		sf::Clock clock;
-		while (renderer.isOpen()) {
+		while (engine.getRendering().isOpen()) {
 			this->processEvents();
-			menue.draw(renderer);
-			renderer.render();
+			menue.draw(engine.getRendering());
+			engine.getRendering().render();
 		}
 	}
 
 	void Editor::processEvents() {
 		sf::Event event;
-		while (renderer.getWindowObject().pollEvent(event)) {
+		while (engine.getRendering().getWindowObject().pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);
-			if (event.type == sf::Event::Closed) {
-				renderer.closeWindow();
-			}
+			mb::Message message;
+			message.type = mb::MessageType::sfEvent;
+			message.data.push_back(static_cast<void*>(&event));
+			engine.getBus().send(message);
 		}
 		
 	}

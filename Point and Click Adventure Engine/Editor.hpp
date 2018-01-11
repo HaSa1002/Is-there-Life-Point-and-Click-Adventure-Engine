@@ -24,11 +24,11 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "Rendering.hpp"
+#include "Engine.hpp"
 #include "Menuemanager.hpp"
 
 #include <SFML\Window.hpp>
-#include <AF\xml.h>
+
 
 namespace pc {
 	////////////////////////////////////////////////////////////
@@ -87,7 +87,7 @@ namespace pc {
 		// Member data
 		////////////////////////////////////////////////////////////
 		Lvleditor::Menuemanager		menue;		/// imGui menuemanager
-		Rendering					renderer;	/// Our Renderer
+		Engine						engine;
 	};
 } // namespace pc
 
