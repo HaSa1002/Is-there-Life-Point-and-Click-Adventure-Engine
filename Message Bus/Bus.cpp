@@ -49,7 +49,10 @@ namespace pc {
 
 		auto Bus::subscribe(const std::vector<MessageType>& types, Reciever reciever)->std::size_t{
 			std::size_t hash_reciever = std::hash<Reciever*>{}(&reciever);
-			std::vector<MessageType> input(bound_reciever.find(hash_reciever)->second.first);
+			std::vector<MessageType> input;
+			if (auto vec = bound_reciever.find(hash_reciever) != bound_reciever.end()) {
+				input = bound_reciever.find(hash_reciever)->second.first;
+			}
 			for (unsigned int i = 0; i < types.size(); ++i) {
 				input.push_back(types.at(i));
 			}
@@ -59,7 +62,10 @@ namespace pc {
 
 		auto Bus::subscribe(const MessageType& type, Reciever reciever)->std::size_t {
 			std::size_t hash_reciever = std::hash<Reciever*>{}(&reciever);
-			std::vector<MessageType> input(bound_reciever.find(hash_reciever)->second.first);
+			std::vector<MessageType> input;
+			if (auto vec = bound_reciever.find(hash_reciever) != bound_reciever.end()) {
+				input = bound_reciever.find(hash_reciever)->second.first;
+			}
 			input.push_back(type);
 			bound_reciever.insert_or_assign(hash_reciever, Subscription(input, reciever));
 			return hash_reciever;

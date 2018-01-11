@@ -29,7 +29,9 @@ namespace pc {
 	namespace mb {
 		enum MessageType	{
 			ALL,
-			Tree,
+			sfEvent,
+			
+			
 
 			Sum
 		};
