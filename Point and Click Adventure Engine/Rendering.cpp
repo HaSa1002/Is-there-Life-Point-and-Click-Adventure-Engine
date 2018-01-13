@@ -5,18 +5,17 @@
 namespace pc {
 
 	Rendering::Rendering(mb::Bus& message_bus) : bus{ message_bus } {
-		//std::function<void(mb::Message)> render_reciever = [this](mb::Message message) {};
-		std::function<void(mb::Message)> render_reciever = [this](mb::Message message) {
-			this->reciever(message);
-		};
 		bus.subscribe(mb::MessageType::sfEvent, render_reciever);
 	}
 
 
 	////////////////////////////////////////////////////////////
 	Rendering::~Rendering() {
+		//close the window if open
 		if (isOpen())
 			window.close();
+		//unsubscribe
+		bus.unsubscribe(render_reciever);
 	}
 
 

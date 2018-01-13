@@ -283,6 +283,10 @@ namespace pc {
 		void zoom(const float factor, const bool animated);
 
 	private:
+		/// Recieverfunction
+		std::function<void(mb::Message)> render_reciever = [this](mb::Message message) {
+			this->reciever(message);
+		};
 
 		////////////////////////////////////////////////////////////
 		// Member data
