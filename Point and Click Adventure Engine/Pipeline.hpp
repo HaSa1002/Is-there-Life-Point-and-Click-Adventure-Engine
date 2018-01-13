@@ -70,21 +70,22 @@ namespace pc {
 		///
 		///////////////////////////////////////////////////////////
 		enum class State {
-			UnknownState = -1,			/// State is unknown
-			Accepted,					/// Task is accepted
-			Queued,						/// Task is queued
-			Working,					/// Task is working
-			Paused,						/// Task is paused
-			WaitingForResource,			/// Task waits for a different resource (intern)
-			WaitingForFileInput,		/// Task needs a specific file entered
-			WaitingForTask,				/// Thread waits for a new Task
-			Completed,					/// Task is completed and can be collected
-			Aborded,					/// Task was aborded
-			Error,						/// An unknown Error occured
-			ErrorIdAllreadyAssigned,	/// The id was already assinged, so that the task is not accepted
-			ErrorFileNotFound,			/// A File wasn't found
-			ErrorThreading,				/// Error occured with the threading
-			UnknownId					/// The given id is not set
+			UnknownState = -1,			///< State is unknown
+			Created,					///< Task is created
+			Accepted,					///< Task is accepted
+			Queued,						///< Task is queued
+			Working,					///< Task is working
+			Paused,						///< Task is paused
+			WaitingForResource,			///< Task waits for a different resource (intern)
+			WaitingForFileInput,		///< Task needs a specific file entered
+			WaitingForTask,				///< Thread waits for a new Task
+			Completed,					///< Task is completed and can be collected
+			Aborded,					///< Task was aborded
+			Error,						///< An unknown Error occured
+			ErrorIdAllreadyAssigned,	///< The id was already assinged, so that the task is not accepted
+			ErrorFileNotFound,			///< A File wasn't found
+			ErrorThreading,				///< Error occured with the threading
+			UnknownId					///< The given id is not set
 		};
 
 		union Data {
@@ -101,6 +102,7 @@ namespace pc {
 			const std::string task_id;
 			Data data;
 			State state;
+			Task(const TaskCode task_code, const std::string task_id, Data data);
 		};
 
 		////////////////////////////////////////////////////////////
@@ -149,7 +151,7 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		/// collects the data of the task
 		///
-		/// This method just returns a state, because it has tbi!
+		/// This method just returns a state, because it is just a template;
 		/// A Collect method should NEVER return a State.
 		///
 		/// param task_id of the task
