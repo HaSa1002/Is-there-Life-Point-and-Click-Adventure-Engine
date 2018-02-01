@@ -96,6 +96,12 @@
     <ClCompile Include="Engine.cpp">
       <Filter>Quelldateien\system</Filter>
     </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp">
@@ -141,6 +147,15 @@
       <Filter>Headerdateien\Engine\Leveleditor</Filter>
     </ClInclude>
     <ClInclude Include="Engine.hpp">
+      <Filter>Headerdateien\Engine\system</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.hpp">
+      <Filter>Headerdateien\Engine\system</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.hpp">
+      <Filter>Headerdateien\Engine\system</Filter>
+    </ClInclude>
+    <ClInclude Include="api.hpp">
       <Filter>Headerdateien\Engine\system</Filter>
     </ClInclude>
   </ItemGroup>

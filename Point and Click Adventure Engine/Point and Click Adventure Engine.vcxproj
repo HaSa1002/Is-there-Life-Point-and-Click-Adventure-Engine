@@ -76,6 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\Software\SFML-2.4.2\include;D:\Software\sfgui-0.3.2-vs2017-32\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include\IMGUI;D:\Software\Point and Click Adventure Engine\Message Bus</AdditionalIncludeDirectories>
+      <ConformanceMode>false</ConformanceMode>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>D:\Software\SFML-2.4.2\lib;D:\Software\TGUI-0.8-dev\lib;D:\Software\sfgui-0.3.2-vs2017-32\lib;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -131,13 +132,16 @@
     <ClCompile Include="Mainmenue.cpp" />
     <ClCompile Include="Menue.cpp" />
     <ClCompile Include="Menuemanager.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Objectmanager.cpp" />
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="Rendering.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scenemanager.cpp" />
     <ClCompile Include="UtilityWindows.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="api.hpp" />
     <ClInclude Include="Datatypes.hpp" />
     <ClInclude Include="Engine.hpp" />
     <ClInclude Include="Exception.hpp" />
@@ -148,9 +152,11 @@
     <ClInclude Include="Mainmenue.hpp" />
     <ClInclude Include="Menue.hpp" />
     <ClInclude Include="Menuemanager.hpp" />
+    <ClInclude Include="Object.hpp" />
     <ClInclude Include="Objectmanager.hpp" />
     <ClInclude Include="Pipeline.hpp" />
     <ClInclude Include="Rendering.hpp" />
+    <ClInclude Include="Scene.hpp" />
     <ClInclude Include="Scenemanager.hpp" />
     <ClInclude Include="UtilityWindows.hpp" />
   </ItemGroup>
