@@ -33,6 +33,7 @@
 
 #include <vector>
 #include <memory>
+#include <list>
 
 namespace pc {
 	////////////////////////////////////////////////////////////
@@ -66,10 +67,6 @@ namespace pc {
 		/// draw list.
 		///
 		/// param object shared_ptr to the drawable
-		/// 
-		/// remark: Be carefull about the drawable object and let it
-		/// stay allive, although it's a shared_ptr, we may expect
-		/// then a few issues related to the draw list.
 		///
 		////////////////////////////////////////////////////////////
 		void add(std::shared_ptr<sf::Drawable> object);
@@ -81,10 +78,6 @@ namespace pc {
 		/// gui draw list.
 		///
 		/// param object shared_ptr to the drawable
-		/// 
-		/// remark: Be carefull about the drawable object and let it
-		/// stay allive, although it's a shared_ptr, we may expect
-		/// then a few issues related to the draw list.
 		///
 		////////////////////////////////////////////////////////////
 		void addGUI(std::shared_ptr<sf::Drawable> gui_element);
@@ -293,9 +286,9 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		mb::Bus&									bus;					/// Message Bus
 		bool										draw_imgui = false;		/// States if imGui should be drawn
-		std::vector<std::shared_ptr<sf::Drawable>>	draw_list;				/// Contains pointers to the objects, that should be drawn
+		std::list<std::shared_ptr<sf::Drawable>>	draw_list;				/// Contains pointers to the objects, that should be drawn
 		bool										fullscreen = false;		/// < States if the window should be constructed in Fullscreenmode
-		std::vector<std::shared_ptr<sf::Drawable>>	gui_list;				/// Contains pointers to the objects, that should be drawn as gui (in foreground)
+		std::list<std::shared_ptr<sf::Drawable>>	gui_list;				/// Contains pointers to the objects, that should be drawn as gui (in foreground)
 		sf::Vector2f								offset;					/// The absolut position the view has to (0,0)
 		std::string									title = "ITLengine";	/// Stores the title of the window, as it is possible required when recreating the window
 		sf::VideoMode								video_mode;				/// Stores the video_mode
