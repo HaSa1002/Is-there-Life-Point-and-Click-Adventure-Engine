@@ -32,6 +32,7 @@
 #include <queue>
 #include <map>
 #include <vector>
+#include <memory>
 
 namespace pc {
 	////////////////////////////////////////////////////////////
@@ -90,19 +91,20 @@ namespace pc {
 
 		union Data {
 			std::reference_wrapper<std::map<std::string, StringGroup>> scenelist;
-			std::reference_wrapper<std::vector<std::string>> language_codes;
+			std::shared_ptr<std::vector<std::string>> language_codes;
 			std::reference_wrapper<std::map<std::string, StringGroup>> language;
 			
-
+			Data(std::shared_ptr<std::vector<std::string>> language_codes) :language_codes{ language_codes } {};
+			~Data();
 		};
 
 
 		struct Task {
 			const TaskCode code;
 			const std::string task_id;
-			Data data;
+			std::shared_ptr<Data> data;
 			State state;
-			Task(const TaskCode task_code, const std::string task_id, Data data);
+			Task(const TaskCode& task_code, const std::string& task_id, std::shared_ptr<Data> data);
 		};
 
 		////////////////////////////////////////////////////////////
@@ -179,7 +181,6 @@ namespace pc {
 
 	private:
 		mb::Bus& bus;
-		std::queue<Task> queue;
 	};
 }
 #endif // !PC_PIPELINE

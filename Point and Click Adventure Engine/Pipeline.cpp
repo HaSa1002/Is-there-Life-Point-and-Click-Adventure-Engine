@@ -57,6 +57,10 @@ namespace pc {
 		return TaskCode();
 	}
 
-	Pipeline::Task::Task(const TaskCode task_code, const std::string task_id, Data data) :data{ data }, code{ task_code }, task_id{ task_id }, state{ State::Created } {}
+	Pipeline::Task::Task(const TaskCode& task_code, const std::string& task_id, std::shared_ptr<Data> data) :data{ data }, code{ task_code }, task_id{ task_id }, state{ State::Created } {}
+
+	Pipeline::Data::~Data() {
+
+	}
 
 }
