@@ -17,7 +17,7 @@ namespace UnitTest
 			std::function<void(pc::mb::Message)> f_reciever = [](pc::mb::Message message) {
 				Assert::AreEqual("Hello World!", static_cast<const char*>(message.data.at(0)));
 			};
-			bus.subscribe(pc::mb::MessageType::Tree, f_reciever);
+			bus.subscribe(pc::mb::MessageType::sfEvent, f_reciever);
 			bus.send(message);
 		}
 
