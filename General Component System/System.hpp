@@ -19,17 +19,26 @@
 ////////////////////////////////////////////////////////////
 
 #ifndef PC_CS_SYSTEM
+#define PC_CS_SYSTEM
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include "BaseController.hpp"
+#include "Entity.hpp"
+#include "Property.hpp"
+#include <Bus.hpp>
+
 
 namespace pc {
 	namespace cs {
 		class System {
 		public:
-
+			System(mb::Bus& bus) : bus{ bus } {};
 		private:
+			mb::Bus& bus;
+			std::vector<Entity*> entitys;
+			std::vector<Entity*> 
 		};
 	}
 }
