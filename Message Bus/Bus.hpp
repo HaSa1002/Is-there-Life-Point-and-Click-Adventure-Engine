@@ -39,6 +39,10 @@ namespace pc {
 		typedef std::function<void(Message)> Reciever;
 		typedef std::pair<std::vector<MessageType>, Reciever> Subscription;
 
+		enum class Exception {
+			message_bus_constructed
+		};
+
 		class Bus {
 		public:
 			Bus();
