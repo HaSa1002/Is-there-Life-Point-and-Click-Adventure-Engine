@@ -13,27 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Headerdateien\ECS">
+      <UniqueIdentifier>{543351c1-32f4-47a8-91fa-e51f24b6fab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Controller">
+      <UniqueIdentifier>{d82c740f-3e58-456c-89e7-d350b2e4ed04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseProperty.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Property.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="BaseController.hpp">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseProperty.hpp">
+      <Filter>Headerdateien\ECS</Filter>
     </ClInclude>
     <ClInclude Include="Entity.hpp">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Property.hpp">
+      <Filter>Headerdateien\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.hpp">
+      <Filter>Headerdateien\Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="System.hpp">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\ECS</Filter>
     </None>
     <None Include="Entity.inl">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\ECS</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
