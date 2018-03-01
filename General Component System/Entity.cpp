@@ -18,47 +18,61 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef PC_CS_ENTITY
+
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "Property.hpp"
-#include <Bus.hpp>
-
-#include <vector>
+#include "Entity.hpp"
 
 namespace pc {
 	////////////////////////////////////////////////////////////
 	/// Componentsystem
 	////////////////////////////////////////////////////////////
 	namespace cs {
-		////////////////////////////////////////////////////////////
-		/// The Entity of the ECS
-		////////////////////////////////////////////////////////////
-		struct Entity {
-			////////////////////////////////////////////////////////////
-			/// Constructs the Entity with one Property
-			///
-			////////////////////////////////////////////////////////////
-			Entity(BaseProperty* property, mb::Bus& message_bus, const uint64_t id);
+		
+		Entity::Entity(BaseProperty* property, mb::Bus& message_bus, const uint64_t id) : message_bus{ message_bus }, id{ id } {
+			addProperty(property);
+		}
 
-			
-			Entity(mb::Bus& message_bus, const uint64_t id) : message_bus{ message_bus }, id{ id } {};
-			Entity(const std::vector<BaseProperty*>& property_list, mb::Bus& message_bus, const uint64_t id);
-			bool hasProperty(size_t name);
-			template<class T>
-			bool hasProperty();
-			void addProperty(BaseProperty* property);
-			std::vector<BaseProperty*> properties;
-			const uint64_t id = 0;
-		private:
-			void component_changed();
-			mb::Bus& message_bus;
-		};
-	#include "Entity.inl"
+
+		////////////////////////////////////////////////////////////
+		/// Constructs the Entity with a bunch of properties
+		///
+		////////////////////////////////////////////////////////////
+		Entity::Entity(const std::vector<BaseProperty*>& property_list, mb::Bus& message_bus, const uint64_t id) : message_bus{ message_bus }, id{ id } {
+			properties = property_list;
+			component_changed();
+		}
+
+
+		////////////////////////////////////////////////////////////
+		/// Checks if a property with the given id (name)
+		/// Use a hash of std::string
+		///
+		////////////////////////////////////////////////////////////
+		bool Entity::hasProperty(size_t name) {
+			for (const auto& i : properties) {
+				if (i->id == name)
+					return true;
+			}
+			return false;
+		}
+
+
+
+		void Entity::addProperty(BaseProperty * property) {
+			properties.push_back(property);
+			component_changed();
+		}
+
+		void Entity::component_changed() {
+			mb::Message mess;
+			mess.type = mb::MessageType::ComponentSystem;
+			std::hash<std::string> h_s;
+			size_t cs_type = h_s("Component changed");
+			mess.data.push_back(static_cast<const void*>(&cs_type));
+			mess.data.push_back(static_cast<const void*>(&id));
+		}
 	}
 }
-
-
-#endif // !PC_CS_ENTITY

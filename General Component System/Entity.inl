@@ -18,47 +18,18 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef PC_CS_ENTITY
+
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "Property.hpp"
-#include <Bus.hpp>
+#include <typeinfo>
 
-#include <vector>
-
-namespace pc {
-	////////////////////////////////////////////////////////////
-	/// Componentsystem
-	////////////////////////////////////////////////////////////
-	namespace cs {
-		////////////////////////////////////////////////////////////
-		/// The Entity of the ECS
-		////////////////////////////////////////////////////////////
-		struct Entity {
-			////////////////////////////////////////////////////////////
-			/// Constructs the Entity with one Property
-			///
-			////////////////////////////////////////////////////////////
-			Entity(BaseProperty* property, mb::Bus& message_bus, const uint64_t id);
-
-			
-			Entity(mb::Bus& message_bus, const uint64_t id) : message_bus{ message_bus }, id{ id } {};
-			Entity(const std::vector<BaseProperty*>& property_list, mb::Bus& message_bus, const uint64_t id);
-			bool hasProperty(size_t name);
-			template<class T>
-			bool hasProperty();
-			void addProperty(BaseProperty* property);
-			std::vector<BaseProperty*> properties;
-			const uint64_t id = 0;
-		private:
-			void component_changed();
-			mb::Bus& message_bus;
-		};
-	#include "Entity.inl"
+template<class T>
+inline bool Entity::hasProperty() {
+	for (const auto& i : properties) {
+		if (std::is_same<T, typeid(i)>::value)
+			return true
 	}
-}
-
-
-#endif // !PC_CS_ENTITY
+	return false;
+};
