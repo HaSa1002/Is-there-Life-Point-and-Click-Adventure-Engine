@@ -23,14 +23,17 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "Entity.hpp"
-
-
+#include <vector>
+#include <utility>
 
 namespace pc {
+	////////////////////////////////////////////////////////////
+	/// Componentsystem
+	////////////////////////////////////////////////////////////
 	namespace cs {
+
 		struct BaseController {
-			virtual bool matchesRequirements(Entity& entity) = 0;
+			static std::vector<size_t> requirements() { return std::vector<size_t>(); };
 			virtual bool control() = 0;
 		};
 	}
