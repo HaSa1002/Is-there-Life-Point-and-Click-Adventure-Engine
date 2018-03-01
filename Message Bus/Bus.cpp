@@ -29,6 +29,9 @@ namespace pc {
 	namespace mb {
 		bool message_bus_constructed;
 		Bus::Bus() {
+			//assert?
+			if (message_bus_constructed)
+				throw(Exception::message_bus_constructed);
 			message_bus_constructed = true;
 		}
 
