@@ -24,8 +24,10 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include "BaseProperty.hpp"
 #include <vector>
 #include <utility>
+#include <memory>
 
 namespace pc {
 	////////////////////////////////////////////////////////////
@@ -35,7 +37,7 @@ namespace pc {
 
 		struct BaseController {
 			static std::vector<size_t> requirements() { return std::vector<size_t>(); };
-			virtual bool control() = 0;
+			virtual bool control(std::shared_ptr<BaseProperty> entity_properties) = 0;
 		};
 	}
 }
