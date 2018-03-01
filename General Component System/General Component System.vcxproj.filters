@@ -32,5 +32,13 @@
     <None Include="System.hpp">
       <Filter>Headerdateien</Filter>
     </None>
+    <None Include="Entity.inl">
+      <Filter>Headerdateien</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
