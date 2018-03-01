@@ -24,6 +24,14 @@
 // Headers
 ////////////////////////////////////////////////////////////
 
+namespace pc {
+	namespace cs {
+		class System {
+		public:
 
+		private:
+		};
+	}
+}
 
 #endif // !PC_CS_SYSTEM
