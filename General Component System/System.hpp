@@ -28,17 +28,22 @@
 #include "Entity.hpp"
 #include "Property.hpp"
 #include <Bus.hpp>
+#include <memory>
 
 
 namespace pc {
 	namespace cs {
 		class System {
 		public:
-			System(mb::Bus& bus) : bus{ bus } {};
+			System(mb::Bus& message_bus) : bus{ message_bus } {};
+			void factory(std::shared_ptr<Entity> e, std::vector<std::shared_ptr<BaseController>>& controller);
+			void controller_register();
+
 		private:
 			mb::Bus& bus;
-			std::vector<Entity*> entitys;
-			std::vector<Entity*> 
+			std::map<std::shared_ptr<Entity>, std::vector<std::shared_ptr<BaseController>>> entities;
+			std::vector<std::shared_ptr<Entity>> changed_entities;
+			std::vector<std::shared_ptr<BaseController>> controller;
 		};
 	}
 }
