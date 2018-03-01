@@ -51,6 +51,7 @@ namespace pc {
 			template<class T>
 			bool hasProperty();
 			void addProperty(BaseProperty* property);
+			void removeProperty(BaseProperty* property);
 			std::vector<BaseProperty*> properties;
 			const uint64_t id = 0;
 		private:
