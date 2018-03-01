@@ -30,7 +30,7 @@ namespace pc {
 		enum MessageType	{
 			ALL,
 			sfEvent,
-			
+			ComponentSystem,
 			
 
 			Sum
