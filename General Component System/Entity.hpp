@@ -42,20 +42,20 @@ namespace pc {
 			/// Constructs the Entity with one Property
 			///
 			////////////////////////////////////////////////////////////
-			Entity(BaseProperty* property, mb::Bus& message_bus, const uint64_t id);
+			Entity(BaseProperty* property, mb::Bus& message_bus, const size_t id);
 
 			
-			Entity(mb::Bus& message_bus, const uint64_t id) : message_bus{ message_bus }, id{ id } {};
-			Entity(const std::vector<BaseProperty*>& property_list, mb::Bus& message_bus, const uint64_t id);
-			bool hasProperty(size_t name);
+			Entity(mb::Bus& message_bus, const size_t id) : message_bus{ message_bus }, id{ id } {};
+			Entity(const std::vector<BaseProperty*>& property_list, mb::Bus& message_bus, const size_t id);
+			const BaseProperty* hasProperty(size_t name);
 			template<class T>
-			bool hasProperty();
+			const BaseProperty* hasProperty();
 			void addProperty(BaseProperty* property);
 			void removeProperty(BaseProperty* property);
 			std::vector<BaseProperty*> properties;
-			const uint64_t id = 0;
-		private:
+			const size_t id = 0;
 			void component_changed();
+		private:
 			mb::Bus& message_bus;
 		};
 	#include "Entity.inl"
