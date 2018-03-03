@@ -19,7 +19,7 @@ namespace pc {
 		void Mainmenue::draw() {
 			ImGui::Begin("Mainmenue");
 			ImGui::Text("SFML Point & Click Adventure Engine");
-			ImGui::Text("Version 0.0.1.0-dev");
+			ImGui::Text("Version 0.3.0.0-dev");
 			ImGui::Separator();
 			ImGui::Columns(2, "col", 0);
 			if (ImGui::Button("Scenemanager")) {
