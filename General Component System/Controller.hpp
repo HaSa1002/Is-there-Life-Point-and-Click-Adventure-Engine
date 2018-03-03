@@ -36,69 +36,62 @@ namespace pc {
 		// Objekte in der Welt
 		////////////////////////////////////////////////////////////
 		struct WasCollected : BaseController {
-			static std::vector<size_t> requirements();
-			bool control(std::shared_ptr<BaseProperty> entity_properties);
+			static const std::vector<size_t> requirements();
+			bool control(std::shared_ptr<Entity> e, mb::Bus& bus);
 
 		};
 
 		struct WasLooked : BaseController {
 			static std::vector<size_t> requirements();
-			bool control(std::shared_ptr<BaseProperty> entity_properties);
-
+			bool control(std::shared_ptr<Entity> e, mb::Bus& bus);
 		};
 
 		struct WasInteracted : BaseController {
 			static std::vector<size_t> requirements();
-			bool control(std::shared_ptr<BaseProperty> entity_properties);
-
+			bool control(std::shared_ptr<Entity> e, mb::Bus& bus);
 		};
 
 		struct executeScript : BaseController {
 			static std::vector<size_t> requirements();
-			bool control(std::shared_ptr<BaseProperty> entity_properties);
-
+			bool control(std::shared_ptr<Entity> e, mb::Bus& bus);
 		};
 
 		////////////////////////////////////////////////////////////
 		// Moveable Objects: Player, Menschen, ...
 		////////////////////////////////////////////////////////////
-		struct move : BaseController {
+		struct Move : BaseController {
 			static std::vector<size_t> requirements();
-			bool control(std::shared_ptr<BaseProperty> entity_properties);
+			bool control(std::shared_ptr<Entity> e, mb::Bus& bus);
 
 		};
 
 		////////////////////////////////////////////////////////////
 		// Objekte mit mehreren Bilder und einem angegebenen Zeitintervall
 		////////////////////////////////////////////////////////////
-		struct animate : BaseController {
+		struct Animate : BaseController {
 			static std::vector<size_t> requirements();
-			bool control(std::shared_ptr<BaseProperty> entity_properties);
-
+			bool control(std::shared_ptr<Entity> e, mb::Bus& bus);
 		};
 
 		////////////////////////////////////////////////////////////
 		// Savegameoperationen
 		////////////////////////////////////////////////////////////
-		struct save_game : BaseController {
+		struct SaveGame : BaseController {
 			static std::vector<size_t> requirements();
-			bool control(std::shared_ptr<BaseProperty> entity_properties);
-
+			bool control(std::shared_ptr<Entity> e, mb::Bus& bus);
 		};
 
-		struct load_game : BaseController {
+		struct LoadGame : BaseController {
 			static std::vector<size_t> requirements();
-			bool control(std::shared_ptr<BaseProperty> entity_properties);
-
+			bool control(std::shared_ptr<Entity> e, mb::Bus& bus);
 		};
 
 		////////////////////////////////////////////////////////////
 		// Scenenoperationen
 		////////////////////////////////////////////////////////////
-		struct load_scene : BaseController {
+		struct LoadScene : BaseController {
 			static std::vector<size_t> requirements();
-			bool control(std::shared_ptr<BaseProperty> entity_properties);
-
+			bool control(std::shared_ptr<Entity> e, mb::Bus& bus);
 		};
 		//...
 	}
