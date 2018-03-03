@@ -29,15 +29,19 @@ namespace pc {
 	namespace mb {
 		bool message_bus_constructed;
 		Bus::Bus() {
-			//assert?
-			if (message_bus_constructed)
-				throw(Exception::message_bus_constructed);
+			assert(message_bus_constructed == false && "The Message Bus should never be constructed more then once!");
+			/*if (message_bus_constructed)
+				throw(Exception::message_bus_constructed);*/
 			message_bus_constructed = true;
 		}
+
+
 
 		Bus::~Bus() {
 			message_bus_constructed = false;
 		}
+
+
 
 		void Bus::send(const Message& message) {
 			for (const std::pair<size_t, Subscription>& i : bound_reciever) {
@@ -46,9 +50,15 @@ namespace pc {
 						i.second.second(message);
 						break;
 					}
+					if (i.second.first[j] == MessageType::ALL) {
+						i.second.second(message);
+						break;
+					}
 				}
 			}
 		}
+
+
 
 		auto Bus::subscribe(const std::vector<MessageType>& types, Reciever reciever)->std::size_t{
 			std::size_t hash_reciever = std::hash<Reciever*>{}(&reciever);
@@ -63,6 +73,8 @@ namespace pc {
 			return hash_reciever;
 		}
 
+
+
 		auto Bus::subscribe(const MessageType& type, Reciever reciever)->std::size_t {
 			std::size_t hash_reciever = std::hash<Reciever*>{}(&reciever);
 			std::vector<MessageType> input;
@@ -73,6 +85,8 @@ namespace pc {
 			bound_reciever.insert_or_assign(hash_reciever, Subscription(input, reciever));
 			return hash_reciever;
 		}
+
+
 
 		void Bus::unsubscribe(const std::vector<MessageType>& types, Reciever reciever) {
 			auto hash_reciever = std::hash<Reciever*>{}(&reciever);
@@ -89,6 +103,8 @@ namespace pc {
 			}
 		}
 
+
+
 		void Bus::unsubscribe(const MessageType& type, Reciever reciever) {
 			auto hash_reciever = std::hash<Reciever*>{}(&reciever);
 			assert(bound_reciever.find(hash_reciever) != bound_reciever.end());
@@ -102,6 +118,8 @@ namespace pc {
 				}
 			}
 		}
+
+
 
 		void Bus::unsubscribe(Reciever reciever) {
 			bound_reciever.erase(std::hash<Reciever*>{}(&reciever));
