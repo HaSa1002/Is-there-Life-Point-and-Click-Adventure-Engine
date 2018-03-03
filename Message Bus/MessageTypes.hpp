@@ -27,10 +27,16 @@
 
 namespace pc {
 	namespace mb {
-		enum MessageType	{
-			ALL,
-			sfEvent,
+		enum class MessageType {
+			ALL, ///< Subscribe all Messages send
+			sfEvent, ///< All SFML Events are send, using this type
 			ComponentSystem,
+			EntityProperty,
+
+			ObjectCreated,
+			SavegameSave,
+			SavegameLoad,
+			Scene,
 			
 
 			Sum
