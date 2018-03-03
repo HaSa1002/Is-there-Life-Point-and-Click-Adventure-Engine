@@ -31,7 +31,7 @@ namespace pc {
 	////////////////////////////////////////////////////////////
 	namespace cs {
 		
-		Entity::Entity(BaseProperty* property, mb::Bus& message_bus, const size_t id) : message_bus{ message_bus }, id{ id } {
+		Entity::Entity(BaseProperty* property, mb::Bus& message_bus, const uint64_t id) : message_bus{ message_bus }, id{ id } {
 			addProperty(property);
 		}
 
@@ -40,7 +40,7 @@ namespace pc {
 		/// Constructs the Entity with a bunch of properties
 		///
 		////////////////////////////////////////////////////////////
-		Entity::Entity(const std::vector<BaseProperty*>& property_list, mb::Bus& message_bus, const size_t id) : message_bus{ message_bus }, id{ id } {
+		Entity::Entity(const std::vector<BaseProperty*>& property_list, mb::Bus& message_bus, const uint64_t id) : message_bus{ message_bus }, id{ id } {
 			properties = property_list;
 			component_changed();
 		}
@@ -51,12 +51,12 @@ namespace pc {
 		/// Use a hash of std::string
 		///
 		////////////////////////////////////////////////////////////
-		const BaseProperty* Entity::hasProperty(size_t name) {
+		bool Entity::hasProperty(size_t name) {
 			for (const auto& i : properties) {
 				if (i->id == name)
-					return i;
+					return true;
 			}
-			return nullptr;
+			return false;
 		}
 
 

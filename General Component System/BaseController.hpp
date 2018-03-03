@@ -25,8 +25,6 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "BaseProperty.hpp"
-#include "Entity.hpp"
-#include <Bus.hpp>
 #include <vector>
 #include <utility>
 #include <memory>
@@ -37,9 +35,9 @@ namespace pc {
 	////////////////////////////////////////////////////////////
 	namespace cs {
 
-		class BaseController {
-		public:
-			virtual bool control(std::shared_ptr<Entity> e, mb::Bus& bus)=0;
+		struct BaseController {
+			static std::vector<size_t> requirements() { return std::vector<size_t>(); };
+			virtual bool control(std::shared_ptr<BaseProperty> entity_properties) = 0;
 		};
 	}
 }
