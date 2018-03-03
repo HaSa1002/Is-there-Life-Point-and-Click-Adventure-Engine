@@ -137,7 +137,9 @@
     <None Include="System.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="System.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Message Bus\Message Bus.vcxproj">

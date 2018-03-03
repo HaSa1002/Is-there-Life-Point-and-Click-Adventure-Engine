@@ -26,10 +26,10 @@
 #include <typeinfo>
 
 template<class T>
-inline bool Entity::hasProperty() {
+inline const BaseProperty* Entity::hasProperty() {
 	for (const auto& i : properties) {
 		if (std::is_same<T, typeid(i)>::value)
-			return true
+			return i;
 	}
-	return false;
+	return nullptr;
 };
