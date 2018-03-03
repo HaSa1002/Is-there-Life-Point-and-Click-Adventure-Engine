@@ -27,6 +27,7 @@
 #include "BaseController.hpp"
 #include "Entity.hpp"
 #include "Property.hpp"
+#include "Controller.hpp"
 #include <Bus.hpp>
 #include <memory>
 
@@ -44,17 +45,18 @@ namespace pc {
 
 			////////////////////////////////////////////////////////////
 			/// Connects Controller and Entities
-			/// just touches the entities in changed_entities
 			///
 			////////////////////////////////////////////////////////////
-			void factory(std::shared_ptr<Entity> e, std::vector<std::shared_ptr<BaseController>>& controller);
+			template <class T>
+			void connect_controller(std::shared_ptr<Entity> e);
 
 
 			////////////////////////////////////////////////////////////
-			/// Here you register manually all Controller to the list
-			/// 
+			/// Connects Controller and Entities
+			/// add here your controllers
+			///
 			////////////////////////////////////////////////////////////
-			void controller_register();
+			void factory(std::shared_ptr<Entity> e);
 
 
 			////////////////////////////////////////////////////////////
@@ -70,11 +72,17 @@ namespace pc {
 			////////////////////////////////////////////////////////////
 			void run();
 
+
+			////////////////////////////////////////////////////////////
+			/// It spawns new entities
+			///
+			////////////////////////////////////////////////////////////
+			void spawn();
+
 		private:
 			mb::Bus& bus;
 			std::map<std::shared_ptr<Entity>, std::vector<std::shared_ptr<BaseController>>> entities;
 			std::vector<std::shared_ptr<Entity>> changed_entities;
-			std::vector<std::shared_ptr<BaseController>> controller;
 		};
 	}
 }
