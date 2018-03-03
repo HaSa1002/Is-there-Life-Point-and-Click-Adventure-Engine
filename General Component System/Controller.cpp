@@ -53,11 +53,14 @@ namespace pc {
 					message.data[0] = static_cast<const void *>(&t);
 					message.data[1] = static_cast<const void*>(&e->id);
 					bus.send(message);
+					return true;
 				}
+				return true;
 			}
 			else {
 				e->component_changed();
 				assert(true && "A controller wanted to access a property, which was not found");
+				return false;
 			}
 				
 		}
