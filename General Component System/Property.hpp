@@ -43,6 +43,8 @@ namespace pc {
 
 		};
 
+
+
 		////////////////////////////////////////////////////////////
 		/// Describes a property of an entity
 		/// has a name and value
@@ -52,6 +54,7 @@ namespace pc {
 		struct Property : BaseProperty{
 			T value;
 			size_t type;
+
 			////////////////////////////////////////////////////////////
 			/// Sets the id and value
 			///
