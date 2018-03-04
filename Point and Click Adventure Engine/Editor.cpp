@@ -54,6 +54,7 @@ namespace pc {
 		sf::Clock clock;
 		while (engine.getRendering().isOpen()) {
 			this->processEvents();
+			engine.getEcs().run();
 			menue.draw(engine.getRendering());
 			engine.getRendering().render();
 		}

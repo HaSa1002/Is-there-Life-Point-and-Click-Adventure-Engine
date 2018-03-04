@@ -12,4 +12,8 @@ namespace pc {
 	auto Engine::getPipeline() -> Pipeline & {
 		return pipeline;
 	}
+	auto Engine::getEcs() -> cs::System &
+	{
+		return ecs;
+	}
 }

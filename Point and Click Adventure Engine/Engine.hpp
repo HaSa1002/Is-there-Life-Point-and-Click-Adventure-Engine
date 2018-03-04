@@ -26,6 +26,7 @@
 ////////////////////////////////////////////////////////////
 #include "Pipeline.hpp"
 #include "Rendering.hpp"
+#include <System.hpp>
 #include <Bus.hpp>
 
 
@@ -33,7 +34,7 @@
 namespace pc {
 	class Engine {
 	public:
-		Engine() :rendering{ this->bus }, pipeline{ this->bus } {};
+		Engine() :rendering{ bus }, pipeline{ bus }, ecs{ bus } {};
 
 		auto getRendering()->Rendering&;
 
@@ -41,9 +42,11 @@ namespace pc {
 
 		auto getPipeline()->Pipeline&;
 
+		auto getEcs()->cs::System&;
+
 	private:
 		Pipeline pipeline;
-		
+		cs::System ecs;
 		mb::Bus bus;
 		Rendering rendering;
 	};
