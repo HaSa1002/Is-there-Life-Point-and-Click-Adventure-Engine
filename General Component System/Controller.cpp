@@ -31,9 +31,8 @@ namespace pc {
 	namespace cs {
 		const std::vector<size_t> WasCollected::requirements() {
 			std::vector<size_t> required;
-			std::hash<std::string> hash;
 			required.resize(1);
-			required[0] = hash("collected");
+			required[0] = PropertyName::Collected;
 			return required;
 		}
 
@@ -42,7 +41,7 @@ namespace pc {
 		bool WasCollected::control(std::shared_ptr<Entity> e, mb::Bus& bus) {
 			std::hash<std::string> hash;
 			
-			if (auto prop = e->hasProperty(hash("collected"))) {
+			if (auto prop = e->hasProperty(PropertyName::Collected)) {
 				auto property = static_cast<const Property<bool>*>(prop);
 				assert(property != nullptr); // If we fail then...
 				if (property->value) { // When it was collected ...send the message
