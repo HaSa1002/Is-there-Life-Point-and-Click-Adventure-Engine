@@ -19,7 +19,6 @@ int main(int argc, char* argv[]) {
 	/*else {
 		pc::Game Game;
 		Game.start();
-		Game.~Game();
 	}*/
 	return 0;
 }
