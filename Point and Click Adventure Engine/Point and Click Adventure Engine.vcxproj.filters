@@ -25,12 +25,6 @@
     <Filter Include="Headerdateien\Engine">
       <UniqueIdentifier>{8f07923a-369d-488b-881c-f7cf32cafa28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headerdateien\Engine\Game">
-      <UniqueIdentifier>{f1d58522-93f7-4eea-9ccc-d8d6e9b67d43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headerdateien\Engine\Leveleditor">
-      <UniqueIdentifier>{e00e998f-82f2-4991-9f61-ca7460de4917}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Quelldateien\imgui">
       <UniqueIdentifier>{58a23b61-1026-4a08-b67e-ed578d7bd314}</UniqueIdentifier>
     </Filter>
@@ -42,6 +36,12 @@
     </Filter>
     <Filter Include="Ressourcendateien\localisation">
       <UniqueIdentifier>{1a8e8815-a956-4c2d-80c3-f53cb9a84a75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Engine\Windows">
+      <UniqueIdentifier>{e00e998f-82f2-4991-9f61-ca7460de4917}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Engine\Executive">
+      <UniqueIdentifier>{f1d58522-93f7-4eea-9ccc-d8d6e9b67d43}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -78,9 +78,6 @@
     <ClCompile Include="imgui-SFML.cpp">
       <Filter>Quelldateien\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.cpp">
-      <Filter>Quelldateien\leveleditor</Filter>
-    </ClCompile>
     <ClCompile Include="Scenemanager.cpp">
       <Filter>Quelldateien\leveleditor</Filter>
     </ClCompile>
@@ -104,9 +101,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.hpp">
-      <Filter>Headerdateien\Engine\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Pipeline.hpp">
       <Filter>Headerdateien\Engine\system</Filter>
     </ClInclude>
@@ -114,28 +108,22 @@
       <Filter>Headerdateien\Engine\system</Filter>
     </ClInclude>
     <ClInclude Include="Mainmenue.hpp">
-      <Filter>Headerdateien\Engine\Leveleditor</Filter>
+      <Filter>Headerdateien\Engine\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Objectmanager.hpp">
-      <Filter>Headerdateien\Engine\Leveleditor</Filter>
+      <Filter>Headerdateien\Engine\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Menuemanager.hpp">
-      <Filter>Headerdateien\Engine\Leveleditor</Filter>
+      <Filter>Headerdateien\Engine\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Menue.hpp">
-      <Filter>Headerdateien\Engine\Leveleditor</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui-helper.h">
-      <Filter>Headerdateien\libs</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.hpp">
-      <Filter>Headerdateien\Engine\Leveleditor</Filter>
+      <Filter>Headerdateien\Engine\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Scenemanager.hpp">
-      <Filter>Headerdateien\Engine\Leveleditor</Filter>
+      <Filter>Headerdateien\Engine\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Localisation.hpp">
-      <Filter>Headerdateien\Engine\Leveleditor</Filter>
+      <Filter>Headerdateien\Engine\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Exception.hpp">
       <Filter>Headerdateien\Engine\system</Filter>
@@ -144,7 +132,7 @@
       <Filter>Headerdateien\Engine\system</Filter>
     </ClInclude>
     <ClInclude Include="UtilityWindows.hpp">
-      <Filter>Headerdateien\Engine\Leveleditor</Filter>
+      <Filter>Headerdateien\Engine\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Engine.hpp">
       <Filter>Headerdateien\Engine\system</Filter>
@@ -157,6 +145,12 @@
     </ClInclude>
     <ClInclude Include="api.hpp">
       <Filter>Headerdateien\Engine\system</Filter>
+    </ClInclude>
+    <ClInclude Include="sol.hpp">
+      <Filter>Headerdateien\Engine\system</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui.hpp">
+      <Filter>Headerdateien\libs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

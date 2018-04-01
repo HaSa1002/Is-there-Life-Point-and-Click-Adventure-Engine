@@ -24,3 +24,16 @@
 ## Filtering #
 
 ## Inputs & Focus #
+
+
+## Widgets #
+
+## Layout #
+
+## Popups & Modal windows #
+
+## Columns #
+
+## Filtering #
+
+## Inputs & Focus #

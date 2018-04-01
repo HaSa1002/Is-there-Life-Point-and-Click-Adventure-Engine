@@ -25,12 +25,8 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "Menue.hpp"
-#include "imgui-helper.h"
+#include "ImGui.hpp"
 
-#include <imgui.h>
-#include <imgui-SFML.h>
-
-#include <vector>
 #include <map>
 #include <string>
 #include <memory>

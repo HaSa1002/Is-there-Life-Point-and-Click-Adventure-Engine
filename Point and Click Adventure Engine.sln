@@ -11,7 +11,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTest\UnitTe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Component System", "General Component System\General Component System.vcxproj", "{E3894D58-0A90-44CC-A521-A7C535234D39}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaInterpreter", "LuaInterpreter\LuaInterpreter.vcxproj", "{11372003-2551-4223-B32E-551B0666A359}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua", "Lua\Lua.vcxproj", "{11372003-2551-4223-B32E-551B0666A359}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

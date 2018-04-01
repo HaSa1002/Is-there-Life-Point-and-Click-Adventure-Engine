@@ -27,8 +27,7 @@
 #include "Menue.hpp"
 #include "Datatypes.hpp"
 
-#include <imgui.h>
-#include <imgui-SFML.h>
+#include "ImGui.hpp"
 
 #include <string>
 #include <vector>

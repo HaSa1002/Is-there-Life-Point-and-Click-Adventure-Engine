@@ -1,10 +1,5 @@
 #include "Mainmenue.hpp"
-
-#include "imgui-helper.h"
-
-#include "imgui-SFML.h"
-
-
+#include "ImGui.hpp"
 
 namespace pc {
 	namespace Lvleditor {
