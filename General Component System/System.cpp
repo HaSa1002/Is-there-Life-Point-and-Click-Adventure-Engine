@@ -52,14 +52,14 @@ namespace pc {
 			//Calls the Controller Connector
 			//add here your controllers
 			connect_controller<WasCollected>(e);
-			connect_controller<WasLooked>(e);
-			connect_controller<WasInteracted>(e);
-			connect_controller<executeScript>(e);
-			connect_controller<Move>(e);
-			connect_controller<Animate>(e);
-			connect_controller<SaveGame>(e);
-			connect_controller<LoadGame>(e);
-			connect_controller<LoadScene>(e);
+			//connect_controller<WasLooked>(e);
+			//connect_controller<WasInteracted>(e);
+			//connect_controller<executeScript>(e);
+			//connect_controller<Move>(e);
+			//connect_controller<Animate>(e);
+			//connect_controller<SaveGame>(e);
+			//connect_controller<LoadGame>(e);
+			//connect_controller<LoadScene>(e);
 			
 		}
 
