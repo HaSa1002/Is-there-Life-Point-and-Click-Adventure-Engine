@@ -49,6 +49,7 @@ namespace pc {
 
 	////////////////////////////////////////////////////////////
 	void Rendering::closeWindow() {
+		ImGui::SFML::Shutdown();
 		window.close();
 	}
 
