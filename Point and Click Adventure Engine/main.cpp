@@ -1,8 +1,6 @@
 #pragma once
-#pragma comment(linker, "/SUBSYSTEM:Windows /ENTRY:mainCRTStartup")
-#include "Game.hpp"
-#include "Editor.hpp"
-
+//#pragma comment(linker, "/SUBSYSTEM:Windows /ENTRY:mainCRTStartup")
+#include "Engine.hpp"
 #include <SFML\Main.hpp>
 
 
@@ -12,13 +10,6 @@ int main(int argc, char* argv[]) {
 		if (argv[i] == "-engine")
 			intoEngine = true;
 	}
-	if (intoEngine) {
-		pc::Editor editor;
-		editor.start();
-	}
-	/*else {
-		pc::Game Game;
-		Game.start();
-	}*/
+	pc::Engine engine(intoEngine);
 	return 0;
 }
