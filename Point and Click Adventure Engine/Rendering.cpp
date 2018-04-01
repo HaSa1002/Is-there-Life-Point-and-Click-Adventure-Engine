@@ -5,7 +5,7 @@
 namespace pc {
 
 	Rendering::Rendering(mb::Bus& message_bus) : bus{ message_bus } {
-		bus.subscribe(mb::MessageType::sfEvent, render_reciever);
+		bus.subscribe(mb::MessageType::ObjectCreated, render_reciever);
 	}
 
 
@@ -20,28 +20,30 @@ namespace pc {
 
 
 	////////////////////////////////////////////////////////////
-	void Rendering::createWindow() {
-		video_mode = sf::VideoMode(1600, 900);
-		window.create(video_mode, title, sf::Style::Resize | sf::Style::Close);
-	}
-
-
-	////////////////////////////////////////////////////////////
 	void Rendering::createWindow(sf::VideoMode video_mode) {
-		this->video_mode = video_mode;
-		window.create(video_mode, title, sf::Style::Resize);
+		createWindow("Is there Life? | Engine", false, video_mode);
 	}
 
 
 	////////////////////////////////////////////////////////////
-	void Rendering::createWindow(const std::string& title, const bool fullscreen, sf::VideoMode video_mode) {
+	void Rendering::createWindow(const std::string& title, const bool& fullscreen, const sf::VideoMode& vid_mode) {
 		this->fullscreen = fullscreen;
+		if (vid_mode.height == 0 && vid_mode.width == 0) {
+			if (fullscreen)
+				this->video_mode = video_mode.getFullscreenModes()[0];
+			else
+				this->video_mode = video_mode.getDesktopMode();
+		} else
+			this->video_mode = vid_mode;
+			
 		if (fullscreen)
 			window.create(video_mode, title, sf::Style::Fullscreen);
 		else
 			window.create(video_mode, title, sf::Style::Default);
 		this->title = title;
-		this->video_mode = video_mode;
+
+		window.resetGLStates();
+		ImGui::SFML::Init(window);
 	}
 
 
@@ -53,13 +55,13 @@ namespace pc {
 
 	////////////////////////////////////////////////////////////
 	auto Rendering::getVideoModes()-> const std::vector<sf::VideoMode> {
-		return sf::VideoMode::getFullscreenModes();
+		return video_mode.getFullscreenModes();
 	}
 
 
 	////////////////////////////////////////////////////////////
 	auto Rendering::getWindowObject() -> sf::RenderWindow& {
-		return this->window;
+		return window;
 	}
 
 
@@ -83,79 +85,103 @@ namespace pc {
 
 
 	////////////////////////////////////////////////////////////
+	void Rendering::processEvents() {
+		sf::Event event;
+		while (window.pollEvent(event)) {
+			if (draw_imgui)
+				ImGui::SFML::ProcessEvent(event);
+
+			switch (event.type) {
+			case sf::Event::Closed:
+				closeWindow();
+				break;
+			case sf::Event::Resized:
+				closeWindow();
+				video_mode = sf::VideoMode(event.size.width, event.size.height);
+				createWindow(title, fullscreen, video_mode);
+				break;
+			case sf::Event::LostFocus:
+				has_focus = false;
+				break;
+			case sf::Event::GainedFocus:
+				has_focus = true;
+				break;
+			case sf::Event::TextEntered:
+				break;
+			case sf::Event::KeyPressed:
+				break;
+			case sf::Event::KeyReleased:
+				break;
+			case sf::Event::MouseWheelMoved:
+				break;
+			case sf::Event::MouseWheelScrolled:
+				break;
+			case sf::Event::MouseButtonPressed:
+				break;
+			case sf::Event::MouseButtonReleased:
+				break;
+			case sf::Event::MouseMoved:
+				break;
+			case sf::Event::MouseEntered:
+				break;
+			case sf::Event::MouseLeft:
+				break;
+			case sf::Event::JoystickButtonPressed:
+				break;
+			case sf::Event::JoystickButtonReleased:
+				break;
+			case sf::Event::JoystickMoved:
+				break;
+			case sf::Event::JoystickConnected:
+				break;
+			case sf::Event::JoystickDisconnected:
+				break;
+			case sf::Event::TouchBegan:
+				break;
+			case sf::Event::TouchMoved:
+				break;
+			case sf::Event::TouchEnded:
+				break;
+			case sf::Event::SensorChanged:
+				break;
+			default:
+				break;
+			}
+
+			mb::Message message;
+			message.type = mb::MessageType::sfEvent;
+			message.data.push_back(static_cast<void*>(&event));
+			bus.send(message);
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////
 	void Rendering::remove(std::shared_ptr<sf::Drawable> element) {
 
 	}
 
 	////////////////////////////////////////////////////////////
 	void Rendering::reciever(mb::Message message) {
-		const sf::Event* event = static_cast<const sf::Event*>(message.data.at(0));
-		switch (event->type) {
-		case sf::Event::Closed:
-			closeWindow();
-			break;
-		case sf::Event::Resized:
-			closeWindow();
-			video_mode = sf::VideoMode(event->size.width, event->size.height);
-			createWindow(title, fullscreen, video_mode);
-			break;
-		case sf::Event::LostFocus:
-			break;
-		case sf::Event::GainedFocus:
-			break;
-		case sf::Event::TextEntered:
-			break;
-		case sf::Event::KeyPressed:
-			break;
-		case sf::Event::KeyReleased:
-			break;
-		case sf::Event::MouseWheelMoved:
-			break;
-		case sf::Event::MouseWheelScrolled:
-			break;
-		case sf::Event::MouseButtonPressed:
-			break;
-		case sf::Event::MouseButtonReleased:
-			break;
-		case sf::Event::MouseMoved:
-			break;
-		case sf::Event::MouseEntered:
-			break;
-		case sf::Event::MouseLeft:
-			break;
-		case sf::Event::JoystickButtonPressed:
-			break;
-		case sf::Event::JoystickButtonReleased:
-			break;
-		case sf::Event::JoystickMoved:
-			break;
-		case sf::Event::JoystickConnected:
-			break;
-		case sf::Event::JoystickDisconnected:
-			break;
-		case sf::Event::TouchBegan:
-			break;
-		case sf::Event::TouchMoved:
-			break;
-		case sf::Event::TouchEnded:
-			break;
-		case sf::Event::SensorChanged:
-			break;
-		default:
-			break;
-		}
+		//TODO: Stuff for proper Adding/Removing objects
 	}
 
 
 	////////////////////////////////////////////////////////////
 	void Rendering::render() {
-		window.clear();
-		for each (std::shared_ptr<sf::Drawable> drawable in draw_list) {
-			window.draw(*drawable);
+		if (has_focus) {
+			window.clear();
+			for (auto& draw_layer : draw_list) {
+				for (auto& drawable : draw_layer) {
+					window.draw(*drawable);
+					//Space for optimisations
+				}
+			}
+			if (draw_imgui)
+				ImGui::SFML::Render(window);
 		}
-		if (draw_imgui)
-			ImGui::SFML::Render(window);
 		window.display();
+		processEvents();
 	}
 
 
@@ -171,6 +197,8 @@ namespace pc {
 	////////////////////////////////////////////////////////////
 	void Rendering::zoom(const float factor, bool anitmated) {
 		view.zoom(factor);
+
+		//TODO: Animation
 	}
 
 

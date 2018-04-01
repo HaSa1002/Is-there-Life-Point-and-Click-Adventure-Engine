@@ -24,7 +24,6 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "Menue.hpp"
 
 #include <Bus.hpp>
 
@@ -46,7 +45,7 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		/// Default Constructor
 		///
-		/// Sets the Messagebus;
+		/// Sets the Messagebus and subscribes to some Events
 		///
 		////////////////////////////////////////////////////////////
 		Rendering(mb::Bus& message_bus);
@@ -69,7 +68,7 @@ namespace pc {
 		/// param object shared_ptr to the drawable
 		///
 		////////////////////////////////////////////////////////////
-		void add(std::shared_ptr<sf::Drawable> object);
+		void add(std::shared_ptr<sf::Drawable> object, int layer);
 
 		////////////////////////////////////////////////////////////
 		/// Adds a item to the gui draw list
@@ -80,7 +79,7 @@ namespace pc {
 		/// param object shared_ptr to the drawable
 		///
 		////////////////////////////////////////////////////////////
-		void addGUI(std::shared_ptr<sf::Drawable> gui_element);
+		void addGUI(std::shared_ptr<sf::Drawable> gui_element, int layer);
 
 		////////////////////////////////////////////////////////////
 		/// Closes the window
@@ -95,22 +94,14 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		/// Creates the window
 		///
-		/// Creates the window with the title "ITLengine" and 
-		/// sf::VideoMode(1600,900)
-		/// 
-		////////////////////////////////////////////////////////////
-		void createWindow();
-
-		////////////////////////////////////////////////////////////
-		/// Creates the window
-		///
 		/// Creates the window with the title "ITLengine" and the 
 		/// given sf::VideoMode
 		///
 		/// param video_mode sf::VideoMode to display
-		/// 
+		///					 Default: 1600x900
+		///
 		////////////////////////////////////////////////////////////
-		void createWindow(sf::VideoMode video_mode);
+		void createWindow(sf::VideoMode video_mode = sf::VideoMode(1600, 900));
 
 		////////////////////////////////////////////////////////////
 		/// Creates the window
@@ -126,7 +117,7 @@ namespace pc {
 		///						selected, once implemented (TODO)
 		/// 
 		////////////////////////////////////////////////////////////
-		void createWindow(const std::string& title, const bool fullscreen, const sf::VideoMode video_mode = sf::VideoMode(0, 0, 0));
+		void createWindow(const std::string& title, const bool& fullscreen, const sf::VideoMode& video_mode = sf::VideoMode(0, 0, 0));
 
 		////////////////////////////////////////////////////////////
 		/// TODO: Think about that
@@ -190,6 +181,12 @@ namespace pc {
 		void move(const sf::Vector2f& offset);
 
 		////////////////////////////////////////////////////////////
+		/// Sends the SFML Events to the Message Bus and do optimisations
+		///
+		////////////////////////////////////////////////////////////
+		void processEvents();
+
+		////////////////////////////////////////////////////////////
 		/// Recieves the messages from the Message Bus and calls
 		/// the nessessary methods
 		/// 
@@ -214,8 +211,6 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		/// Removes an object from the draw list
 		///
-		/// This way of deleting drawables should be preferenced over
-		/// invalidating the pointer!
 		///
 		/// param object shared_ptr to the drawable
 		///
@@ -225,8 +220,6 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		/// Removes an object from the gui list
 		///
-		/// This way of deleting drawables should be preferenced over
-		/// invalidating the pointer!
 		///
 		/// param object shared_ptr to the drawable
 		///
@@ -238,16 +231,6 @@ namespace pc {
 		///
 		////////////////////////////////////////////////////////////
 		void reset();
-
-		////////////////////////////////////////////////////////////
-		/// sets the draw list directly
-		///
-		/// This way of should NOT be used! It will maybe removed.
-		///
-		/// param object std::vector ofshared_ptr to the drawable
-		///
-		////////////////////////////////////////////////////////////
-		void setDrawList(const std::vector<std::shared_ptr<sf::Drawable>> drawList);
 
 		////////////////////////////////////////////////////////////
 		/// Sets the camera (sf::View)
@@ -284,17 +267,18 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		// Member data
 		////////////////////////////////////////////////////////////
-		mb::Bus&									bus;					/// Message Bus
-		bool										draw_imgui = false;		/// States if imGui should be drawn
-		std::list<std::shared_ptr<sf::Drawable>>	draw_list;				/// Contains pointers to the objects, that should be drawn
-		bool										fullscreen = false;		/// < States if the window should be constructed in Fullscreenmode
-		std::list<std::shared_ptr<sf::Drawable>>	gui_list;				/// Contains pointers to the objects, that should be drawn as gui (in foreground)
-		sf::Vector2f								offset;					/// The absolut position the view has to (0,0)
-		std::string									title = "ITLengine";	/// Stores the title of the window, as it is possible required when recreating the window
-		sf::VideoMode								video_mode;				/// Stores the video_mode
-		sf::View									view;					/// Our Camera that we are controlling
-		sf::RenderWindow							window;					/// Window we are rendering to
-		float										zoom_level = 1.f;		/// The absolut zoom_level to the initated one
+		mb::Bus&									bus;										///< Message Bus
+		bool										draw_imgui				= false;			///< States if imGui should be drawn
+		std::vector<std::list<std::shared_ptr<sf::Drawable>>>	draw_list;						///< Contains pointers to the objects, that should be drawn
+		bool										fullscreen				= false;			///< States if the window should be constructed in Fullscreenmode
+		std::vector<std::list<std::shared_ptr<sf::Drawable>>>	gui_list;						///< Contains pointers to the objects, that should be drawn as gui (in foreground)
+		sf::Vector2f								offset;										///< The absolut position the view has to (0,0)
+		bool										has_focus				= true;				///< Used to save power when there is no focus
+		std::string									title;										///< Stores the title of the window, as it is possible required when recreating the window
+		sf::VideoMode								video_mode;									///< Stores the video_mode
+		sf::View									view;										///< Our Camera that we are controlling
+		sf::RenderWindow							window;										///< Window we are rendering to
+		float										zoom_level = 1.f;							///< The absolut zoom_level to the initated one
 	};
 } // namespace pc
 
