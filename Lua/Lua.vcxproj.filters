@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="lapi.c">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -197,10 +194,5 @@
     <ClInclude Include="lzio.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Room.lua">
-      <Filter>Quelldateien</Filter>
-    </None>
   </ItemGroup>
 </Project>
