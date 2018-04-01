@@ -7,12 +7,12 @@ Currently in development engine for 2D Point and Click Adventures. Feel free to 
 
 ## In Development ##
 -	Component System
+-	Scripting
 
 ## Planned ##
 -	Multithreading
 -	Intelligent Resource System
 -	Leveleditor
--	Scripting
 -	Savegames
 -	Animations
 -	Cutscenes
