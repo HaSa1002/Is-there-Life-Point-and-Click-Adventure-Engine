@@ -26,6 +26,7 @@
 ////////////////////////////////////////////////////////////
 #include "Pipeline.hpp"
 #include "Rendering.hpp"
+#include "Menuemanager.hpp"
 #include <System.hpp>
 #include <Bus.hpp>
 
@@ -34,21 +35,60 @@
 namespace pc {
 	class Engine {
 	public:
-		Engine() :rendering{ bus }, pipeline{ bus }, ecs{ bus } {};
 
+		////////////////////////////////////////////////////////////
+		/// It's the default constructor and starts the internals of
+		/// the engine
+		///
+		/// param editor	define wether we start the editor or the game
+		///
+		////////////////////////////////////////////////////////////
+		Engine(bool editor) :rendering{ bus }, pipeline{ bus }, ecs{ bus }, editor_mode { editor } { start(); };
+
+		////////////////////////////////////////////////////////////
+		/// We don't have an default constructor
+		///
+		////////////////////////////////////////////////////////////
+		Engine() = delete;
+
+		//DELETE
+		////////////////////////////////////////////////////////////
+		/// Gives the underlaying Renderingclass
+		///
+		/// returns pc::Rendering&
+		///
+		////////////////////////////////////////////////////////////
 		auto getRendering()->Rendering&;
 
-		auto getBus()->mb::Bus&;
-
-		auto getPipeline()->Pipeline&;
-
-		auto getEcs()->cs::System&;
-
 	private:
-		Pipeline pipeline;
-		cs::System ecs;
-		mb::Bus bus;
-		Rendering rendering;
+
+		////////////////////////////////////////////////////////////
+		/// Performs the startsequence of the engine
+		///
+		////////////////////////////////////////////////////////////
+		void start();
+
+		////////////////////////////////////////////////////////////
+		/// Runs all the time to bring the engine to life
+		///
+		////////////////////////////////////////////////////////////
+		void main();
+
+		////////////////////////////////////////////////////////////
+		/// Sends the SFML Events to the Message Bus
+		///
+		////////////////////////////////////////////////////////////
+		void processEvents();
+
+		////////////////////////////////////////////////////////////
+		// Member data
+		////////////////////////////////////////////////////////////
+		mb::Bus						bus;			///< The Message Bus. It's the only class who own's one
+		cs::System					ecs;			///< The ECS. It's the only class who own's one
+		bool						editor_mode;	///< states the mode
+		Lvleditor::Menuemanager		menue;			///< ImGui Menuemanager
+		Pipeline					pipeline;		///< The Data Pipeline. It's the only class who own's one
+		Rendering					rendering;		///< The Rendering. It's the only class who own's one
 	};
 }
 
