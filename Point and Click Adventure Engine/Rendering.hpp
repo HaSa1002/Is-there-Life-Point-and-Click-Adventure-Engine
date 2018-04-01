@@ -267,18 +267,18 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		// Member data
 		////////////////////////////////////////////////////////////
-		mb::Bus&									bus;										///< Message Bus
-		bool										draw_imgui				= false;			///< States if imGui should be drawn
-		std::vector<std::list<std::shared_ptr<sf::Drawable>>>	draw_list;						///< Contains pointers to the objects, that should be drawn
-		bool										fullscreen				= false;			///< States if the window should be constructed in Fullscreenmode
-		std::vector<std::list<std::shared_ptr<sf::Drawable>>>	gui_list;						///< Contains pointers to the objects, that should be drawn as gui (in foreground)
-		sf::Vector2f								offset;										///< The absolut position the view has to (0,0)
-		bool										has_focus				= true;				///< Used to save power when there is no focus
-		std::string									title;										///< Stores the title of the window, as it is possible required when recreating the window
-		sf::VideoMode								video_mode;									///< Stores the video_mode
-		sf::View									view;										///< Our Camera that we are controlling
-		sf::RenderWindow							window;										///< Window we are rendering to
-		float										zoom_level = 1.f;							///< The absolut zoom_level to the initated one
+		mb::Bus&												bus;										///< Message Bus
+		bool													draw_imgui				= false;			///< States if imGui should be drawn
+		std::vector<std::list<std::shared_ptr<sf::Drawable>>>	draw_list;									///< Contains pointers to the objects, that should be drawn
+		bool													fullscreen				= false;			///< States if the window should be constructed in Fullscreenmode
+		std::vector<std::list<std::shared_ptr<sf::Drawable>>>	gui_list;									///< Contains pointers to the objects, that should be drawn as gui (in foreground)
+		sf::Vector2f											offset;										///< The absolut position the view has to (0,0)
+		bool													has_focus				= true;				///< Used to save power when there is no focus
+		std::string												title;										///< Stores the title of the window, as it is possible required when recreating the window
+		sf::VideoMode											video_mode;									///< Stores the video_mode
+		sf::View												view;										///< Our Camera that we are controlling
+		sf::RenderWindow										window;										///< Window we are rendering to
+		float													zoom_level = 1.f;							///< The absolut zoom_level to the initated one
 	};
 } // namespace pc
 
