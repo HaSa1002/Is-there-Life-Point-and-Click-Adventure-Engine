@@ -1,0 +1,7 @@
+-- Register all your texts
+-- Be aware that you need to be consistent with your keys
+localisations["en"] = {};
+local en = localisations["en"];
+en.test = "Hello Testy World"
+
+return en;
