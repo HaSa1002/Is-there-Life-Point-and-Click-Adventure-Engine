@@ -1,7 +1,6 @@
 #pragma once
-
 #include <imgui.h>
-
+#include <imgui-SFML.h>
 #include <vector>
 namespace ImGui {
 	bool Combo(const char* label, int* currIndex, std::vector<std::string>& values);
