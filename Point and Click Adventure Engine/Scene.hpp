@@ -32,19 +32,15 @@
 namespace pc {
 	class Scene {
 	public:
-		typedef std::pair<unsigned int, std::shared_ptr<Object>> ListObject;
-		Scene(const mb::Bus& bus);
+		Scene(mb::Bus& bus);
 
-		bool sort(const ListObject& l, const ListObject& r);
 	private:
 		std::function<void(mb::Message)> reciever = [this](mb::Message) {
 
 		};
 
-		std::list<ListObject> objects;
-		std::list<ListObject> clickable_objects;
 		sf::Vector2i size;
-		const mb::Bus& message_bus;
+		mb::Bus& message_bus;
 	};
 }
 

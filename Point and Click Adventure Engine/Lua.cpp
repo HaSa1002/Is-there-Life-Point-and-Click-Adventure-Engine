@@ -54,6 +54,13 @@ namespace pc {
 		}
 		return true;
 	}
+
+
+	bool Lua::loadScene(const char* path) {
+
+	}
+
+
 }
 
 

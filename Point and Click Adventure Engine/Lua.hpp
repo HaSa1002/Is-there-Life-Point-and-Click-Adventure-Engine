@@ -26,6 +26,8 @@
 ////////////////////////////////////////////////////////////
 #define SOL_CHECK_ARGUMENTS 1
 #include "sol.hpp"
+#include <Bus.hpp>
+
 #include <vector>
 
 namespace pc {
@@ -37,7 +39,9 @@ namespace pc {
 		
 		bool editorConfig();
 
-		
+		bool loadScene(const char* path);
+
+	private:
 		
 	};
 }

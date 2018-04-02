@@ -46,7 +46,7 @@ namespace pc {
 		Engine(bool editor) :rendering{ bus }, pipeline{ bus }, ecs{ bus }, editor_mode { editor } { start(); };
 
 		////////////////////////////////////////////////////////////
-		/// We don't have an default constructor
+		/// We don't have a default constructor
 		///
 		////////////////////////////////////////////////////////////
 		Engine() = delete;
@@ -81,6 +81,13 @@ namespace pc {
 		void processEvents();
 
 		////////////////////////////////////////////////////////////
+		/// Loads a scene
+		///
+		////////////////////////////////////////////////////////////
+		bool loadScene(const std::string& scene);
+
+
+		////////////////////////////////////////////////////////////
 		// Member data
 		////////////////////////////////////////////////////////////
 		mb::Bus						bus;			///< The Message Bus. It's the only class who own's one
@@ -89,6 +96,7 @@ namespace pc {
 		Lvleditor::Menuemanager		menue;			///< ImGui Menuemanager
 		Pipeline					pipeline;		///< The Data Pipeline. It's the only class who own's one
 		Rendering					rendering;		///< The Rendering. It's the only class who own's one
+		Lua							lua;			///< Lua State Holder and ...
 	};
 }
 

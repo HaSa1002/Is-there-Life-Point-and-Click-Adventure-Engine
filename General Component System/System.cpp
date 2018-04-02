@@ -47,7 +47,7 @@ namespace pc {
 
 
 		void System::factory(std::shared_ptr<Entity> e) {
-			//We have to delete all connected controller, because we don't know (and want to know) which properties have changed
+			//We have to delete all connected controllers, because we don't know (and want to know) which properties have changed
 			entities.find(e)->second.clear();
 			//Calls the Controller Connector
 			//add here your controllers

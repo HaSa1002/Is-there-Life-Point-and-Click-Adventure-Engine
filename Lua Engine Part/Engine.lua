@@ -9,6 +9,12 @@ rooms = {}
 -- Don't forget the Localisations
 localisations = {}
 
+-- We need a global objects table
+objects = {}
+
+-- Register the objects
+dofile "objects/clock1.lua"
+
 -- Register the language files
 dofile "locals/en.lang"
 dofile "locals/de.lang"

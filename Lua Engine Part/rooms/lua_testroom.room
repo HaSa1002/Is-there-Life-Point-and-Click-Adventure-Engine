@@ -5,7 +5,7 @@ rooms["lua_testroom"] = {}
 local room = rooms["lua_testroom"];
 
 -- All needed objects are here with Position
--- {Objectstring, x (relativ bg 0,0), y, z (Layer), callback (String of functionname; nil if no callback wanted)}
+-- {Objectstring, x (relativ bg 0,0), y, z (Layer), callback (String of functionname; nil if no callback wanted), actions to recieve (leave, if no callback)}
 room["objects"] = {
 	{"testBG", 0, 0, 0 },
 	{"clock1", 22, 55, 1, "hello", {'c', 'l'}},
