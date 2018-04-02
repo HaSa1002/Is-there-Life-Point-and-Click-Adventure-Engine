@@ -77,7 +77,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Software\Point and Click Adventure Engine\LuaInterpreter;D:\Software\SFML-2.4.2\include;D:\Software\sfgui-0.3.2-vs2017-32\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include\IMGUI;D:\Software\Point and Click Adventure Engine\Message Bus;D:\Software\Point and Click Adventure Engine\General Component System</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Software\SFML-2.4.2\include;D:\Software\sfgui-0.3.2-vs2017-32\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include\IMGUI;D:\Software\Point and Click Adventure Engine\Message Bus;D:\Software\Point and Click Adventure Engine\General Component System;D:\Software\Point and Click Adventure Engine\Lua</AdditionalIncludeDirectories>
       <ConformanceMode>false</ConformanceMode>
     </ClCompile>
     <Link>
@@ -99,7 +99,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Software\Point and Click Adventure Engine\LuaInterpreter;D:\Software\SFML-2.4.2\include;D:\Software\sfgui-0.3.2-vs2017-32\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include\IMGUI;D:\Software\Point and Click Adventure Engine\Message Bus;D:\Software\Point and Click Adventure Engine\General Component System</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Software\SFML-2.4.2\include;D:\Software\sfgui-0.3.2-vs2017-32\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include\IMGUI;D:\Software\Point and Click Adventure Engine\Message Bus;D:\Software\Point and Click Adventure Engine\General Component System;D:\Software\Point and Click Adventure Engine\Lua</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
@@ -130,6 +130,7 @@
     <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
     <ClCompile Include="Localisation.cpp" />
+    <ClCompile Include="Lua.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mainmenue.cpp" />
     <ClCompile Include="Menue.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Exception.hpp" />
     <ClInclude Include="ImGui.hpp" />
     <ClInclude Include="Localisation.hpp" />
+    <ClInclude Include="Lua.hpp" />
     <ClInclude Include="Mainmenue.hpp" />
     <ClInclude Include="Menue.hpp" />
     <ClInclude Include="Menuemanager.hpp" />
@@ -159,6 +161,7 @@
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="Scenemanager.hpp" />
     <ClInclude Include="sol.hpp" />
+    <ClInclude Include="sol_forward.hpp" />
     <ClInclude Include="UtilityWindows.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +180,9 @@
   <ItemGroup>
     <ProjectReference Include="..\General Component System\General Component System.vcxproj">
       <Project>{e3894d58-0a90-44cc-a521-a7c535234d39}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Lua\Lua.vcxproj">
+      <Project>{11372003-2551-4223-b32e-551b0666a359}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Message Bus\Message Bus.vcxproj">
       <Project>{ae2336b5-3553-4f6c-8f9c-3cb3544a7bb8}</Project>
