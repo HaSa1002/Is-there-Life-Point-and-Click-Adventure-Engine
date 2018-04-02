@@ -10,14 +10,15 @@ rooms = {}
 localisations = {}
 
 -- Register the language files
-dofile "locals/en.lang.lua"
-dofile "locals/de.lang.lua"
+dofile "locals/en.lang"
+dofile "locals/de.lang"
 
 -- Create the Game Table with all Settings etc.
 game = {}
 game.stdlang = "en"
+
 -- Load the user configs
 dofile "Game.conf"
 
 -- Register the rooms
-dofile "rooms/lua_testroom.room.lua"
+dofile "rooms/lua_testroom.room"

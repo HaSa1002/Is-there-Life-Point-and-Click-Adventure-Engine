@@ -1,0 +1,1 @@
+editor.open_menues = { "mainmenue", "localisation"}

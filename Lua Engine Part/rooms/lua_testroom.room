@@ -8,7 +8,7 @@ local room = rooms["lua_testroom"];
 -- {Objectstring, x (relativ bg 0,0), y, z (Layer), callback (String of functionname; nil if no callback wanted)}
 room["objects"] = {
 	{"testBG", 0, 0, 0 },
-	{"clock1", 22, 55, 1, "hello"},
+	{"clock1", 22, 55, 1, "hello", {'c', 'l'}},
 	{"bin5", 11, 100, 1, "bin"},
 	{"painting1", 50, 8, 1, "painting"},
 	{"fence", 55, 100, 2, "offensive"},
