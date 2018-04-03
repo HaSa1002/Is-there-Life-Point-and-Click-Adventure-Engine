@@ -32,6 +32,10 @@ function rooms.lua_testroom.init()
 	-- body
 end
 
+-- You always need a room initalizer
+function rooms.lua_testroom.enter()
+	-- body
+end
 
 -- Write your callback functions below
 function room.hello( action )
