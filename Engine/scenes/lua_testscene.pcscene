@@ -1,0 +1,67 @@
+-- Testroom for the purpose of testing with Lua
+-- Register this as package to the global rooms table
+scenes["lua_testscene"] = {}
+-- Make access easier
+local scene = scenes["lua_testscene"]
+
+-- All needed objects are here with Position
+-- {Objectstring, x (relativ bg 0,0), y, z (Layer), callback (String of functionname; nil if no callback wanted), actions to recieve (leave, if no callback)}
+scene["objects"] = {
+	{".\\textures\\test.png", 0, 0, 0, "bin", {'u', 'l'}},
+--	{".\\textures\\clock.png", 22, 55, 1, "hello", {'c', 'l'}},
+--	{"bin5", 11, 100, 1, "bin"},
+--	{"painting1", 50, 8, 1, "painting"},
+--	{"fence", 55, 100, 2, "offensive"},
+--	{"door51", 75, 80, 1, "area51"}
+}
+
+-- Create the Walkboxestable
+-- The walkboxes: Format {Position.X, Position.Y, Length, Width, isActive}
+scene["walkboxes"] = {
+	{0, 10, 100, 50, true}
+}
+
+-- Create the Zoomlines
+-- Format: {rotation (0° == ->), Position.X, Position.Y, zoomfactor}
+scene["zoomlines"] = {
+	{0, 100, 100, 0.9}
+}
+
+-- You always need a room initalizer
+function scene.init()
+	-- body
+end
+
+-- You always need a room initalizer
+function scene.enter()
+	-- body
+end
+
+-- Write your callback functions below
+function scene.hello( action )
+	-- do your stuff
+	print(display("test")); -- test
+end
+
+function scene.bin( action )
+	-- do your stuff
+	if action == 'u' then print(display("tabletU"))
+	elseif action == 'l' then print(display("tabletL"))
+	end
+end
+
+function scene.painting( action )
+	-- do your stuff
+end
+
+function scene.offensive( action )
+	-- do your stuff
+end
+
+function scene.area51( action )
+	-- do your stuff
+end
+
+
+-- At the end we return the room to have a nice access to it when wished
+return scene

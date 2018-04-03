@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{324AEFAE-7E96-4190-BBE0-107B8A8B4571}</ProjectGuid>
-    <RootNamespace>PointandClickAdventureEngine</RootNamespace>
+    <ProjectGuid>{CA8A336F-EF5E-4D0C-A5E8-DE27F87ECFB4}</ProjectGuid>
+    <RootNamespace>Engine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -69,16 +69,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Software\SFML-2.4.2\include;D:\Software\sfgui-0.3.2-vs2017-32\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include\IMGUI;D:\Software\Point and Click Adventure Engine\Message Bus;D:\Software\Point and Click Adventure Engine\Entity Component System;D:\Software\Point and Click Adventure Engine\Lua;./Entity Component System/</AdditionalIncludeDirectories>
-      <ConformanceMode>false</ConformanceMode>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Software\SFML-2.4.2\include;D:\Software\Point and Click Adventure Engine\Lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>D:\Software\SFML-2.4.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -90,17 +88,18 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Full</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Software\SFML-2.4.2\include;D:\Software\sfgui-0.3.2-vs2017-32\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include;D:\Software\Point and Click Adventure Engine\Point and Click Adventure Engine\libs\include\IMGUI;D:\Software\Point and Click Adventure Engine\Message Bus;D:\Software\Point and Click Adventure Engine\Entity Component System;D:\Software\Point and Click Adventure Engine\Lua;./Entity Component System/</AdditionalIncludeDirectories>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\Software\SFML-2.4.2\include;D:\Software\Point and Click Adventure Engine\Lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -116,6 +115,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -124,69 +124,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="imgui-helper.cpp" />
-    <ClCompile Include="imgui-SFML.cpp" />
-    <ClCompile Include="imgui.cpp" />
-    <ClCompile Include="imgui_demo.cpp" />
-    <ClCompile Include="imgui_draw.cpp" />
-    <ClCompile Include="Localisation.cpp" />
     <ClCompile Include="Lua.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Mainmenue.cpp" />
-    <ClCompile Include="Menue.cpp" />
-    <ClCompile Include="Menuemanager.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Objectmanager.cpp" />
-    <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="Rendering.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Scenemanager.cpp" />
-    <ClCompile Include="UtilityWindows.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="api.hpp" />
-    <ClInclude Include="Datatypes.hpp" />
     <ClInclude Include="Engine.hpp" />
     <ClInclude Include="Exception.hpp" />
-    <ClInclude Include="ImGui.hpp" />
-    <ClInclude Include="Localisation.hpp" />
     <ClInclude Include="Lua.hpp" />
-    <ClInclude Include="Mainmenue.hpp" />
-    <ClInclude Include="Menue.hpp" />
-    <ClInclude Include="Menuemanager.hpp" />
-    <ClInclude Include="Object.hpp" />
-    <ClInclude Include="Objectmanager.hpp" />
-    <ClInclude Include="Pipeline.hpp" />
     <ClInclude Include="Rendering.hpp" />
     <ClInclude Include="Scene.hpp" />
-    <ClInclude Include="Scenemanager.hpp" />
     <ClInclude Include="sol.hpp" />
-    <ClInclude Include="sol_forward.hpp" />
-    <ClInclude Include="UtilityWindows.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="Datatypes.inl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="de.xml" />
-    <Xml Include="en.xml" />
-    <Xml Include="localisation_list.xml" />
-    <Xml Include="part1.xml" />
-    <Xml Include="parts.xml" />
-    <Xml Include="savegame_list.xml" />
-    <Xml Include="test_scene.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Entity Component System\Entity Component System.vcxproj">
-      <Project>{e3894d58-0a90-44cc-a521-a7c535234d39}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Lua\Lua.vcxproj">
       <Project>{11372003-2551-4223-b32e-551b0666a359}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Message Bus\Message Bus.vcxproj">
-      <Project>{ae2336b5-3553-4f6c-8f9c-3cb3544a7bb8}</Project>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

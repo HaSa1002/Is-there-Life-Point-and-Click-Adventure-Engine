@@ -4,7 +4,7 @@
 dofile "helpers.lua"
 
 -- Firstly we allways need to have the rooms table initialized. This may be done in short time by the engine directly
-rooms = {}
+scenes = {}
 
 -- Don't forget the Localisations
 localisations = {}
@@ -20,9 +20,5 @@ game.lang = "de"
 -- Load the user configs
 -- dofile "Game.conf"
 
--- Register the rooms
--- dofile "rooms/lua_testroom.room"
-
-function rooms.test()
-	print "Hello World!";
-end
+-- Register the scenes
+ dofile "scenes/lua_testscene.pcscene"

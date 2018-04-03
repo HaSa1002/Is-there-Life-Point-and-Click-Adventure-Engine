@@ -9,9 +9,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Message Bus", "Message Bus\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTest\UnitTest.vcxproj", "{17A8C637-E5B2-45C4-9007-6A9D325216B3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Entity Component System", "Entity Component System\Entity Component System.vcxproj", "{E3894D58-0A90-44CC-A521-A7C535234D39}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Component System", "Entity Component System\Entity Component System.vcxproj", "{E3894D58-0A90-44CC-A521-A7C535234D39}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua", "Lua\Lua.vcxproj", "{11372003-2551-4223-B32E-551B0666A359}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{CA8A336F-EF5E-4D0C-A5E8-DE27F87ECFB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,14 @@ Global
 		{11372003-2551-4223-B32E-551B0666A359}.Release|x64.Build.0 = Release|x64
 		{11372003-2551-4223-B32E-551B0666A359}.Release|x86.ActiveCfg = Release|Win32
 		{11372003-2551-4223-B32E-551B0666A359}.Release|x86.Build.0 = Release|Win32
+		{CA8A336F-EF5E-4D0C-A5E8-DE27F87ECFB4}.Debug|x64.ActiveCfg = Debug|x64
+		{CA8A336F-EF5E-4D0C-A5E8-DE27F87ECFB4}.Debug|x64.Build.0 = Debug|x64
+		{CA8A336F-EF5E-4D0C-A5E8-DE27F87ECFB4}.Debug|x86.ActiveCfg = Debug|Win32
+		{CA8A336F-EF5E-4D0C-A5E8-DE27F87ECFB4}.Debug|x86.Build.0 = Debug|Win32
+		{CA8A336F-EF5E-4D0C-A5E8-DE27F87ECFB4}.Release|x64.ActiveCfg = Release|x64
+		{CA8A336F-EF5E-4D0C-A5E8-DE27F87ECFB4}.Release|x64.Build.0 = Release|x64
+		{CA8A336F-EF5E-4D0C-A5E8-DE27F87ECFB4}.Release|x86.ActiveCfg = Release|Win32
+		{CA8A336F-EF5E-4D0C-A5E8-DE27F87ECFB4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
