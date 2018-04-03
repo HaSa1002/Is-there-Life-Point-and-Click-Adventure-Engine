@@ -56,11 +56,6 @@ namespace pc {
 	}
 
 
-	bool Lua::loadScene(const char* path) {
-
-	}
-
-
 }
 
 

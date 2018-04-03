@@ -27,6 +27,7 @@
 #include "Pipeline.hpp"
 #include "Rendering.hpp"
 #include "Menuemanager.hpp"
+#include "lua.hpp"
 #include <System.hpp>
 #include <Bus.hpp>
 
@@ -96,7 +97,7 @@ namespace pc {
 		Lvleditor::Menuemanager		menue;			///< ImGui Menuemanager
 		Pipeline					pipeline;		///< The Data Pipeline. It's the only class who own's one
 		Rendering					rendering;		///< The Rendering. It's the only class who own's one
-		Lua							lua;			///< Lua State Holder and ...
+		Lua							lua;			///< Lua State Holder and collection of nice functions
 	};
 }
 

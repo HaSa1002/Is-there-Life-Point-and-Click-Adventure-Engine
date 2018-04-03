@@ -21,3 +21,7 @@ game.stdlang = "en"
 
 -- Register the rooms
 -- dofile "rooms/lua_testroom.room"
+
+function rooms.test()
+	print "Hello World!";
+end

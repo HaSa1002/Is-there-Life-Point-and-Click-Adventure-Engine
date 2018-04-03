@@ -39,8 +39,6 @@ namespace pc {
 		
 		bool editorConfig();
 
-		bool loadScene(const char* path);
-
 	private:
 		
 	};
