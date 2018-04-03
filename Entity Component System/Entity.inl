@@ -26,7 +26,7 @@
 #include <typeinfo>
 
 template<class T>
-inline const BaseProperty* Entity::hasProperty() {
+inline std::shared_ptr<BaseProperty> Entity::hasProperty() {
 	for (const auto& i : properties) {
 		if (std::is_same<T, typeid(i)>::value)
 			return i;

@@ -22,47 +22,63 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "Controller.hpp"
-#include "Entity.hpp"
-#include <string>
-#include <cassert>
+#include "System.hpp"
 
 namespace pc {
 	namespace cs {
-		const std::vector<size_t> WasCollected::requirements() {
-			std::vector<size_t> required;
-			required.resize(1);
-			required[0] = PropertyName::Collected;
-			return required;
+
+		template<class T>
+		void System::connect_controller(std::shared_ptr<Entity> e) {
+			//we need to know were to push our controller
+			auto entity = entities.find(e);
+
+			//just push when we have the correct properties
+			int propertiy_maches = 0;
+			std::vector<size_t> requirements = T::requirements();
+			for (const auto& i : requirements) {
+				if (e->hasProperty(i))
+					++propertiy_maches; //else return?
+				if (propertiy_maches == requirements.size()) {
+					entity->second.push_back(std::make_unique<WasCollected>());
+					return;
+				}
+			}
 		}
 
 
-
-		bool WasCollected::control(std::shared_ptr<Entity> e, mb::Bus& bus) {
-			std::hash<std::string> hash;
+		void System::factory(std::shared_ptr<Entity> e) {
+			//We have to delete all connected controllers, because we don't know (and want to know) which properties have changed
+			entities.find(e)->second.clear();
+			//Calls the Controller Connector
+			//add here your controllers
+			connect_controller<WasCollected>(e);
+			//connect_controller<WasLooked>(e);
+			//connect_controller<WasInteracted>(e);
+			//connect_controller<executeScript>(e);
+			//connect_controller<Move>(e);
+			//connect_controller<Animate>(e);
+			//connect_controller<SaveGame>(e);
+			//connect_controller<LoadGame>(e);
+			//connect_controller<LoadScene>(e);
 			
-			if (auto prop = e->hasProperty(PropertyName::Collected)) {
-				auto property = static_cast<const Property<bool>*>(prop);
-				assert(property != nullptr); // If we fail then...
-				if (property->value) { // When it was collected ...send the message
-					mb::Message message;
-					message.type = mb::MessageType::ComponentSystem;
-					message.data.resize(2);
-					size_t t = hash("Item collected");
-					message.data[0] = static_cast<const void *>(&t);
-					message.data[1] = static_cast<const void*>(&e->id);
-					bus.send(message);
-					return true;
+		}
+
+
+		void System::run_controller() {
+			for (auto& i : entities) {
+				for (const auto& j : i.second) {
+					j->control(i.first, bus);
 				}
-				return true;
 			}
-			else {
-				e->component_changed();
-				assert(true && "A controller wanted to access a property, which was not found");
-				return false;
+		}
+
+
+		void System::run() {
+			for (auto& i : changed_entities) {
+				factory(i);
 			}
-				
+			changed_entities.clear();
+			run_controller();
 		}
 	}
 }
-

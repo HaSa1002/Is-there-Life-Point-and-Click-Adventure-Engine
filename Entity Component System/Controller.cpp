@@ -19,60 +19,50 @@
 ////////////////////////////////////////////////////////////
 
 
-
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include "Controller.hpp"
 #include "Entity.hpp"
+#include <string>
+#include <cassert>
 
 namespace pc {
-	////////////////////////////////////////////////////////////
-	/// Componentsystem
-	////////////////////////////////////////////////////////////
 	namespace cs {
-		
-		Entity::Entity(BaseProperty* property, mb::Bus& message_bus, const size_t id) : message_bus{ message_bus }, id{ id } {
-			addProperty(property);
+		const std::vector<size_t> WasCollected::requirements() {
+			std::vector<size_t> required;
+			required.resize(1);
+			required[0] = PropertyName::Collected;
+			return required;
 		}
 
 
-		////////////////////////////////////////////////////////////
-		/// Constructs the Entity with a bunch of properties
-		///
-		////////////////////////////////////////////////////////////
-		Entity::Entity(const std::vector<BaseProperty*>& property_list, mb::Bus& message_bus, const size_t id) : message_bus{ message_bus }, id{ id } {
-			properties = property_list;
-			component_changed();
-		}
 
-
-		////////////////////////////////////////////////////////////
-		/// Checks if a property with the given id (name)
-		/// Use a hash of std::string
-		///
-		////////////////////////////////////////////////////////////
-		const BaseProperty* Entity::hasProperty(size_t name) {
-			for (const auto& i : properties) {
-				if (i->id == name)
-					return i;
+		bool WasCollected::control(std::shared_ptr<Entity> e, mb::Bus& bus) {
+			std::hash<std::string> hash;
+			
+			if (auto prop = e->hasProperty(PropertyName::Collected)) {
+				auto property = static_cast<Property<bool>*>(&*prop);
+				assert(property != nullptr); // If we fail then...
+				if (property->value) { // When it was collected ...send the message
+					mb::Message message;
+					message.type = mb::MessageType::ComponentSystem;
+					message.data.resize(2);
+					size_t t = hash("Item collected");
+					message.data[0] = static_cast<const void *>(&t);
+					message.data[1] = static_cast<const void*>(&e->id);
+					bus.send(message);
+					return true;
+				}
+				return true;
 			}
-			return nullptr;
-		}
-
-
-
-		void Entity::addProperty(BaseProperty * property) {
-			properties.push_back(property);
-			component_changed();
-		}
-
-		void Entity::component_changed() {
-			mb::Message mess;
-			mess.type = mb::MessageType::ComponentSystem;
-			std::hash<std::string> h_s;
-			size_t cs_type = h_s("Component changed");
-			mess.data.push_back(static_cast<const void*>(&cs_type));
-			mess.data.push_back(static_cast<const void*>(&id));
+			else {
+				e->component_changed();
+				assert(true && "A controller wanted to access a property, which was not found");
+				return false;
+			}
+				
 		}
 	}
 }
+

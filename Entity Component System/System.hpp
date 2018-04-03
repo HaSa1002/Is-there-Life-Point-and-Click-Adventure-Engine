@@ -76,11 +76,14 @@ namespace pc {
 			/// It spawns new entities
 			///
 			////////////////////////////////////////////////////////////
-			void spawn();
+			void spawn(const std::list<BaseProperty*>& properties);
 
 		private:
+			std::function<void(mb::Message)> reciever = [this](mb::Message message) {
+
+			};
 			mb::Bus& bus;
-			std::map<std::shared_ptr<Entity>, std::vector<std::shared_ptr<BaseController>>> entities;
+			std::map<std::shared_ptr<Entity>, std::vector<std::unique_ptr<BaseController>>> entities;
 			std::vector<std::shared_ptr<Entity>> changed_entities;
 		};
 	}

@@ -18,67 +18,53 @@
 //
 ////////////////////////////////////////////////////////////
 
+#ifndef PC_CS_ENTITY
+#define PC_CS_ENTITY
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "System.hpp"
+#include "Property.hpp"
+#include <Bus.hpp>
+
+#include <list>
+#include <memory>
 
 namespace pc {
+	////////////////////////////////////////////////////////////
+	/// Componentsystem
+	////////////////////////////////////////////////////////////
 	namespace cs {
+		////////////////////////////////////////////////////////////
+		/// The Entity of the ECS
+		////////////////////////////////////////////////////////////
+		struct Entity {
+			////////////////////////////////////////////////////////////
+			/// Constructs the Entity with one Property
+			///
+			////////////////////////////////////////////////////////////
+			Entity(std::shared_ptr<BaseProperty> property, mb::Bus& message_bus, const size_t id);
 
-		template<class T>
-		void System::connect_controller(std::shared_ptr<Entity> e) {
-			//we need to know were to push our controller
-			auto entity = entities.find(e);
-
-			//just push when we have the correct properties
-			int propertiy_maches = 0;
-			std::vector<size_t> requirements = T::requirements();
-			for (const auto& i : requirements) {
-				if (e->hasProperty(i))
-					++propertiy_maches;
-				if (propertiy_maches == requirements.size()) {
-					entity->second.push_back(std::make_shared<WasCollected>());
-					return;
-				}
-			}
-		}
-
-
-		void System::factory(std::shared_ptr<Entity> e) {
-			//We have to delete all connected controllers, because we don't know (and want to know) which properties have changed
-			entities.find(e)->second.clear();
-			//Calls the Controller Connector
-			//add here your controllers
-			connect_controller<WasCollected>(e);
-			//connect_controller<WasLooked>(e);
-			//connect_controller<WasInteracted>(e);
-			//connect_controller<executeScript>(e);
-			//connect_controller<Move>(e);
-			//connect_controller<Animate>(e);
-			//connect_controller<SaveGame>(e);
-			//connect_controller<LoadGame>(e);
-			//connect_controller<LoadScene>(e);
 			
-		}
+			Entity(mb::Bus& message_bus, const size_t id) : message_bus{ message_bus }, id{ id } {};
+			Entity(const std::list<std::shared_ptr<BaseProperty>>& property_list, mb::Bus& message_bus, const size_t id);
+			std::shared_ptr<BaseProperty> hasProperty(size_t name);
+			template<class T>
+			std::shared_ptr<BaseProperty> hasProperty();
+			void addProperty(std::shared_ptr<BaseProperty> property);
+			void removeProperty(std::shared_ptr<BaseProperty> property);
+			std::list<std::shared_ptr<BaseProperty>> properties;
+			const size_t id = 0;
+			void component_changed();
+		private:
+			std::function<void(mb::Message)> reciever = [this](mb::Message message) {
 
-
-		void System::run_controller() {
-			for (auto& i : entities) {
-				for (const auto& j : i.second) {
-					j->control(i.first, bus);
-				}
-			}
-		}
-
-
-		void System::run() {
-			for (auto& i : changed_entities) {
-				factory(i);
-			}
-			changed_entities.clear();
-			run_controller();
-		}
+			};
+			mb::Bus& message_bus;
+		};
+	#include "Entity.inl"
 	}
 }
+
+
+#endif // !PC_CS_ENTITY
