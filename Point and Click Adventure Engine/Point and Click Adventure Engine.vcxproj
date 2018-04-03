@@ -178,7 +178,7 @@
     <Xml Include="test_scene.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\General Component System\General Component System.vcxproj">
+    <ProjectReference Include="..\Entity Component System\Entity Component System.vcxproj">
       <Project>{e3894d58-0a90-44cc-a521-a7c535234d39}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Lua\Lua.vcxproj">

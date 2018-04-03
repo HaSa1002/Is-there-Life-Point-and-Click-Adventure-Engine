@@ -80,5 +80,12 @@ namespace pc {
 			changed_entities.clear();
 			run_controller();
 		}
+
+
+
+		size_t System::spawn(const std::list<std::shared_ptr<BaseProperty>>& properties) {
+			entities.emplace(std::make_shared<Entity>(Entity(properties, bus, entities.size())));
+			return entities.size() - 1;
+		}
 	}
 }

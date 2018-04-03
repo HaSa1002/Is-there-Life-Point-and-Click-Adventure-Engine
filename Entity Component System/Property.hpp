@@ -53,7 +53,7 @@ namespace pc {
 		template <typename T>
 		struct Property : BaseProperty{
 			T value;
-			size_t type;
+			
 
 			////////////////////////////////////////////////////////////
 			/// Sets the id and value

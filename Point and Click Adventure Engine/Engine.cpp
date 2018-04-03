@@ -25,6 +25,10 @@ namespace pc {
 					menue.open(p.second.as<std::string>());
 			};
 			menues.for_each(addmenue);
+
+			//Jede vorhandene Szene im ECS erstellen
+
+
 			
 		}
 		else {
@@ -54,29 +58,39 @@ namespace pc {
 
 
 	bool Engine::loadScene(const std::string& scene) {
+		//check if scene exists
 		auto l = lua.lua["rooms"][scene];
 		if (!l.valid())
 			return false;
 
-		auto objects = l["objects"].get<sol::table>();
-		std::string objectname;
-		sf::Vector3i pos;
-		sf::Vector3<bool> pos_true;
-		std::string callback;
-		std::vector<char> actions;
+		//add the scene to the ecs
+		std::hash<std::string> h_s;
+		std::list<std::shared_ptr<cs::BaseProperty>> props;
+		props.push_back(std::make_shared<cs::BaseProperty>(cs::Property<std::string>(h_s("name"), scene)));
+		props.push_back(std::make_shared<cs::BaseProperty>(cs::Property<int>(h_s("active"), 0)));
+		size_t scene_id = ecs.spawn(props);
+		props.clear();
 
+		//get the objects
+		auto objects = l["objects"].get<sol::table>();
+		std::list<char> actions;
+		sf::Vector3i pos;
+		
+		//reads the action table
 		auto get_action = [&actions](std::pair<sol::object, sol::object> p) {
 			if (!p.first.is<int>() && !p.second.is<char>())
 				return;
 			actions.push_back(p.second.as<char>());
 		};
-
-		auto do_with_object = [this, &objectname, &pos, &callback, &actions, get_action, &pos_true](std::pair<sol::object, sol::object> p) {
+		std::string objectname;
+		//reads the object
+		auto read_object = [this, &props, &pos, &actions, get_action, &h_s, &objectname](std::pair<sol::object, sol::object> p) {
 			if (p.first.is<int>()) {
 				switch (p.first.as<int>()) {
 				case 1:
 					if (!p.second.is<std::string>())
 						break;
+					props.push_back(std::make_shared<cs::BaseProperty>(cs::Property<std::string>(h_s("name"), p.second.as<std::string>())));
 					objectname = p.second.as<std::string>();
 					break;
 				case 2:
@@ -84,56 +98,55 @@ namespace pc {
 						break;
 
 					pos.x = p.second.as<int>();
-					pos_true.x = true;
 					break;
 				case 3:
 					if (!p.second.is<int>())
 						break;
 
 					pos.y = p.second.as<int>();
-					pos_true.y = true;
 					break;
 				case 4:
 					if (!p.second.is<int>())
 						break;
 
 					pos.z = p.second.as<int>();
-					pos_true.z = true;
 					break;
 
 				case 5:
-					if (p.second.get_type() != sol::type::nil)
-						callback = "nil";
 					if (!p.second.is<std::string>())
 						break;
-					callback = p.second.as<std::string>();
+					props.push_back(std::make_shared<cs::BaseProperty>(cs::Property<std::string>(h_s("callback"), p.second.as<std::string>())));
 					break;
 				case 6:
 					if (!p.second.is<sol::table>())
-						break;;
+						break;
 					p.second.as<sol::table>().for_each(get_action);
+					props.push_back(std::make_shared<cs::BaseProperty>(cs::Property<std::list<char>>(h_s("actions"), actions)));
 					break;
 				default:
 					break;
 				}
 			}
-			//Check if everything needed is set
-			if (!objectname.empty() && pos_true != sf::Vector3<bool>(false, false, false) && !callback.empty()) {
-				if (callback != "nil" && !actions.empty()) {
-					// Create Message
-					mb::Message message;
-
-
-					// Reset vars;
-					objectname.clear();
-					pos = sf::Vector3i();
-					pos_true = sf::Vector3<bool>();
-					callback.clear();
-					actions.clear();
-				}
-			}
 		};
 
+		//iterates through the object and adds it to the ecs once finished
+		auto for_each_object = [this, &pos, &props, read_object, h_s, scene_id](std::pair<sol::object, sol::object> p) {
+			if (!p.second.is<sol::table>())
+				return;
+			p.second.as<sol::table>().for_each(read_object);
+
+			//adding of the object to the ecs
+			props.push_back(std::make_shared<cs::BaseProperty>(cs::Property<sf::Vector3i>(h_s("pos"), pos)));
+			props.push_back(std::make_shared<cs::BaseProperty>(cs::Property<size_t>(h_s("callback"), scene_id)));
+			ecs.spawn(props);
+			props.clear();
+		};
+
+		//iterates through the objects
+		objects.for_each(for_each_object);
+		//add walkboxes
+		//add zoomlines
+		//add the objects to the scene list
 	}
 
 }
