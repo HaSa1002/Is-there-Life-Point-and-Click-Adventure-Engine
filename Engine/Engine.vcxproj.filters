@@ -50,6 +50,9 @@
     <ClInclude Include="Exception.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="config.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine.lua">

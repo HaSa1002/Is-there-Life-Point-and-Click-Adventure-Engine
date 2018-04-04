@@ -40,6 +40,10 @@ namespace pc {
 		void loadScene(const std::string& scene_name, Scene* scene);
 
 		void readObject(std::pair<sol::object, sol::object> o);
+
+		void readWalkbox(std::pair<sol::object, sol::object> o);
+
+		void readZoomline(std::pair<sol::object, sol::object> o);
 	private:
 		Scene* scene_temp;
 		

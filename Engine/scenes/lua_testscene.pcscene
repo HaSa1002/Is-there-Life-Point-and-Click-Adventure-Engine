@@ -8,7 +8,7 @@ local scene = scenes["lua_testscene"]
 -- {Objectstring, x (relativ bg 0,0), y, z (Layer), callback (String of functionname; nil if no callback wanted), actions to recieve (leave, if no callback)}
 scene["objects"] = {
 	{".\\textures\\test.png", 0, 0, 0, "bin", {'u', 'l'}},
---	{".\\textures\\clock.png", 22, 55, 1, "hello", {'c', 'l'}},
+	{"r800,600", 200, 100, 1, "hello", {'u', 'l'}},
 --	{"bin5", 11, 100, 1, "bin"},
 --	{"painting1", 50, 8, 1, "painting"},
 --	{"fence", 55, 100, 2, "offensive"},
@@ -18,13 +18,15 @@ scene["objects"] = {
 -- Create the Walkboxestable
 -- The walkboxes: Format {Position.X, Position.Y, Length, Width, isActive}
 scene["walkboxes"] = {
-	{0, 10, 100, 50, true}
+	{0, 10, 1000, 400, true},
+	{200, 10, 1000, 400, true},
+	{150, 300, 60, 200, true}
 }
 
 -- Create the Zoomlines
--- Format: {rotation (0° == ->), Position.X, Position.Y, zoomfactor}
+-- Format: {, Position.X, Position.Y, Position2.X, Position2.Y, zoomfactor, active}
 scene["zoomlines"] = {
-	{0, 100, 100, 0.9}
+	{0, 0, 1000, 1000, 0.9, true}
 }
 
 -- You always need a room initalizer

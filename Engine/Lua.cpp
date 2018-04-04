@@ -1,4 +1,5 @@
 #include "Lua.hpp"
+#include "config.hpp"
 #include <fstream>
 
 namespace pc {
@@ -61,10 +62,19 @@ namespace pc {
 		auto it_objects = [this](std::pair<sol::object, sol::object> o) { 
 			readObject(o);
 		};
+		auto it_walkboxes = [this](std::pair<sol::object, sol::object> o) {
+			readWalkbox(o);
+		};
+		auto it_zoomlines = [this](std::pair<sol::object, sol::object> o) {
+			readZoomline(o);
+		};
+
 		if (!l.valid())
 			goto clean_and_end;
 
 		l["objects"].get<sol::table>().for_each(it_objects);
+		l["walkboxes"].get<sol::table>().for_each(it_walkboxes);
+		l["zoomlines"].get<sol::table>().for_each(it_zoomlines);
 
 	clean_and_end:
 		scene_temp = nullptr;
@@ -72,7 +82,11 @@ namespace pc {
 
 	void Lua::readObject(std::pair<sol::object, sol::object> o) {
 		if (!o.second.is<sol::table>())
+#if defined _DEBUG || !defined NO_EXCEPTIONS
 			throw Exception::noObjectTable;
+#else
+			return;
+#endif
 		std::list<char> actions;
 		auto getActions = [&actions](std::pair<sol::object, sol::object> a) {
 			if (a.second.is<char>())
@@ -81,10 +95,30 @@ namespace pc {
 		auto t = o.second.as<sol::table>();
 		if (t[6].get_type() == sol::type::table)
 			t[6].get<sol::table>().for_each(getActions);
-		scene_temp->addObject(t[1].get<std::string>(), sf::Vector3i(t[2], t[3], t[4]), t[5].get_or<std::string>(""), actions);
+		scene_temp->addObject(t[1].get_or<std::string>("r0,0"), sf::Vector3i(t[2].get_or(0), t[3].get_or(0), t[4].get_or(0)), t[5].get_or<std::string>(""), actions);
 	}
 
+	void Lua::readWalkbox(std::pair<sol::object, sol::object> o) {
+		if (!o.second.is<sol::table>())
+#if defined _DEBUG || !defined NO_EXCEPTIONS
+			throw Exception::noObjectTable;
+#else
+			return;
+#endif
+		auto t = o.second.as<sol::table>();
+		scene_temp->addWalkbox(sf::IntRect(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0), t[4].get_or(0)), t[5].get_or(true));
+	}
 
+	void Lua::readZoomline(std::pair<sol::object, sol::object> o) {
+		if (!o.second.is<sol::table>())
+#if defined _DEBUG || !defined NO_EXCEPTIONS
+			throw Exception::noObjectTable;
+#else
+			return;
+#endif
+		auto t = o.second.as<sol::table>();
+		scene_temp->addZoomline(sf::IntRect(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0), t[4].get_or(0)), t[5].get_or<float>(0), t[6].get_or(true));
+	}
 }
 
 

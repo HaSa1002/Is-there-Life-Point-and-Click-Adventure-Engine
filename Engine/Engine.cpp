@@ -46,6 +46,33 @@ namespace pc {
 			case sf::Event::KeyPressed:
 				break;
 			case sf::Event::KeyReleased:
+				switch (event.key.code)	{
+				case sf::Keyboard::F3:
+					if (event.key.shift) {
+						rendering.remove();
+						scene.reset();
+						lua.init();
+						lua.loadScene(scene.name, &scene);
+						for (auto& i : scene.objects) {
+							rendering.add(std::make_shared<sf::Sprite>(i.sprite), i.layer);
+						}
+						rendering.removeGUI();
+						editor_mode = !editor_mode; //We are cheating here, so that we are refreshing just if needed
+					}
+					editor_mode = !editor_mode;
+					if (editor_mode) {
+						scene.createEditorHelper();
+						for (auto& i : scene.helper) {
+							rendering.addGUI(std::make_shared<sf::RectangleShape>(i), 0);
+						}
+						
+					}
+					else
+						rendering.removeGUI();
+					break;
+				default:
+					break;
+				}
 				break;
 			case sf::Event::MouseWheelMoved:
 				break;
@@ -57,8 +84,9 @@ namespace pc {
 			case sf::Event::MouseButtonReleased:
 			{
 				sf::Vector2f mouse_pos(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y));
+				scene.objects.sort(scene.sort_objects_by_layer);
 				for (auto& i : scene.objects) {
-					if (i.sprite.getGlobalBounds().contains(mouse_pos)) {
+					if ((i.type == 's' && i.sprite.getGlobalBounds().contains(mouse_pos)) || (i.type == 'c' && i.click.getGlobalBounds().contains(mouse_pos))) {
 						auto callback = lua.lua["scenes"][scene.name][i.callback];
 						switch (event.mouseButton.button)
 						{
@@ -67,16 +95,18 @@ namespace pc {
 								callback.call('u');
 							else if (i.has_action('c'))
 								callback.call('c');
-							break;
+							goto end_for;
 						case sf::Mouse::Button::Right:
 							if (i.has_action('l'))
 								callback.call('l');
-							break;
+							goto end_for;
 						default:
 							break;
 						}
 					}
 				}
+			end_for:
+				;
 			}
 				break;
 			case sf::Event::MouseMoved:

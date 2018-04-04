@@ -18,23 +18,135 @@
 //
 ////////////////////////////////////////////////////////////
 #include "Scene.hpp"
+#include "config.hpp"
+#include <cmath>
 
 namespace pc {
 	void Scene::addObject(const std::string & texture_path, const sf::Vector3i& position) {
 		addObject(texture_path, position, "", std::list<char>());
 	}
 
+
+	////////////////////////////////////////////////////////////
 	void Scene::addObject(const std::string & texture_path, const sf::Vector3i & position, const std::string & callback, const std::list<char>& action) {
+		if (texture_path.size() > 1) {
+			if (texture_path[0] == 'r') {
+				
+				sf::Vector2f size(std::stof(texture_path.substr(1, texture_path.find(','))), std::stof(texture_path.substr(texture_path.find(',') + 1)));
+				objects.emplace_back(sf::RectangleShape(size), position, callback, action);
+				return;
+			}
+		}
 		textures.emplace_back(sf::Texture());
 		if (!textures.back().loadFromFile(texture_path)) {
+#if defined _DEBUG || !defined NO_EXCEPTIONS
 			throw Exception::cantLoadImage;
+#else
+			printf("Couldn't load image from: \"%s\"\n", texture_path.data());
+#endif
 		}
-		objects.emplace_back(Object(sf::Sprite(textures.back()), position, callback, action));
+		objects.emplace_back(sf::Sprite(textures.back()), position, callback, action);
 	}
 
+
+	////////////////////////////////////////////////////////////
+	void Scene::addWalkbox(const sf::IntRect & rectangle, const bool is_active) {
+		walkboxes.emplace_back(rectangle, is_active);
+	}
+
+
+	////////////////////////////////////////////////////////////
+	void Scene::addZoomline(const sf::IntRect& position, const float factor, const bool is_active) {
+		zoomlines.emplace_back(position, factor, is_active);
+	}
+
+	bool Scene::sort_objects_by_layer(const Object & l, const Object & r) {
+		return (l.layer > r.layer) ? true : false;
+	}
+
+	void Scene::createEditorHelper() {
+		if (helper_count.x + 1 != objects.size() || helper_count.y + 1 != walkboxes.size() || helper_count.z + 1 != zoomlines.size()) {
+			helper_count *= 0;
+			for (auto& i : objects) {
+				if (i.type == 'c') {
+					helper.emplace_back(i.click);
+					helper.back().setOutlineColor(sf::Color::Red);
+					helper.back().setOutlineThickness(1.f);
+					helper.back().setFillColor(sf::Color::Transparent);
+					++helper_count.x;
+				}
+				if (i.type == 's') {
+					helper.emplace_back(sf::Vector2f(i.sprite.getGlobalBounds().width, i.sprite.getGlobalBounds().height));
+					helper.back().setOutlineColor(sf::Color::Red);
+					helper.back().setOutlineThickness(1.f);
+					helper.back().setFillColor(sf::Color::Transparent);
+					++helper_count.x;
+				}
+			}
+			for (auto& i : walkboxes) {
+				sf::Vector2i rect(sf::Vector2i(i.rectangle.left, i.rectangle.top) - sf::Vector2i(i.rectangle.width, i.rectangle.height));
+				helper.emplace_back(sf::Vector2f(i.rectangle.width, i.rectangle.height));
+				helper.back().setPosition(i.rectangle.left, i.rectangle.top);
+				helper.back().setOutlineColor(sf::Color::Green);
+				helper.back().setOutlineThickness(1.f);
+				helper.back().setFillColor(sf::Color::Transparent);
+				++helper_count.y;
+			}
+			for (auto& i : zoomlines) {
+				float r = std::hypotf(i.position.width - i.position.left, i.position.height - i.position.top);
+				if (r == 0)
+					continue;
+				int y = i.position.height - i.position.top;
+				helper.emplace_back(sf::Vector2f(r, 1));
+				helper.back().setPosition(i.position.left, i.position.top);
+				helper.back().setRotation(std::asin(y/r) * 180 / PI);
+				helper.back().setFillColor(sf::Color::Blue);
+				++helper_count.z;
+			}
+		}
+	}
+
+	void Scene::reset() {
+		textures.clear();
+		objects.clear();
+		walkboxes.clear();
+		zoomlines.clear();
+		helper.clear();
+		helper_count *= 0;
+	}
+
+
+	////////////////////////////////////////////////////////////
 	Scene::Object::Object(const sf::Sprite & s, const sf::Vector3i & pos, const std::string & call, const std::list<char>& a) : sprite{s}, layer {pos.z}, callback{call}, actions{a} {
 		sprite.setPosition(static_cast<float>(pos.x), static_cast<float>(pos.y));
+		type = 's';
 	}
+
+	Scene::Object::Object(const sf::RectangleShape & c, const sf::Vector3i & pos, const std::string & call, const std::list<char>& actions) : click{ c }, layer{ pos.z }, callback{ call }, actions{ actions } {
+		click.setPosition(static_cast<float>(pos.x), static_cast<float>(pos.y));
+		type = 'c';
+	}
+
+	Scene::Object::Object(const Object & object) {
+		switch (object.type) {
+		case 's':
+			sprite = object.sprite;
+			break;
+		case 'c':
+			click = object.click;
+			break;
+		}
+		type = object.type;
+		layer = object.layer;
+		callback = object.callback;
+		actions = object.actions;
+	}
+
+	Scene::Object::~Object() {
+	}
+
+
+	////////////////////////////////////////////////////////////
 	bool Scene::Object::has_action(const char& action) {
 		for (const auto& a : actions) {
 			if (a == action)

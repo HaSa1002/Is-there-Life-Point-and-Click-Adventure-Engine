@@ -45,6 +45,12 @@ namespace pc {
 	}
 
 
+	void Rendering::addGUI(std::shared_ptr<sf::Drawable> gui_element, int layer) {
+		if (layer >= gui_list.size())
+			gui_list.resize(layer + 1);
+		gui_list[layer].push_back(gui_element);
+	}
+
 	////////////////////////////////////////////////////////////
 	void Rendering::closeWindow() {
 		//ImGui::SFML::Shutdown();
@@ -156,12 +162,22 @@ namespace pc {
 
 	}
 
+	void Rendering::remove() {
+		draw_list.clear();
+	}
+
 
 	////////////////////////////////////////////////////////////
 	void Rendering::render() {
 		if (has_focus) {
-			window.clear(sf::Color::White);
+			window.clear();
 			for (auto& draw_layer : draw_list) {
+				for (auto& drawable : draw_layer) {
+					window.draw(*drawable);
+					//Space for optimisations
+				}
+			}
+			for (auto& draw_layer : gui_list) {
 				for (auto& drawable : draw_layer) {
 					window.draw(*drawable);
 					//Space for optimisations
@@ -174,6 +190,10 @@ namespace pc {
 		processEvents();
 	}
 
+
+	void Rendering::removeGUI() {
+		gui_list.clear();
+	}
 
 	////////////////////////////////////////////////////////////
 	void Rendering::reset() {
