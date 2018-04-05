@@ -22,3 +22,7 @@ game.lang = "de"
 
 -- Register the scenes
  dofile "scenes/lua_testscene.pcscene"
+ dofile "scenes/lua_testscene2.pcscene"
+
+ -- Set the first scene to be loaded.
+ game.loadScene = "lua_testscene"

@@ -41,6 +41,7 @@ namespace pc {
 		this->title = title;
 
 		window.resetGLStates();
+		window.setVerticalSyncEnabled(true);
 		//ImGui::SFML::Init(window);
 	}
 

@@ -4,6 +4,29 @@
 
 namespace pc {
 
+
+	void Engine::loadScene() {
+		//Load the room, the user set
+		rendering.remove();
+		scene.reset();
+		lua.getSceneToBeLoaded(scene.name);
+		lua.loadScene(&scene);
+		for (auto& i : scene.objects) {
+			rendering.add(std::make_shared<sf::Sprite>(i.sprite), i.layer);
+		}
+		rendering.removeGUI();
+		scene.createEditorHelper();
+		if (editor_mode) {
+			scene.createEditorHelper();
+			for (auto& i : scene.helper) {
+				rendering.addGUI(std::make_shared<sf::RectangleShape>(i), 0);
+			}
+
+		}
+	}
+
+
+
 	void Engine::start() {
 		//Load the config file, then set
 		if (!lua.init())
@@ -16,14 +39,7 @@ namespace pc {
 		auto editor = lua.lua["editor"];
 		rendering.createWindow(editor["title"], editor["fullscreen"], sf::VideoMode(editor["solution"][1].get_or(1600), editor["solution"][2].get_or(900)));
 		rendering.imgui_rendering(true);
-
-		//Testraum laden
-		scene.name = "lua_testscene";
-		lua.loadScene(scene.name, &scene);
-		for (auto& i : scene.objects) {
-			rendering.add(std::make_shared<sf::Sprite>(i.sprite), i.layer);
-		}
-		
+		loadScene();
 		main();
 	}
 
@@ -49,14 +65,9 @@ namespace pc {
 				switch (event.key.code)	{
 				case sf::Keyboard::F3:
 					if (event.key.shift) {
-						rendering.remove();
-						scene.reset();
 						lua.init();
-						lua.loadScene(scene.name, &scene);
-						for (auto& i : scene.objects) {
-							rendering.add(std::make_shared<sf::Sprite>(i.sprite), i.layer);
-						}
-						rendering.removeGUI();
+						lua.lua["game"]["loadScene"] = scene.name; // We are cheating here, cause our init set's the entry on the first scene to load, but we wanna get the current reloaded
+						loadScene();
 						editor_mode = !editor_mode; //We are cheating here, so that we are refreshing just if needed
 					}
 					editor_mode = !editor_mode;
@@ -106,7 +117,9 @@ namespace pc {
 					}
 				}
 			end_for:
-				;
+				//Check if we have to load a new scene:
+				if (!lua.lua["game"]["loadScene"].get<std::string>().empty())
+					loadScene();
 			}
 				break;
 			case sf::Event::MouseMoved:

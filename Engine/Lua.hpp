@@ -37,7 +37,9 @@ namespace pc {
 		
 		bool editorConfig();
 
-		void loadScene(const std::string& scene_name, Scene* scene);
+		void getSceneToBeLoaded(std::string& scene);
+
+		void loadScene(Scene* scene);
 
 		void readObject(std::pair<sol::object, sol::object> o);
 

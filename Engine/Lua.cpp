@@ -56,9 +56,16 @@ namespace pc {
 		return true;
 	}
 
-	void Lua::loadScene(const std::string & scene_name, Scene* scene) {
+	void Lua::getSceneToBeLoaded(std::string& scene) {
+		if (lua["game"]["loadScene"].get<std::string>().empty())
+			return;
+		scene = lua["game"]["loadScene"].get_or<std::string>(scene);
+		lua["game"]["loadScene"] = "";
+	}
+
+	void Lua::loadScene(Scene* scene) {
 		scene_temp = scene;
-		auto l = lua["scenes"][scene_name];
+		auto l = lua["scenes"][scene->name];
 		auto it_objects = [this](std::pair<sol::object, sol::object> o) { 
 			readObject(o);
 		};
