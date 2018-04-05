@@ -14,6 +14,7 @@ namespace pc {
 		for (auto& i : scene.objects) {
 			rendering.add(std::make_shared<sf::Sprite>(i.sprite), i.layer);
 		}
+		rendering.add(subtitle, 3);
 		rendering.removeGUI();
 		scene.createEditorHelper();
 		if (editor_mode) {
@@ -25,6 +26,23 @@ namespace pc {
 		}
 	}
 
+	size_t getMiddlePosition(sf::Text& text) {
+		std::vector<size_t> sizes;
+		sizes.push_back(0);
+		do {
+			sizes.push_back(text.getString().find('\n', sizes.back() + 1));
+		} while (sizes.back() != text.getString().InvalidPos);
+
+		size_t longest = 0;
+		size_t pos = 0;
+		for (size_t i = 1; i < sizes.size() - 1; ++i) {
+			if (sizes[i] - sizes[i - 1] > longest) {
+				longest = sizes[i] - sizes[i - 1];
+				pos = i - 1;
+			}
+		}
+		return (sizes.size() > 2) ? sizes[pos] + (longest / 2) : (text.getString().getSize() / 2);
+	}
 
 
 	void Engine::start() {
@@ -39,7 +57,20 @@ namespace pc {
 		auto editor = lua.lua["editor"];
 		rendering.createWindow(editor["title"], editor["fullscreen"], sf::VideoMode(editor["solution"][1].get_or(1600), editor["solution"][2].get_or(900)));
 		rendering.imgui_rendering(true);
+		
+		/////////////////////////////
+		// Subtitle Implementation //
+		/////////////////////////////
+		if (!font.loadFromFile(".\\textures\\font.otf")) {
+
+		}
+		subtitle = std::make_shared<sf::Text>();
+		subtitle->setFont(font);
+
+		rendering.add(subtitle, 0);
+		
 		loadScene();
+
 		main();
 	}
 
@@ -74,7 +105,7 @@ namespace pc {
 					if (editor_mode) {
 						scene.createEditorHelper();
 						for (auto& i : scene.helper) {
-							rendering.addGUI(std::make_shared<sf::RectangleShape>(i), 0);
+							rendering.add(std::make_shared<sf::RectangleShape>(i), 3);
 						}
 						
 					}
@@ -120,6 +151,10 @@ namespace pc {
 				//Check if we have to load a new scene:
 				if (!lua.lua["game"]["loadScene"].get<std::string>().empty())
 					loadScene();
+				//Get the Subtitle
+				std::string temp;
+				lua.getSubtitleToBeLoaded(temp);
+				updateSubtitle(temp);
 			}
 				break;
 			case sf::Event::MouseMoved:
@@ -151,6 +186,12 @@ namespace pc {
 				break;
 			}
 		}
+	}
+
+	void Engine::updateSubtitle(const std::string & text) {
+		subtitle->setString(text);
+		subtitle->setPosition(rendering.getWindowObject().getSize().x / 2, subtitle->getCharacterSize() + 20);
+		subtitle->move(-subtitle->findCharacterPos(getMiddlePosition(*subtitle)).x + (rendering.getWindowObject().getSize().x / 2), 0);
 	}
 
 }

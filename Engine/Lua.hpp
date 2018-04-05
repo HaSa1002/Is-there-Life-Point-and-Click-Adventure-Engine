@@ -39,6 +39,8 @@ namespace pc {
 
 		void getSceneToBeLoaded(std::string& scene);
 
+		void getSubtitleToBeLoaded(std::string& dest);
+
 		void loadScene(Scene* scene);
 
 		void readObject(std::pair<sol::object, sol::object> o);

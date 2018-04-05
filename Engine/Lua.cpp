@@ -63,6 +63,16 @@ namespace pc {
 		lua["game"]["loadScene"] = "";
 	}
 
+	void Lua::getSubtitleToBeLoaded(std::string& dest) {
+		if (lua["game"]["setSubtitle"].get_type() == sol::type::nil) {
+			lua["game"]["setSubtitle"] = "";
+			dest = ""; 
+			return;
+		}
+		dest = lua["game"]["setSubtitle"].get_or<std::string>("");
+		lua["game"]["setSubtitle"] = "";
+	}
+
 	void Lua::loadScene(Scene* scene) {
 		scene_temp = scene;
 		auto l = lua["scenes"][scene->name];

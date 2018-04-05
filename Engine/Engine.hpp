@@ -72,6 +72,13 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		void processEvents();
 
+		////////////////////////////////////////////////////////////
+		/// set the subtitle
+		///
+		////////////////////////////////////////////////////////////
+		void updateSubtitle(const std::string& text);
+
+
 
 		////////////////////////////////////////////////////////////
 		// Member data
@@ -80,6 +87,8 @@ namespace pc {
 		Rendering		rendering;		///< The Rendering. It's the only class who own's one
 		Lua				lua;			///< Lua State Holder and collection of nice functions
 		Scene			scene;			///< The scene we are going to see
+		sf::Font		font;			///< The Font we want to use to display the text
+		std::shared_ptr<sf::Text>		subtitle;		///< The Subtitle we want to display
 	};
 }
 

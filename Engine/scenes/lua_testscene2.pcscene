@@ -42,13 +42,14 @@ end
 -- Write your callback functions below
 function scene.change( action )
 	-- do your stuff
-	game.loadScene = "lua_testscene"
+	loadScene "lua_testscene"
+	setSubtitle "UUUUHHH Spooky"
 end
 
 function scene.bin( action )
 	-- do your stuff
-	if action == 'u' then print(display("tabletU"))
-	elseif action == 'l' then print(display("tabletL"))
+	if action == 'u' then setSubtitle(display("tabletU"))
+	elseif action == 'l' then setSubtitle(display("tabletL"))
 	end
 end
 
