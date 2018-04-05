@@ -16,6 +16,12 @@ namespace pc {
 		draw_list[layer].push_back(object);
 	}
 
+	void Rendering::addEditor(std::shared_ptr<sf::Drawable> object, int layer) {
+		if (layer >= editor_list.size())
+			editor_list.resize(layer + 1);
+		editor_list[layer].push_back(object);
+	}
+
 
 	////////////////////////////////////////////////////////////
 	void Rendering::createWindow(sf::VideoMode video_mode) {
@@ -167,12 +173,27 @@ namespace pc {
 		draw_list.clear();
 	}
 
+	void Rendering::removeEditor() {
+		editor_list.clear();
+	}
+
+	void Rendering::removeGUI(std::shared_ptr<sf::Drawable> gui_element) {
+		for (auto& draw_layer : gui_list)
+			draw_layer.remove(gui_element);
+	}
+
 
 	////////////////////////////////////////////////////////////
 	void Rendering::render() {
 		if (has_focus) {
 			window.clear();
 			for (auto& draw_layer : draw_list) {
+				for (auto& drawable : draw_layer) {
+					window.draw(*drawable);
+					//Space for optimisations
+				}
+			}
+			for (auto& draw_layer : editor_list) {
 				for (auto& drawable : draw_layer) {
 					window.draw(*drawable);
 					//Space for optimisations

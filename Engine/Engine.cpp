@@ -14,36 +14,17 @@ namespace pc {
 		for (auto& i : scene.objects) {
 			rendering.add(std::make_shared<sf::Sprite>(i.sprite), i.layer);
 		}
-		rendering.add(subtitle, 3);
-		rendering.removeGUI();
+		rendering.removeEditor();
 		scene.createEditorHelper();
 		if (editor_mode) {
-			scene.createEditorHelper();
 			for (auto& i : scene.helper) {
-				rendering.addGUI(std::make_shared<sf::RectangleShape>(i), 0);
+				rendering.addEditor(std::make_shared<sf::RectangleShape>(i), 0);
 			}
 
 		}
 	}
 
-	size_t getMiddlePosition(sf::Text& text) {
-		std::vector<size_t> sizes;
-		sizes.push_back(0);
-		do {
-			sizes.push_back(text.getString().find('\n', sizes.back() + 1));
-		} while (sizes.back() != text.getString().InvalidPos);
-
-		size_t longest = 0;
-		size_t pos = 0;
-		for (size_t i = 1; i < sizes.size() - 1; ++i) {
-			if (sizes[i] - sizes[i - 1] > longest) {
-				longest = sizes[i] - sizes[i - 1];
-				pos = i - 1;
-			}
-		}
-		return (sizes.size() > 2) ? sizes[pos] + (longest / 2) : (text.getString().getSize() / 2);
-	}
-
+	
 
 	void Engine::start() {
 		//Load the config file, then set
@@ -58,16 +39,8 @@ namespace pc {
 		rendering.createWindow(editor["title"], editor["fullscreen"], sf::VideoMode(editor["solution"][1].get_or(1600), editor["solution"][2].get_or(900)));
 		rendering.imgui_rendering(true);
 		
-		/////////////////////////////
-		// Subtitle Implementation //
-		/////////////////////////////
-		if (!font.loadFromFile(".\\textures\\font.otf")) {
-
-		}
-		subtitle = std::make_shared<sf::Text>();
-		subtitle->setFont(font);
-
-		rendering.add(subtitle, 0);
+		subtitle.setSettings();
+		rendering.addGUI(subtitle.subtitle, 0);
 		
 		loadScene();
 
@@ -99,18 +72,19 @@ namespace pc {
 						lua.init();
 						lua.lua["game"]["loadScene"] = scene.name; // We are cheating here, cause our init set's the entry on the first scene to load, but we wanna get the current reloaded
 						loadScene();
-						editor_mode = !editor_mode; //We are cheating here, so that we are refreshing just if needed
-					}
-					editor_mode = !editor_mode;
-					if (editor_mode) {
-						scene.createEditorHelper();
-						for (auto& i : scene.helper) {
-							rendering.add(std::make_shared<sf::RectangleShape>(i), 3);
-						}
+						subtitle.setSettings();
 						
 					}
-					else
-						rendering.removeGUI();
+					else { //Only F3
+						editor_mode = !editor_mode;
+						if (editor_mode) {
+							scene.createEditorHelper();
+							for (auto& i : scene.helper)
+								rendering.addEditor(std::make_shared<sf::RectangleShape>(i), 0);
+						}
+						else
+							rendering.removeEditor();
+					}
 					break;
 				default:
 					break;
@@ -133,15 +107,19 @@ namespace pc {
 						switch (event.mouseButton.button)
 						{
 						case sf::Mouse::Button::Left:
-							if (i.has_action('u'))
+							if (i.has_action('u')) {
 								callback.call('u');
-							else if (i.has_action('c'))
+								goto end_for;
+							}
+							if (i.has_action('c')) {
 								callback.call('c');
-							goto end_for;
+								goto end_for;
+							}
 						case sf::Mouse::Button::Right:
-							if (i.has_action('l'))
+							if (i.has_action('l')) {
 								callback.call('l');
-							goto end_for;
+								goto end_for;
+							}
 						default:
 							break;
 						}
@@ -151,10 +129,8 @@ namespace pc {
 				//Check if we have to load a new scene:
 				if (!lua.lua["game"]["loadScene"].get<std::string>().empty())
 					loadScene();
-				//Get the Subtitle
-				std::string temp;
-				lua.getSubtitleToBeLoaded(temp);
-				updateSubtitle(temp);
+				//Update the Subtitle
+				subtitle.updateSubtitle(rendering.getWindowObject().getSize());
 			}
 				break;
 			case sf::Event::MouseMoved:
@@ -188,10 +164,6 @@ namespace pc {
 		}
 	}
 
-	void Engine::updateSubtitle(const std::string & text) {
-		subtitle->setString(text);
-		subtitle->setPosition(static_cast<float>(rendering.getWindowObject().getSize().x / 2), static_cast<float>(subtitle->getCharacterSize() + 20));
-		subtitle->move(-subtitle->findCharacterPos(getMiddlePosition(*subtitle)).x + (rendering.getWindowObject().getSize().x / 2), 0);
-	}
+	
 
 }

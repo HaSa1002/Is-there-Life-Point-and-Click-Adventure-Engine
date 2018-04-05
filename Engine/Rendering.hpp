@@ -70,6 +70,17 @@ namespace pc {
 		/// param object shared_ptr to the drawable
 		///
 		////////////////////////////////////////////////////////////
+		void addEditor(std::shared_ptr<sf::Drawable> object, int layer);
+
+		////////////////////////////////////////////////////////////
+		/// Adds a item to the gui draw list
+		///
+		/// Adds a shared pointer of the sf::Drawable to it's internal
+		/// gui draw list.
+		///
+		/// param object shared_ptr to the drawable
+		///
+		////////////////////////////////////////////////////////////
 		void addGUI(std::shared_ptr<sf::Drawable> gui_element, int layer);
 
 		////////////////////////////////////////////////////////////
@@ -207,6 +218,15 @@ namespace pc {
 		/// param object shared_ptr to the drawable
 		///
 		////////////////////////////////////////////////////////////
+		void removeEditor();
+
+		////////////////////////////////////////////////////////////
+		/// Removes an object from the gui list
+		///
+		///
+		/// param object shared_ptr to the drawable
+		///
+		////////////////////////////////////////////////////////////
 		void removeGUI(std::shared_ptr<sf::Drawable> gui_element);
 
 		////////////////////////////////////////////////////////////
@@ -259,7 +279,7 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		bool													draw_imgui				= false;			///< States if imGui should be drawn
 		std::vector<std::list<std::shared_ptr<sf::Drawable>>>	draw_list;									///< Contains pointers to the objects, that should be drawn
-		
+		std::vector<std::list<std::shared_ptr<sf::Drawable>>>	editor_list;								///< Contains pointers to the objects, that should be drawn
 		bool													fullscreen				= false;			///< States if the window should be constructed in Fullscreenmode
 		std::vector<std::list<std::shared_ptr<sf::Drawable>>>	gui_list;									///< Contains pointers to the objects, that should be drawn as gui (in foreground)
 		sf::Vector2f											offset;										///< The absolut position the view has to (0,0)

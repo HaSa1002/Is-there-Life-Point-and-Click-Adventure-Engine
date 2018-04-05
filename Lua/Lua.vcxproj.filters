@@ -176,9 +176,6 @@
     <ClInclude Include="lua.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="lua.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="luaconf.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -192,6 +189,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="lzio.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="luaInc.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

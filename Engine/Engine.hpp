@@ -26,6 +26,7 @@
 ////////////////////////////////////////////////////////////
 #include "Rendering.hpp"
 #include "lua.hpp"
+#include "Subtitle.hpp"
 
 namespace pc {
 	class Engine {
@@ -38,7 +39,7 @@ namespace pc {
 		/// param editor	define wether we start the editor or the game
 		///
 		////////////////////////////////////////////////////////////
-		Engine(bool editor) :editor_mode { editor } { start(); };
+		Engine(bool editor) :editor_mode{ editor }, subtitle{ lua } { start(); };
 
 		////////////////////////////////////////////////////////////
 		/// We don't have a default constructor
@@ -72,13 +73,6 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		void processEvents();
 
-		////////////////////////////////////////////////////////////
-		/// set the subtitle
-		///
-		////////////////////////////////////////////////////////////
-		void updateSubtitle(const std::string& text);
-
-
 
 		////////////////////////////////////////////////////////////
 		// Member data
@@ -88,7 +82,7 @@ namespace pc {
 		Lua				lua;			///< Lua State Holder and collection of nice functions
 		Scene			scene;			///< The scene we are going to see
 		sf::Font		font;			///< The Font we want to use to display the text
-		std::shared_ptr<sf::Text>		subtitle;		///< The Subtitle we want to display
+		Subtitle		subtitle;
 	};
 }
 

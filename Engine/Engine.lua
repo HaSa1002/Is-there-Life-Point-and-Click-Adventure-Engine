@@ -14,6 +14,11 @@ dofile "helpers.lua"
 -- Some settings:
 game.stdlang = "en"
 game.lang = "de"
+
+-- Set Subtitle Settings:
+game.subtitleColor = {255, 255, 255,  255} -- RGBa
+game.subtitleSize = 30
+game.subtitleFont = ".\\textures\\font.otf"
 -- dofile "Game.conf"
 
 
