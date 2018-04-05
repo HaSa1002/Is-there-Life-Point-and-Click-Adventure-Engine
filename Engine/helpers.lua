@@ -12,7 +12,7 @@ function setSubtitle(string)
 	game["setSubtitle"] = string
 end
 
-function loadScene(scene)
+function changeScene(scene)
 	game["loadScene"] = scene
 end
 

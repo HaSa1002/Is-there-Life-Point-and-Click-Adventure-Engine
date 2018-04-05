@@ -4,68 +4,62 @@ scenes["lua_testscene2"] = {}
 -- Make access easier
 local scene = scenes["lua_testscene2"]
 
--- All needed objects are here with Position
--- {Objectstring, x (relativ bg 0,0), y, z (Layer), callback (String of functionname; nil if no callback wanted), actions to recieve (leave, if no callback)}
-scene["objects"] = {
-	{".\\textures\\test2.png", 0, 0, 0, "bin", {'u', 'l'}},
-	{"r800,600", 200, 100, 1, "change", {'u'}},
-
--- {Name of the Object, Position: x,y,z, Texturepath, }
-
---	{"bin5", 11, 100, 1, "bin"},
---	{"painting1", 50, 8, 1, "painting"},
---	{"fence", 55, 100, 2, "offensive"},
---	{"door51", 75, 80, 1, "area51"}
-}
+scene["objects"] = {}
+local objects = scene["objects"]
+	-- 	Name = {Position: x,y,z, Texturepath, actions(use | collect, look, hover)}
+objects.Panel = {400, 389, 1, ".\\textures\\test2.png", {'u', 'l', 'h'}}
+objects.OtherRoom = {0, 0, 1, "r100,900", {'u', 'h'}}
+objects.TextDemo = {790, 500, 0, "tI am a text!", {'l', 'h'}}
 
 -- Create the Walkboxestable
 -- The walkboxes: Format {Position.X, Position.Y, Length, Width, isActive}
 scene["walkboxes"] = {
-	{0, 10, 1000, 400, true},
-	{200, 10, 1000, 400, true},
-	{150, 300, 60, 200, true}
+	
 }
 
 -- Create the Zoomlines
 -- Format: {, Position.X, Position.Y, Position2.X, Position2.Y, zoomfactor, active}
 scene["zoomlines"] = {
-	{0, 0, 1000, 1000, 0.9, true}
 }
 
--- You always need a room initalizer
-function scene.init()
-	-- body
+-- You can do nice things with the onEnter Function
+function scene.onEnter()
+	setSubtitle(display("lua_testscene"))
+	-- Well that's a poor example
 end
 
--- You always need a room initalizer
-function scene.enter()
-	-- body
+-- The Callback Functions:
+-- objects.ObjectName.action
+
+function objects.Panel.onUse()
+	setSubtitle(display("PanelUse"))
 end
 
--- Write your callback functions below
-function scene.change( action )
-	-- do your stuff
-	loadScene "lua_testscene"
-	setSubtitle "UUUUHHH Spooky"
+function objects.Panel.onLook()
+	setSubtitle(display("PanelLook"))
 end
 
-function scene.bin( action )
-	-- do your stuff
-	if action == 'u' then setSubtitle(display("tabletU"))
-	elseif action == 'l' then setSubtitle(display("tabletL"))
-	end
+function objects.Panel.onHover()
+	setSubtitle(display("PanelHover"))
 end
 
-function scene.painting( action )
-	-- do your stuff
+
+
+function objects.OtherRoom.onUse()
+	changeScene "lua_testscene"
 end
 
-function scene.offensive( action )
-	-- do your stuff
+function objects.OtherRoom.onHover()
+	setSubtitle(display("changeTo") + display("lua_testscene"))
 end
 
-function scene.area51( action )
-	-- do your stuff
+
+function objects.TextDemo.onLook()
+	setSubtitle(display("TextDemoLook"))
+end
+
+function objects.TextDemo.onHover()
+	setSubtitle(display("TextDemoHover"))
 end
 
 

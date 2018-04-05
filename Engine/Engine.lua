@@ -32,4 +32,4 @@ dofile "locals/de.lang"
 
 
  -- Set the first scene to be loaded.
- loadScene "lua_testscene"
+ changeScene "lua_testscene"
