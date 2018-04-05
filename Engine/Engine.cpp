@@ -190,7 +190,7 @@ namespace pc {
 
 	void Engine::updateSubtitle(const std::string & text) {
 		subtitle->setString(text);
-		subtitle->setPosition(rendering.getWindowObject().getSize().x / 2, subtitle->getCharacterSize() + 20);
+		subtitle->setPosition(static_cast<float>(rendering.getWindowObject().getSize().x / 2), static_cast<float>(subtitle->getCharacterSize() + 20));
 		subtitle->move(-subtitle->findCharacterPos(getMiddlePosition(*subtitle)).x + (rendering.getWindowObject().getSize().x / 2), 0);
 	}
 
