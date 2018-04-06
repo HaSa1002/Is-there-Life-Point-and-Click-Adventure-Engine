@@ -210,6 +210,7 @@ namespace pc {
 		}
 		window.display();
 		processEvents();
+		ImGui::SFML::Update(window, clock.restart());
 	}
 
 
