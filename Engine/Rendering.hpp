@@ -24,6 +24,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include "ImGui.hpp"
 
 #include <SFML\Window.hpp>
 #include <SFML\Graphics.hpp>
@@ -277,6 +278,7 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		// Member data
 		////////////////////////////////////////////////////////////
+		sf::Clock												clock;										///< Our clock
 		bool													draw_imgui				= false;			///< States if imGui should be drawn
 		std::vector<std::list<std::shared_ptr<sf::Drawable>>>	draw_list;									///< Contains pointers to the objects, that should be drawn
 		std::vector<std::list<std::shared_ptr<sf::Drawable>>>	editor_list;								///< Contains pointers to the objects, that should be drawn

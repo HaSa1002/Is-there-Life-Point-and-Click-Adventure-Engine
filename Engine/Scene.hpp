@@ -29,6 +29,7 @@
 #include <SFML\System\Vector3.hpp>
 #include <SFML\Graphics\Sprite.hpp>
 #include <SFML\Graphics\RectangleShape.hpp>
+#include <SFML\Graphics\Text.hpp>
 #include "sol.hpp"
 
 #include <list>
@@ -38,19 +39,22 @@ namespace pc {
 
 		struct Object {
 			union {
-				sf::Sprite sprite;
-				sf::RectangleShape click;
+				std::shared_ptr<sf::Sprite>			sprite;
+				std::shared_ptr<sf::RectangleShape>	click;
+				std::shared_ptr<sf::Text>			text;
 			};
+
+			std::string name;
 			char type;
 			int layer;
-			std::string callback;
 			std::list<char> actions;
 
-			Object(const sf::Sprite& s, const sf::Vector3i& pos, const std::string& call, const std::list<char>& actions);
-			Object(const sf::RectangleShape& s, const sf::Vector3i& pos, const std::string& call, const std::list<char>& actions);
+			Object(const sf::Sprite& s, const sf::Vector3i& pos, const std::string& name, const std::list<char>& actions);
+			Object(const sf::RectangleShape& s, const sf::Vector3i& pos, const std::string& name, const std::list<char>& actions);
 			Object(const Object& object);
 			~Object();
 			bool has_action(const char& action);
+			void set_position(const sf::Vector2i& pos);
 		};
 
 		struct Walkbox {
@@ -89,7 +93,7 @@ namespace pc {
 		/// can throw (DEBUG): Exception::cantLoadImage
 		///
 		////////////////////////////////////////////////////////////
-		void addObject(const std::string& texture_path, const sf::Vector3i& position, const std::string& callback, const std::list<char>& action);
+		void addObject(const std::string& texture_path, const sf::Vector3i& position, const std::string& name, const std::list<char>& action);
 
 		////////////////////////////////////////////////////////////
 		/// adds a Walkbox to the Scene

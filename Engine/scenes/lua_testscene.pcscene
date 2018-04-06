@@ -7,8 +7,8 @@ local scene = scenes["lua_testscene"]
 -- All needed objects are here with Position
 -- {Objectstring, x (relativ bg 0,0), y, z (Layer), callback (String of functionname; nil if no callback wanted), actions to recieve (leave, if no callback)}
 scene["objects"] = {
-	{".\\textures\\test.png", 0, 0, 0, "bin", {'u', 'l'}},
-	{"r800,600", 200, 100, 1, "change", {'u'}},
+Tablet = {0, 0, 0,".\\textures\\test.png", {'u', 'l', 'h'}},
+Change = {200, 100, 1, "r800,600", {'u', 'h'}},
 --	{"bin5", 11, 100, 1, "bin"},
 --	{"painting1", 50, 8, 1, "painting"},
 --	{"fence", 55, 100, 2, "offensive"},
@@ -40,28 +40,24 @@ function scene.enter()
 end
 
 -- Write your callback functions below
-function scene.change( action )
-	-- do your stuff
-	loadScene "lua_testscene2"
+function scene.objects.Change.onUse()
+	changeScene "lua_testscene2"
 end
 
-function scene.bin( action )
-	-- do your stuff
-	if action == 'u' then setSubtitle(display("tabletU"))
-	elseif action == 'l' then setSubtitle(display("tabletL"))
-	end
+function scene.objects.Change.onHover()
+	setSubtitle(display("changeTo")..display("lua_testscene2"))
 end
 
-function scene.painting( action )
-	-- do your stuff
+function scene.objects.Tablet.onUse()
+	setSubtitle(display("tabletU"))
 end
 
-function scene.offensive( action )
-	-- do your stuff
+function scene.objects.Tablet.onLook()
+	setSubtitle(display("tabletL"))
 end
 
-function scene.area51( action )
-	-- do your stuff
+function scene.objects.Tablet.onHover()
+	setSubtitle(display("tablet"))
 end
 
 

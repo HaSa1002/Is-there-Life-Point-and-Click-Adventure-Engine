@@ -4,13 +4,12 @@ scenes["lua_testscene2"] = {}
 -- Make access easier
 local scene = scenes["lua_testscene2"]
 
-scene["objects"] = {}
-local objects = scene["objects"]
+scene["objects"] = {
 	-- 	Name = {Position: x,y,z, Texturepath, actions(use | collect, look, hover)}
-objects.Panel = {400, 389, 1, ".\\textures\\test2.png", {'u', 'l', 'h'}}
-objects.OtherRoom = {0, 0, 1, "r100,900", {'u', 'h'}}
-objects.TextDemo = {790, 500, 0, "tI am a text!", {'l', 'h'}}
-
+	Panel = {400, 389, 1, ".\\textures\\test2.png", {'u', 'l', 'h'}},
+	OtherRoom = {0, 0, 1, "r100,900", {'u', 'h'}},
+	-- TextDemo = {790, 500, 0, "tI am a text!", {'l', 'h'}}
+}
 -- Create the Walkboxestable
 -- The walkboxes: Format {Position.X, Position.Y, Length, Width, isActive}
 scene["walkboxes"] = {
@@ -31,36 +30,37 @@ end
 -- The Callback Functions:
 -- objects.ObjectName.action
 
-function objects.Panel.onUse()
+function scene.objects.Panel.onUse()
 	setSubtitle(display("PanelUse"))
 end
 
-function objects.Panel.onLook()
+function scene.objects.Panel.onLook()
 	setSubtitle(display("PanelLook"))
 end
 
-function objects.Panel.onHover()
+function scene.objects.Panel.onHover()
 	setSubtitle(display("PanelHover"))
+	
 end
 
 
 
-function objects.OtherRoom.onUse()
+function scene.objects.OtherRoom.onUse()
 	changeScene "lua_testscene"
 end
 
-function objects.OtherRoom.onHover()
-	setSubtitle(display("changeTo") + display("lua_testscene"))
+function scene.objects.OtherRoom.onHover()
+	setSubtitle(display("changeTo")..display("lua_testscene"))
 end
 
 
-function objects.TextDemo.onLook()
-	setSubtitle(display("TextDemoLook"))
-end
-
-function objects.TextDemo.onHover()
-	setSubtitle(display("TextDemoHover"))
-end
+-- function scene.objects.TextDemo.onLook()
+-- 	setSubtitle(display("TextDemoLook"))
+-- end
+-- 
+-- function scene.objects.TextDemo.onHover()
+-- 	setSubtitle(display("TextDemoHover"))
+-- end
 
 
 -- At the end we return the room to have a nice access to it when wished

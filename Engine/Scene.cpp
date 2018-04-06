@@ -28,12 +28,18 @@ namespace pc {
 
 
 	////////////////////////////////////////////////////////////
-	void Scene::addObject(const std::string & texture_path, const sf::Vector3i & position, const std::string & callback, const std::list<char>& action) {
+	void Scene::addObject(const std::string & texture_path, const sf::Vector3i & position, const std::string & name, const std::list<char>& action) {
 		if (texture_path.size() > 1) {
 			if (texture_path[0] == 'r') {
 				
 				sf::Vector2f size(std::stof(texture_path.substr(1, texture_path.find(','))), std::stof(texture_path.substr(texture_path.find(',') + 1)));
-				objects.emplace_back(sf::RectangleShape(size), position, callback, action);
+				objects.emplace_back(sf::RectangleShape(size), position, name, action);
+				return;
+			}
+			if (texture_path[0] == 't') {
+
+				//sf::Vector2f size(std::stof(texture_path.substr(1, texture_path.find(','))), std::stof(texture_path.substr(texture_path.find(',') + 1)));
+				//objects.emplace_back(sf::RectangleShape(size), position, name, action);
 				return;
 			}
 		}
@@ -45,7 +51,7 @@ namespace pc {
 			printf("Couldn't load image from: \"%s\"\n", texture_path.data());
 #endif
 		}
-		objects.emplace_back(sf::Sprite(textures.back()), position, callback, action);
+		objects.emplace_back(sf::Sprite(textures.back()), position, name, action);
 	}
 
 
@@ -66,17 +72,19 @@ namespace pc {
 
 	void Scene::createEditorHelper() {
 		if (helper_count.x + 1 != objects.size() || helper_count.y + 1 != walkboxes.size() || helper_count.z + 1 != zoomlines.size()) {
+			helper.clear();
 			helper_count *= 0;
 			for (auto& i : objects) {
 				if (i.type == 'c') {
-					helper.emplace_back(i.click);
+					helper.emplace_back(*i.click);
 					helper.back().setOutlineColor(sf::Color::Red);
 					helper.back().setOutlineThickness(1.f);
 					helper.back().setFillColor(sf::Color::Transparent);
 					++helper_count.x;
 				}
 				if (i.type == 's') {
-					helper.emplace_back(sf::Vector2f(i.sprite.getGlobalBounds().width, i.sprite.getGlobalBounds().height));
+					helper.emplace_back(sf::Vector2f(i.sprite->getGlobalBounds().width, i.sprite->getGlobalBounds().height));
+					helper.back().setPosition(i.sprite->getGlobalBounds().left, i.sprite->getGlobalBounds().top);
 					helper.back().setOutlineColor(sf::Color::Red);
 					helper.back().setOutlineThickness(1.f);
 					helper.back().setFillColor(sf::Color::Transparent);
@@ -117,13 +125,13 @@ namespace pc {
 
 
 	////////////////////////////////////////////////////////////
-	Scene::Object::Object(const sf::Sprite & s, const sf::Vector3i & pos, const std::string & call, const std::list<char>& a) : sprite{s}, layer {pos.z}, callback{call}, actions{a} {
-		sprite.setPosition(static_cast<float>(pos.x), static_cast<float>(pos.y));
+	Scene::Object::Object(const sf::Sprite & s, const sf::Vector3i & pos, const std::string & call, const std::list<char>& a) : sprite{std::make_shared<sf::Sprite>(s)}, layer {pos.z}, name{call}, actions{a} {
+		sprite->setPosition(static_cast<float>(pos.x), static_cast<float>(pos.y));
 		type = 's';
 	}
 
-	Scene::Object::Object(const sf::RectangleShape & c, const sf::Vector3i & pos, const std::string & call, const std::list<char>& actions) : click{ c }, layer{ pos.z }, callback{ call }, actions{ actions } {
-		click.setPosition(static_cast<float>(pos.x), static_cast<float>(pos.y));
+	Scene::Object::Object(const sf::RectangleShape & c, const sf::Vector3i & pos, const std::string & call, const std::list<char>& actions) : click{ std::make_shared<sf::RectangleShape>(c) }, layer{ pos.z }, name{ call }, actions{ actions } {
+		click->setPosition(static_cast<float>(pos.x), static_cast<float>(pos.y));
 		type = 'c';
 	}
 
@@ -138,7 +146,7 @@ namespace pc {
 		}
 		type = object.type;
 		layer = object.layer;
-		callback = object.callback;
+		name = object.name;
 		actions = object.actions;
 	}
 
@@ -153,6 +161,19 @@ namespace pc {
 				return true;
 		}
 		return false;
+	}
+	void Scene::Object::set_position(const sf::Vector2i & pos) {
+		switch (type) {
+		case 's':
+			sprite->setPosition(sf::Vector2f(pos));
+			break;
+		case 'c':
+			click->setPosition(sf::Vector2f(pos));
+			break;
+		case 't':
+			text->setPosition(sf::Vector2f(pos));
+			break;
+		}
 	}
 }
 

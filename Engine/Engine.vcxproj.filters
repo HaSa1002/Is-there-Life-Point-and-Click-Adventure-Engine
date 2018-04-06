@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Headerdateien\imgui">
+      <UniqueIdentifier>{681f69c0-ecc7-4269-8cd9-be8f895223d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\imgui">
+      <UniqueIdentifier>{a7b513c9-1891-4b0e-8c41-60c10497ec10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,6 +38,21 @@
     </ClCompile>
     <ClCompile Include="Subtitle.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Quelldateien\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Quelldateien\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Quelldateien\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui-helper.cpp">
+      <Filter>Quelldateien\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui-SFML.cpp">
+      <Filter>Quelldateien\imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,10 +80,42 @@
     <ClInclude Include="Subtitle.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Headerdateien\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig-SFML.h">
+      <Filter>Headerdateien\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Headerdateien\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui.hpp">
+      <Filter>Headerdateien\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Headerdateien\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui-SFML.h">
+      <Filter>Headerdateien\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_rect_pack.h">
+      <Filter>Headerdateien\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_textedit.h">
+      <Filter>Headerdateien\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_truetype.h">
+      <Filter>Headerdateien\imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine.lua">
       <Filter>Ressourcendateien</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="imgui.natvis">
+      <Filter>Quelldateien\imgui</Filter>
+    </Natvis>
   </ItemGroup>
 </Project>

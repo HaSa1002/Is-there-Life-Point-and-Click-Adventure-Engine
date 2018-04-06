@@ -40,7 +40,7 @@ namespace pc {
 
 
 	void Subtitle::updateSubtitle(const sf::Vector2u& window_size) {
-		lua.getSubtitleToBeLoaded(text);
+		text = lua.getSubtitleToBeLoaded();
 		subtitle->setString(text);
 		subtitle->setPosition(static_cast<float>(window_size.x / 2), static_cast<float>(subtitle->getCharacterSize() + 20));
 		subtitle->move(-subtitle->findCharacterPos(getMiddlePosition()).x + (window_size.x / 2), 0);

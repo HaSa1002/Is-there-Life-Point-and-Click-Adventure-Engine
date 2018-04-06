@@ -48,7 +48,7 @@ namespace pc {
 
 		window.resetGLStates();
 		window.setVerticalSyncEnabled(true);
-		//ImGui::SFML::Init(window);
+		ImGui::SFML::Init(window);
 	}
 
 
@@ -60,7 +60,7 @@ namespace pc {
 
 	////////////////////////////////////////////////////////////
 	void Rendering::closeWindow() {
-		//ImGui::SFML::Shutdown();
+		ImGui::SFML::Shutdown();
 		window.close();
 	}
 
@@ -101,7 +101,7 @@ namespace pc {
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			if (draw_imgui);
-				//ImGui::SFML::ProcessEvent(event);
+				ImGui::SFML::ProcessEvent(event);
 
 			switch (event.type) {
 			case sf::Event::Closed:
@@ -206,7 +206,7 @@ namespace pc {
 				}
 			}
 			if (draw_imgui);
-				//ImGui::SFML::Render(window);
+				ImGui::SFML::Render(window);
 		}
 		window.display();
 		processEvents();

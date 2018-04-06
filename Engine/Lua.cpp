@@ -56,21 +56,25 @@ namespace pc {
 		return true;
 	}
 
-	void Lua::getSceneToBeLoaded(std::string& scene) {
+	const std::string Lua::getSceneToBeLoaded() {
 		if (lua["game"]["loadScene"].get<std::string>().empty())
-			return;
-		scene = lua["game"]["loadScene"].get_or<std::string>(scene);
+			return "";
+
+		 std::string scene = lua["game"]["loadScene"].get_or<std::string>(scene);
 		lua["game"]["loadScene"] = "";
+		return scene;
 	}
 
-	void Lua::getSubtitleToBeLoaded(std::string& dest) {
+	const std::wstring Lua::getSubtitleToBeLoaded() {
 		if (lua["game"]["setSubtitle"].get_type() == sol::type::nil) {
 			lua["game"]["setSubtitle"] = "";
-			dest = ""; 
-			return;
+			return L"";
 		}
-		dest = lua["game"]["setSubtitle"].get_or<std::string>("");
+
+		std::wstring dest = lua["game"]["setSubtitle"].get_or<std::wstring>(L"");
 		lua["game"]["setSubtitle"] = "";
+		
+		return dest;
 	}
 
 	void Lua::loadScene(Scene* scene) {
@@ -110,9 +114,9 @@ namespace pc {
 				actions.push_back(a.second.as<char>());
 		};
 		auto t = o.second.as<sol::table>();
-		if (t[6].get_type() == sol::type::table)
-			t[6].get<sol::table>().for_each(getActions);
-		scene_temp->addObject(t[1].get_or<std::string>("r0,0"), sf::Vector3i(t[2].get_or(0), t[3].get_or(0), t[4].get_or(0)), t[5].get_or<std::string>(""), actions);
+		if (t[5].get_type() == sol::type::table)
+			t[5].get<sol::table>().for_each(getActions);
+		scene_temp->addObject(t[4].get_or<std::string>("r0,0"), sf::Vector3i(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0)), o.first.as<std::string>(), actions);
 	}
 
 	void Lua::readWalkbox(std::pair<sol::object, sol::object> o) {

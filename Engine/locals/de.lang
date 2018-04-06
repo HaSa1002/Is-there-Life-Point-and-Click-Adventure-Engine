@@ -5,5 +5,12 @@ local de = localisations["de"];
 de.test = "Hallo Testwelt!"
 de.tabletL = "Das ist ein Tablet!"
 de.tabletU = "Funktioniert!"
+de.lua_testscene = "Lua Testszene"
+de.changeTo = "Zur "
+de.tablet = "Tablet"
+de.PanelHover = "Panel"
+de.PanelUse = "Ich sollte das nicht drücken"
+de.PanelLook = "Ohh. Knöpfe!"
+de.lua_testscene2 = "2. Lua Testszene"
 
 return de;

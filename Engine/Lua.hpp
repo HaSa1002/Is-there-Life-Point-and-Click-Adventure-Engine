@@ -37,9 +37,9 @@ namespace pc {
 		
 		bool editorConfig();
 
-		void getSceneToBeLoaded(std::string& scene);
+		const std::string getSceneToBeLoaded();
 
-		void getSubtitleToBeLoaded(std::string& dest);
+		const std::wstring getSubtitleToBeLoaded();
 
 		void loadScene(Scene* scene);
 

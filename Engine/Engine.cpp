@@ -9,10 +9,11 @@ namespace pc {
 		//Load the room, the user set
 		rendering.remove();
 		scene.reset();
-		lua.getSceneToBeLoaded(scene.name);
+		scene.name = lua.getSceneToBeLoaded();
 		lua.loadScene(&scene);
 		for (auto& i : scene.objects) {
-			rendering.add(std::make_shared<sf::Sprite>(i.sprite), i.layer);
+			if (i.type == 's')
+				rendering.add(i.sprite, i.layer);
 		}
 		rendering.removeEditor();
 		scene.createEditorHelper();
@@ -52,6 +53,9 @@ namespace pc {
 		sf::Clock clock;
 		while (rendering.isOpen()) {
 			processEvents();
+			
+
+
 			rendering.render();
 		}
 	}
@@ -86,6 +90,24 @@ namespace pc {
 							rendering.removeEditor();
 					}
 					break;
+				case sf::Keyboard::P:
+					if (!editor_mode)
+						break;
+
+					if (editor_editing == nullptr) { // No active Object --> make one object active;
+						scene.objects.sort(scene.sort_objects_by_layer);
+						for (auto& i : scene.objects) {
+							if ((i.type == 's' && i.sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i.type == 'c' && i.click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
+								editor_editing = i.sprite;
+								cursor_offset = sf::Vector2f(mouse_pos.x - editor_editing->getGlobalBounds().left, mouse_pos.y - editor_editing->getGlobalBounds().top);
+								break;
+							}
+						}
+					}
+					else // One active object --> deactivate Objectediting
+						editor_editing = nullptr;
+
+					break;
 				default:
 					break;
 				}
@@ -99,25 +121,27 @@ namespace pc {
 				break;
 			case sf::Event::MouseButtonReleased:
 			{
-				sf::Vector2f mouse_pos(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y));
+				mouse_pos = sf::Vector2i(event.mouseButton.x, event.mouseButton.y);
+				if (editor_editing != nullptr)
+					break;
 				scene.objects.sort(scene.sort_objects_by_layer);
 				for (auto& i : scene.objects) {
-					if ((i.type == 's' && i.sprite.getGlobalBounds().contains(mouse_pos)) || (i.type == 'c' && i.click.getGlobalBounds().contains(mouse_pos))) {
-						auto callback = lua.lua["scenes"][scene.name][i.callback];
+					if ((i.type == 's' && i.sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i.type == 'c' && i.click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
+						auto callback = lua.lua["scenes"][scene.name]["objects"][i.name];
 						switch (event.mouseButton.button)
 						{
 						case sf::Mouse::Button::Left:
 							if (i.has_action('u')) {
-								callback.call('u');
+								callback["onUse"].call();
 								goto end_for;
 							}
 							if (i.has_action('c')) {
-								callback.call('c');
+								callback["onCollect"].call();
 								goto end_for;
 							}
 						case sf::Mouse::Button::Right:
 							if (i.has_action('l')) {
-								callback.call('l');
+								callback["onLook"].call();
 								goto end_for;
 							}
 						default:
@@ -125,16 +149,47 @@ namespace pc {
 						}
 					}
 				}
-			end_for:
-				//Check if we have to load a new scene:
-				if (!lua.lua["game"]["loadScene"].get<std::string>().empty())
-					loadScene();
-				//Update the Subtitle
-				subtitle.updateSubtitle(rendering.getWindowObject().getSize());
 			}
+		end_for:
+			//Updates
+			//Check if we have to load a new scene:
+			if (!lua.lua["game"]["loadScene"].get<std::string>().empty())
+				loadScene();
+			//Update the Subtitle
+			subtitle.updateSubtitle(rendering.getWindowObject().getSize());
 				break;
-			case sf::Event::MouseMoved:
 
+
+			case sf::Event::MouseMoved: {
+				 mouse_pos = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
+				 if (editor_editing != nullptr) { // Just move the object around; We don't wan't beeing bortherd by this;
+					 editor_editing->setPosition(sf::Vector2f(mouse_pos) - cursor_offset);
+					 scene.helper_count *= 0;
+					 rendering.removeEditor();
+					 scene.createEditorHelper();
+					 for (auto& i : scene.helper)
+						 rendering.addEditor(std::make_shared<sf::RectangleShape>(i), 0);
+				 }
+				 else { // Be normal
+					 scene.objects.sort(scene.sort_objects_by_layer);
+					 for (auto& i : scene.objects) {
+						 if (i.has_action('h')) {
+							 if ((i.type == 's' && i.sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i.type == 'c' && i.click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
+								 lua.lua["scenes"][scene.name]["objects"][i.name]["onHover"].call();
+								 //Updates
+								 //Check if we have to load a new scene:
+								 if (!lua.lua["game"]["loadScene"].get<std::string>().empty())
+									 loadScene();
+								 //Update the Subtitle
+								 subtitle.updateSubtitle(rendering.getWindowObject().getSize());
+								 break;
+							 }
+						 }
+					 }
+				 }
+
+				
+			}
 				break;
 			case sf::Event::MouseEntered:
 				break;
@@ -162,6 +217,7 @@ namespace pc {
 				break;
 			}
 		}
+		
 	}
 
 	
