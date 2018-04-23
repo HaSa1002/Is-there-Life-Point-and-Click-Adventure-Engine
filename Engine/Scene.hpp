@@ -48,6 +48,7 @@ namespace pc {
 			char type;
 			int layer;
 			std::list<char> actions;
+			std::string texture_string;
 
 			Object(const sf::Sprite& s, const sf::Vector3i& pos, const std::string& name, const std::list<char>& actions);
 			Object(const sf::RectangleShape& s, const sf::Vector3i& pos, const std::string& name, const std::list<char>& actions);
@@ -118,6 +119,8 @@ namespace pc {
 		void createEditorHelper();
 
 		void reset();
+
+		std::string makeLuaString();
 
 		std::string name;
 		std::list<sf::Texture> textures;

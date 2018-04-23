@@ -54,10 +54,21 @@ namespace pc {
 		sf::Clock clock;
 		while (rendering.isOpen()) {
 			processEvents();
+			//rendering.newImGuiWindow();
+			//ImGui::Begin("Hello World");
+			//ImGui::Text("Helllloooo");
+			//ImGui::End();
+			//ImGui::EndFrame();
 			rendering.newImGuiWindow();
-			ImGui::Begin("Hello World");
-			ImGui::Text("Helllloooo");
-			ImGui::End();
+			if (editor_mode) {
+				
+				if (ImGui::Begin("Lua String")) {
+					str = scene.makeLuaString();
+					ImGui::InputTextMultiline("String", str, str.size());
+				}
+				ImGui::End();
+				ImGui::EndFrame();
+			}
 			rendering.render();
 			
 			
@@ -91,6 +102,13 @@ namespace pc {
 							scene.createEditorHelper();
 							for (auto& i : scene.helper)
 								rendering.addEditor(std::make_shared<sf::RectangleShape>(i), 0);
+							//rendering.newImGuiWindow();
+							//if (ImGui::Begin("Lua String")) {
+							//	std::string str = scene.makeLuaString();
+							//	ImGui::InputTextMultiline("String", str, 0);
+							//}
+							//ImGui::End();
+							//ImGui::EndFrame();
 						}
 						else
 							rendering.removeEditor();
@@ -171,6 +189,7 @@ namespace pc {
 
 			case sf::Event::MouseMoved: {
 				 mouse_pos = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
+				 
 				 if (editor_editing != nullptr) { // Just move the object around; We don't wan't beeing bortherd by this;
 					 editor_editing->setPosition(sf::Vector2f(mouse_pos) - cursor_offset);
 					 scene.helper_count *= 0;

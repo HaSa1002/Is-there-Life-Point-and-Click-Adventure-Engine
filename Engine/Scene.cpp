@@ -29,11 +29,13 @@ namespace pc {
 
 	////////////////////////////////////////////////////////////
 	void Scene::addObject(const std::string & texture_path, const sf::Vector3i & position, const std::string & name, const std::list<char>& action) {
+		
 		if (texture_path.size() > 1) {
 			if (texture_path[0] == 'r') {
 				
 				sf::Vector2f size(std::stof(texture_path.substr(1, texture_path.find(','))), std::stof(texture_path.substr(texture_path.find(',') + 1)));
 				objects.emplace_back(sf::RectangleShape(size), position, name, action);
+				objects.back().texture_string = texture_path;
 				return;
 			}
 			if (texture_path[0] == 't') {
@@ -52,6 +54,7 @@ namespace pc {
 #endif
 		}
 		objects.emplace_back(sf::Sprite(textures.back()), position, name, action);
+		objects.back().texture_string = texture_path;
 	}
 
 
@@ -121,6 +124,47 @@ namespace pc {
 		zoomlines.clear();
 		helper.clear();
 		helper_count *= 0;
+	}
+
+	std::string Scene::makeLuaString() {
+		std::string result;
+		result += "scenes[\"" + name + "\"] = {}\nlocal scene = scenes[\"" + name + "\"]\n scene[\"objects\"] = {\n";
+		for (auto& i : objects) {
+			result += "\t" + i.name + " = {";
+			if (i.type == 's') {
+				result += std::to_string((int)i.sprite->getPosition().x) + ',';
+				result += std::to_string((int)i.sprite->getPosition().y) + ',';
+			}
+			if (i.type == 'c') {
+				result += std::to_string((int)i.click->getPosition().x) + ',';
+				result += std::to_string((int)i.click->getPosition().y) + ',';
+			}
+			result += std::to_string(i.layer) + ", \"" + i.texture_string + "\", {";
+			for (char& j : i.actions) {
+				result += "\'";
+				result.push_back(j);
+				result += "\', ";
+			}
+			result += "}},\n";
+		}
+
+		result += "}";
+
+		result += "\n scene[\"walkboxes\"] = {\n";
+		for (auto& i : walkboxes) {
+			result += "\t{" + std::to_string(i.rectangle.top) + ", " + std::to_string(i.rectangle.left) + ", " + std::to_string(i.rectangle.width) + ", " + std::to_string(i.rectangle.height) + ", " + std::to_string(i.is_active) + "}\n";
+		}
+
+		result += "}";
+
+		result += "\n scene[\"zoomlines\"] = {\n";
+		for (auto& i : zoomlines) {
+			result += "\t{" + std::to_string(i.position.top) + ", " + std::to_string(i.position.left) + ", " + std::to_string(i.position.width) + ", " + std::to_string(i.position.height) + ", " + std::to_string(i.factor) + ", " + std::to_string(i.is_active) + "}\n";
+		}
+
+		result += "}";
+
+		return result;
 	}
 
 

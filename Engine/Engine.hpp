@@ -83,6 +83,7 @@ namespace pc {
 		Scene			scene;			///< The scene we are going to see
 		sf::Font		font;			///< The Font we want to use to display the text
 		Subtitle		subtitle;
+		std::string		str;
 		sf::Vector2i	mouse_pos;
 		std::shared_ptr<sf::Sprite> editor_editing;	///< The Object we are editing
 		sf::Vector2f	cursor_offset;
