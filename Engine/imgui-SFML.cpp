@@ -1,5 +1,6 @@
 #include "imgui-SFML.h"
 #include "imgui.h"
+#include "imgui_internal.h"
 
 #include <SFML/OpenGL.hpp>
 #include <SFML/Graphics/Color.hpp>
@@ -141,7 +142,6 @@ namespace SFML
 
 void Init(sf::RenderTarget& target, bool loadDefaultFont)
 {
-    ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
 
     // init keyboard mapping
@@ -317,7 +317,7 @@ void Shutdown()
         s_fontTexture = NULL;
     }
 
-    ImGui::DestroyContext();
+    ImGui::Shutdown(); // need to specify namespace here, otherwise ImGui::SFML::Shutdown would be called
 }
 
 void UpdateFontTexture()

@@ -95,12 +95,16 @@ namespace pc {
 		this->offset += offset;
 	}
 
+	void Rendering::newImGuiWindow() {
+		ImGui::SFML::Update(window, clock.restart());
+	}
+
 
 	////////////////////////////////////////////////////////////
 	void Rendering::processEvents() {
 		sf::Event event;
 		while (window.pollEvent(event)) {
-			if (draw_imgui);
+			if (draw_imgui)
 				ImGui::SFML::ProcessEvent(event);
 
 			switch (event.type) {
@@ -205,12 +209,12 @@ namespace pc {
 					//Space for optimisations
 				}
 			}
-			if (draw_imgui);
+			if (draw_imgui)
 				ImGui::SFML::Render(window);
 		}
 		window.display();
 		processEvents();
-		ImGui::SFML::Update(window, clock.restart());
+		
 	}
 
 

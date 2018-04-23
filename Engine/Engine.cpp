@@ -1,5 +1,5 @@
 #include "Engine.hpp"
-//#include "ImGui.hpp"
+#include "ImGui.hpp"
 
 
 namespace pc {
@@ -48,17 +48,23 @@ namespace pc {
 		main();
 	}
 
+
 	void Engine::main() {
 		
 		sf::Clock clock;
 		while (rendering.isOpen()) {
 			processEvents();
-			
-
-
+			rendering.newImGuiWindow();
+			ImGui::Begin("Hello World");
+			ImGui::Text("Helllloooo");
+			ImGui::End();
 			rendering.render();
+			
+			
 		}
 	}
+
+
 	void Engine::processEvents() {
 		//We do the callbacks if wanted
 		while (!rendering.events.empty()) {
@@ -122,8 +128,11 @@ namespace pc {
 			case sf::Event::MouseButtonReleased:
 			{
 				mouse_pos = sf::Vector2i(event.mouseButton.x, event.mouseButton.y);
-				if (editor_editing != nullptr)
+				if (editor_editing != nullptr) {
+					if (event.mouseButton.button == sf::Mouse::Button::Left)
+						editor_editing = nullptr;
 					break;
+				}
 				scene.objects.sort(scene.sort_objects_by_layer);
 				for (auto& i : scene.objects) {
 					if ((i.type == 's' && i.sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i.type == 'c' && i.click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
@@ -157,7 +166,7 @@ namespace pc {
 				loadScene();
 			//Update the Subtitle
 			subtitle.updateSubtitle(rendering.getWindowObject().getSize());
-				break;
+			break;
 
 
 			case sf::Event::MouseMoved: {
