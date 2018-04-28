@@ -161,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine.lua" />
+    <None Include="print.lua" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="imgui.natvis" />

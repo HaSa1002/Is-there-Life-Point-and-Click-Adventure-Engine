@@ -29,7 +29,8 @@ dofile "locals/de.lang"
 -- Register the scenes
 dofile "scenes/lua_testscene.pcscene"
 dofile "scenes/lua_testscene2.pcscene"
+dofile "scenes/bedroom_old.pcscene"
 
 
  -- Set the first scene to be loaded.
- changeScene "lua_testscene2"
+ changeScene "bedroom_old"

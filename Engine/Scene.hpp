@@ -56,6 +56,7 @@ namespace pc {
 			~Object();
 			bool has_action(const char& action);
 			void set_position(const sf::Vector2i& pos);
+			sf::Transformable& get();
 		};
 
 		struct Walkbox {

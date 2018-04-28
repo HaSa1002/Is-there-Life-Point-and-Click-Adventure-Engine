@@ -112,6 +112,9 @@
     <None Include="Engine.lua">
       <Filter>Ressourcendateien</Filter>
     </None>
+    <None Include="print.lua">
+      <Filter>Ressourcendateien</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="imgui.natvis">

@@ -106,7 +106,7 @@ namespace pc {
 		while (window.pollEvent(event)) {
 			if (draw_imgui)
 				ImGui::SFML::ProcessEvent(event);
-
+			
 			switch (event.type) {
 			case sf::Event::Closed:
 				closeWindow();

@@ -260,3 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 /Lua Engine Part/ITLE.code-workspace
+/Engine/textures
+/Engine/scenes/bedroom_old.pcscene

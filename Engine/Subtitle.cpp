@@ -25,7 +25,6 @@ namespace pc {
 		do {
 			sizes.push_back(text.find('\n', sizes.back() + 1));
 		} while (sizes.back() != std::string::npos);
-
 		size_t longest = 0;
 		size_t pos = 0;
 		for (size_t i = 1; i < sizes.size() - 1; ++i) {

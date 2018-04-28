@@ -50,6 +50,7 @@ end
 
 function scene.objects.Tablet.onUse()
 	setSubtitle(display("tabletU"))
+	changeScene("bedroom_old")
 end
 
 function scene.objects.Tablet.onLook()

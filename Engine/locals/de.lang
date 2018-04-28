@@ -8,9 +8,9 @@ de.tabletU = "Funktioniert!"
 de.lua_testscene = "Lua Testszene"
 de.changeTo = "Zur "
 de.tablet = "Tablet"
-de.PanelHover = "Panel"
-de.PanelUse = "Ich sollte das nicht drücken"
-de.PanelLook = "Ohh. Knöpfe!"
+de.PanelHover = "The Panel"
+de.PanelUse = "Ich sollte das nicht drücken\n(I shouldn't press that)"
+de.PanelLook = "Many characters in a\nmultiline string. That's nice!\n"
 de.lua_testscene2 = "2. Lua Testszene"
 
 return de;

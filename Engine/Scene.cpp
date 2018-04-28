@@ -219,5 +219,14 @@ namespace pc {
 			break;
 		}
 	}
+
+	sf::Transformable& Scene::Object::get() {
+		if (type == 's')
+			return static_cast<sf::Transformable&>(*sprite);
+		if (type == 'c')
+			return static_cast<sf::Transformable&>(*click);
+		if (type == 't')
+			return static_cast<sf::Transformable&>(*text);
+	}
 }
 

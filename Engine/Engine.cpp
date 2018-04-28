@@ -54,17 +54,73 @@ namespace pc {
 		sf::Clock clock;
 		while (rendering.isOpen()) {
 			processEvents();
-			//rendering.newImGuiWindow();
-			//ImGui::Begin("Hello World");
-			//ImGui::Text("Helllloooo");
-			//ImGui::End();
-			//ImGui::EndFrame();
-			rendering.newImGuiWindow();
+			rendering.imgui_rendering(editor_mode);
 			if (editor_mode) {
-				
-				if (ImGui::Begin("Lua String")) {
+				rendering.newImGuiWindow();
+				if (ImGui::Begin("Editormodus")) {
 					str = scene.makeLuaString();
-					ImGui::InputTextMultiline("String", str, str.size());
+					ImGui::InputTextMultiline("Lua String", str, str.size());
+
+					ImGui::Separator();
+					if (ImGui::CollapsingHeader("Scene Properties")) {
+						if (ImGui::TreeNode("Objects")) {
+							//Add right-click menue
+							for (auto& i : scene.objects) {
+								ImGui::PushID(i.name.data(), "hhh");
+								std::string o_name = "Object (" + i.name + ")";
+								if (ImGui::TreeNode(o_name.data())) {
+									ImGui::InputText("Texture String ", i.texture_string, 256);
+									int pos[3];
+									pos[0] = i.get().getPosition().x;
+									pos[1] = i.sprite->getPosition().y;
+									pos[2] = i.layer;
+									if (ImGui::InputInt3("Position ", pos)) {
+										i.sprite->setPosition(pos[0], pos[1]);
+										i.layer = pos[2];
+										scene.helper_count *= 0;
+										rendering.removeEditor();
+										scene.createEditorHelper();
+										for (auto& i : scene.helper)
+											rendering.addEditor(std::make_shared<sf::RectangleShape>(i), 0);
+									}
+									
+									bool hover = i.has_action('h');
+									bool look = i.has_action('l');
+									bool collect = i.has_action('c');
+									bool use = i.has_action('u');
+									if (collect == use && collect)
+										use = false;
+									ImGui::Checkbox("Hover", &hover);
+									ImGui::SameLine();
+									ImGui::Checkbox("Look", &look);
+									ImGui::SameLine();
+									if (ImGui::Checkbox("Collect", &collect))
+										use = false;
+									ImGui::SameLine();
+									if (ImGui::Checkbox("Use", &use))
+										collect = false;
+
+									i.actions.clear();
+									if (hover)
+										i.actions.push_back('h');
+									if (look)
+										i.actions.push_back('l');
+									if (collect)
+										i.actions.push_back('c');
+									if (use)
+										i.actions.push_back('u');
+
+
+									ImGui::TreePop();
+								}
+								ImGui::PopID();
+							}
+							ImGui::TreePop();
+						}
+						
+					}
+					
+					
 				}
 				ImGui::End();
 				ImGui::EndFrame();
@@ -102,13 +158,6 @@ namespace pc {
 							scene.createEditorHelper();
 							for (auto& i : scene.helper)
 								rendering.addEditor(std::make_shared<sf::RectangleShape>(i), 0);
-							//rendering.newImGuiWindow();
-							//if (ImGui::Begin("Lua String")) {
-							//	std::string str = scene.makeLuaString();
-							//	ImGui::InputTextMultiline("String", str, 0);
-							//}
-							//ImGui::End();
-							//ImGui::EndFrame();
 						}
 						else
 							rendering.removeEditor();
@@ -145,6 +194,10 @@ namespace pc {
 				break;
 			case sf::Event::MouseButtonReleased:
 			{
+				//We don't want to be anoyed by clicks if we are in any ImGuiWindow
+				if (ImGui::IsAnyWindowFocused())
+					break;
+
 				mouse_pos = sf::Vector2i(event.mouseButton.x, event.mouseButton.y);
 				if (editor_editing != nullptr) {
 					if (event.mouseButton.button == sf::Mouse::Button::Left)
