@@ -25,39 +25,19 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "Exception.hpp"
+#include "MoveableObject.hpp"
+#include "sol.hpp"
 #include <SFML\Graphics\Texture.hpp>
 #include <SFML\System\Vector3.hpp>
 #include <SFML\Graphics\Sprite.hpp>
 #include <SFML\Graphics\RectangleShape.hpp>
 #include <SFML\Graphics\Text.hpp>
-#include "sol.hpp"
+
 
 #include <list>
 
 namespace pc {
 	struct Scene {
-
-		struct Object {
-			union {
-				std::shared_ptr<sf::Sprite>			sprite;
-				std::shared_ptr<sf::RectangleShape>	click;
-				std::shared_ptr<sf::Text>			text;
-			};
-
-			std::string name;
-			char type;
-			int layer;
-			std::list<char> actions;
-			std::string texture_string;
-
-			Object(const sf::Sprite& s, const sf::Vector3i& pos, const std::string& name, const std::list<char>& actions);
-			Object(const sf::RectangleShape& s, const sf::Vector3i& pos, const std::string& name, const std::list<char>& actions);
-			Object(const Object& object);
-			~Object();
-			bool has_action(const char& action);
-			void set_position(const sf::Vector2i& pos);
-			sf::Transformable& get();
-		};
 
 		struct Walkbox {
 			sf::IntRect rectangle;
@@ -98,6 +78,17 @@ namespace pc {
 		void addObject(const std::string& texture_path, const sf::Vector3i& position, const std::string& name, const std::list<char>& action);
 
 		////////////////////////////////////////////////////////////
+		/// adds an MoveableObject to the Scene
+		///
+		/// param texture_path which texture is used
+		/// param position where to position the object
+		///
+		/// can throw (DEBUG): Exception::cantLoadImage
+		///
+		////////////////////////////////////////////////////////////
+		void addMoveableObject(sol::state& lua, const std::string& texture_path, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions);
+
+		////////////////////////////////////////////////////////////
 		/// adds a Walkbox to the Scene
 		///
 		/// param texture_path which texture is used
@@ -125,7 +116,7 @@ namespace pc {
 
 		std::string name;
 		std::list<sf::Texture> textures;
-		std::list<Object> objects;
+		std::list<std::shared_ptr<Object>> objects;
 		std::list<Walkbox> walkboxes;
 		std::list<Zoomline> zoomlines;
 		std::list<sf::RectangleShape> helper;

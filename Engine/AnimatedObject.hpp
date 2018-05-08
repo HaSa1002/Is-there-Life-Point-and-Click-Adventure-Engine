@@ -18,41 +18,20 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef PC_LUA
-#define PC_LUA
+#ifndef PC_ANIMATED_OBJECT
+#define PC_ANIMATED_OBJECT
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#define SOL_CHECK_ARGUMENTS 1
-#include "Scene.hpp"
-#include "sol.hpp"
+#include "Animation.hpp"
+#include <SFML\Graphics.hpp>
+#include <memory>
 
 namespace pc {
-	class Lua {
-	public:
-		sol::state lua;
-		
-		bool init();
-		
-		bool editorConfig();
-
-		const std::string getSceneToBeLoaded();
-
-		const std::wstring getSubtitleToBeLoaded();
-
-		void loadScene(Scene* scene);
-
-		void readObject(std::pair<sol::object, sol::object> o);
-
-		void readWalkbox(std::pair<sol::object, sol::object> o);
-
-		void readZoomline(std::pair<sol::object, sol::object> o);
-	private:
-		Scene* scene_temp;
+	struct AnimatedObject : Animation {
 		
 	};
 }
 
-
-#endif // !PC_LUA
+#endif //!PC_ANIMATED_OBJECT

@@ -18,41 +18,48 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef PC_LUA
-#define PC_LUA
+#include "MoveableObject.hpp"
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#define SOL_CHECK_ARGUMENTS 1
-#include "Scene.hpp"
-#include "sol.hpp"
 
 namespace pc {
-	class Lua {
-	public:
-		sol::state lua;
-		
-		bool init();
-		
-		bool editorConfig();
-
-		const std::string getSceneToBeLoaded();
-
-		const std::wstring getSubtitleToBeLoaded();
-
-		void loadScene(Scene* scene);
-
-		void readObject(std::pair<sol::object, sol::object> o);
-
-		void readWalkbox(std::pair<sol::object, sol::object> o);
-
-		void readZoomline(std::pair<sol::object, sol::object> o);
-	private:
-		Scene* scene_temp;
-		
-	};
+	MoveableObject::MoveableObject(sol::state& lua, const sf::Texture& texture, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions, const std::string& trigger) : l{lua}, Object( texture, position, name, actions ) {
+		trigger_function = trigger;
+		type = 'm';
+	}
+	sf::Vector2f MoveableObject::getPoint(hash point) {
+		for (const auto& i : points) {
+			if (i.first == point)
+				return i.second;
+		}
+		return sf::Vector2f();
+	}
+	void MoveableObject::setPosition(hash point) {
+		sprite->setPosition(static_cast<sf::Vector2f>(getPoint(point)));
+		this->point = point;
+	}
+	void MoveableObject::move(hash point, sf::Time duration) {
+		this->point = point;
+		toMove = duration;
+	}
+	const sf::IntRect MoveableObject::getStateRect(sf::Vector2i position) {
+		return sf::IntRect();
+	}
+	void MoveableObject::update(sf::Time elapsed) {
+	if (toMove.asSeconds() == 0) {
+		return;
+	}
+	sf::Vector2f dest = getPoint(point);
+	if (toMove < elapsed) {
+		sprite->setPosition(dest);
+		toMove = sf::Time::Zero;
+	}
+	dest -= sprite->getPosition();
+	sprite->move(dest / elapsed.asSeconds());
+	}
+	sf::Transformable & MoveableObject::get() {
+		return static_cast<sf::Transformable&>(*sprite);
+	}
 }
-
-
-#endif // !PC_LUA

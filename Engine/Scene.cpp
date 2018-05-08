@@ -34,8 +34,8 @@ namespace pc {
 			if (texture_path[0] == 'r') {
 				
 				sf::Vector2f size(std::stof(texture_path.substr(1, texture_path.find(','))), std::stof(texture_path.substr(texture_path.find(',') + 1)));
-				objects.emplace_back(sf::RectangleShape(size), position, name, action);
-				objects.back().texture_string = texture_path;
+				objects.emplace_back(std::make_shared<Object>(sf::RectangleShape(size), position, name, action));
+				objects.back()->texture_string = texture_path;
 				return;
 			}
 			if (texture_path[0] == 't') {
@@ -53,10 +53,24 @@ namespace pc {
 			printf("Couldn't load image from: \"%s\"\n", texture_path.data());
 #endif
 		}
-		objects.emplace_back(sf::Sprite(textures.back()), position, name, action);
-		objects.back().texture_string = texture_path;
+		objects.emplace_back(std::make_shared<Object>(textures.back(), position, name, action));
+		objects.back()->texture_string = texture_path;
 	}
 
+
+	void Scene::addMoveableObject(sol::state& lua, const std::string& texture_path, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions) {
+		textures.emplace_back(sf::Texture());
+		if (!textures.back().loadFromFile(texture_path.substr(1))) {
+#if defined _DEBUG || !defined NO_EXCEPTIONS
+			throw Exception::cantLoadImage;
+#else
+			printf("Couldn't load image from: \"%s\"\n", texture_path.data());
+#endif
+		}
+
+		objects.emplace_back(std::make_shared<MoveableObject>(lua, textures.back(), position, name, actions, ""));
+		objects.back()->texture_string = texture_path;
+	}
 
 	////////////////////////////////////////////////////////////
 	void Scene::addWalkbox(const sf::IntRect & rectangle, const bool is_active) {
@@ -78,16 +92,16 @@ namespace pc {
 			helper.clear();
 			helper_count *= 0;
 			for (auto& i : objects) {
-				if (i.type == 'c') {
-					helper.emplace_back(*i.click);
+				if (i->type == 'c') {
+					helper.emplace_back(*i->click);
 					helper.back().setOutlineColor(sf::Color::Red);
 					helper.back().setOutlineThickness(1.f);
 					helper.back().setFillColor(sf::Color::Transparent);
 					++helper_count.x;
 				}
-				if (i.type == 's') {
-					helper.emplace_back(sf::Vector2f(i.sprite->getGlobalBounds().width, i.sprite->getGlobalBounds().height));
-					helper.back().setPosition(i.sprite->getGlobalBounds().left, i.sprite->getGlobalBounds().top);
+				if (i->type == 's') {
+					helper.emplace_back(sf::Vector2f(i->sprite->getGlobalBounds().width, i->sprite->getGlobalBounds().height));
+					helper.back().setPosition(i->sprite->getGlobalBounds().left, i->sprite->getGlobalBounds().top);
 					helper.back().setOutlineColor(sf::Color::Red);
 					helper.back().setOutlineThickness(1.f);
 					helper.back().setFillColor(sf::Color::Transparent);
@@ -130,17 +144,17 @@ namespace pc {
 		std::string result;
 		result += "scenes[\"" + name + "\"] = {}\nlocal scene = scenes[\"" + name + "\"]\n scene[\"objects\"] = {\n";
 		for (auto& i : objects) {
-			result += "\t" + i.name + " = {";
-			if (i.type == 's') {
-				result += std::to_string((int)i.sprite->getPosition().x) + ',';
-				result += std::to_string((int)i.sprite->getPosition().y) + ',';
+			result += "\t" + i->name + " = {";
+			if (i->type == 's') {
+				result += std::to_string((int)i->sprite->getPosition().x) + ',';
+				result += std::to_string((int)i->sprite->getPosition().y) + ',';
 			}
-			if (i.type == 'c') {
-				result += std::to_string((int)i.click->getPosition().x) + ',';
-				result += std::to_string((int)i.click->getPosition().y) + ',';
+			if (i->type == 'c') {
+				result += std::to_string((int)i->click->getPosition().x) + ',';
+				result += std::to_string((int)i->click->getPosition().y) + ',';
 			}
-			result += std::to_string(i.layer) + ", \"" + i.texture_string + "\", {";
-			for (char& j : i.actions) {
+			result += std::to_string(i->layer) + ", \"" + i->texture_string + "\", {";
+			for (char& j : i->actions) {
 				result += "\'";
 				result.push_back(j);
 				result += "\', ";
@@ -169,64 +183,6 @@ namespace pc {
 
 
 	////////////////////////////////////////////////////////////
-	Scene::Object::Object(const sf::Sprite & s, const sf::Vector3i & pos, const std::string & call, const std::list<char>& a) : sprite{std::make_shared<sf::Sprite>(s)}, layer {pos.z}, name{call}, actions{a} {
-		sprite->setPosition(static_cast<float>(pos.x), static_cast<float>(pos.y));
-		type = 's';
-	}
 
-	Scene::Object::Object(const sf::RectangleShape & c, const sf::Vector3i & pos, const std::string & call, const std::list<char>& actions) : click{ std::make_shared<sf::RectangleShape>(c) }, layer{ pos.z }, name{ call }, actions{ actions } {
-		click->setPosition(static_cast<float>(pos.x), static_cast<float>(pos.y));
-		type = 'c';
-	}
-
-	Scene::Object::Object(const Object & object) {
-		switch (object.type) {
-		case 's':
-			sprite = object.sprite;
-			break;
-		case 'c':
-			click = object.click;
-			break;
-		}
-		type = object.type;
-		layer = object.layer;
-		name = object.name;
-		actions = object.actions;
-	}
-
-	Scene::Object::~Object() {
-	}
-
-
-	////////////////////////////////////////////////////////////
-	bool Scene::Object::has_action(const char& action) {
-		for (const auto& a : actions) {
-			if (a == action)
-				return true;
-		}
-		return false;
-	}
-	void Scene::Object::set_position(const sf::Vector2i & pos) {
-		switch (type) {
-		case 's':
-			sprite->setPosition(sf::Vector2f(pos));
-			break;
-		case 'c':
-			click->setPosition(sf::Vector2f(pos));
-			break;
-		case 't':
-			text->setPosition(sf::Vector2f(pos));
-			break;
-		}
-	}
-
-	sf::Transformable& Scene::Object::get() {
-		if (type == 's')
-			return static_cast<sf::Transformable&>(*sprite);
-		if (type == 'c')
-			return static_cast<sf::Transformable&>(*click);
-		if (type == 't')
-			return static_cast<sf::Transformable&>(*text);
-	}
 }
 

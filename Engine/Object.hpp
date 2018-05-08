@@ -18,41 +18,38 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef PC_LUA
-#define PC_LUA
+#ifndef PC_OBJECT
+#define PC_OBJECT
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#define SOL_CHECK_ARGUMENTS 1
-#include "Scene.hpp"
-#include "sol.hpp"
+#include <SFML\Graphics.hpp>
+#include <memory>
+#include <list>
 
 namespace pc {
-	class Lua {
-	public:
-		sol::state lua;
-		
-		bool init();
-		
-		bool editorConfig();
+	struct Object {
+		union {
+			std::shared_ptr<sf::Sprite>			sprite;
+			std::shared_ptr<sf::RectangleShape>	click;
+			std::shared_ptr<sf::Text>			text;
+		};
 
-		const std::string getSceneToBeLoaded();
+		std::string name;
+		char type;
+		int layer;
+		std::list<char> actions;
+		std::string texture_string;
 
-		const std::wstring getSubtitleToBeLoaded();
-
-		void loadScene(Scene* scene);
-
-		void readObject(std::pair<sol::object, sol::object> o);
-
-		void readWalkbox(std::pair<sol::object, sol::object> o);
-
-		void readZoomline(std::pair<sol::object, sol::object> o);
-	private:
-		Scene* scene_temp;
-		
+		Object(const sf::Texture& s, const sf::Vector3i& pos, const std::string& name, const std::list<char>& actions);
+		Object(const sf::RectangleShape& s, const sf::Vector3i& pos, const std::string& name, const std::list<char>& actions);
+		Object(const Object& object);
+		~Object();
+		bool hasAction(const char& action);
+		void setPosition(const sf::Vector2i& pos);
+		sf::Transformable& get();
 	};
 }
 
-
-#endif // !PC_LUA
+#endif //!PC_OBJECT

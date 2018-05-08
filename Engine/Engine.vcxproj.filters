@@ -19,24 +19,45 @@
     <Filter Include="Quelldateien\imgui">
       <UniqueIdentifier>{a7b513c9-1891-4b0e-8c41-60c10497ec10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\modules">
+      <UniqueIdentifier>{0f99ec44-ef4b-4024-ac7a-818b58758caa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\modules\display">
+      <UniqueIdentifier>{7c760986-077b-40a0-aac0-30ff00a2cf3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\modules\display\basic">
+      <UniqueIdentifier>{2168d24e-e3f4-4163-9815-7802b682b096}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\modules\display\animated">
+      <UniqueIdentifier>{71403977-01cd-4f99-bb0d-e143311b401e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\modules">
+      <UniqueIdentifier>{443cc168-1d4d-4d03-8f2e-f24254c69d28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\modules\system">
+      <UniqueIdentifier>{e6631f04-592c-4a49-ae15-8a4dcc179454}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\modules\display">
+      <UniqueIdentifier>{70d70829-3789-455a-84fb-67f07782616a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\modules\system">
+      <UniqueIdentifier>{dcace917-16fa-4796-9678-5f452b6184da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\modules\display\basic">
+      <UniqueIdentifier>{1a74408a-982b-4385-bb5b-f0d56af58cdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\modules\display\animated">
+      <UniqueIdentifier>{644be8bc-56b0-45b8-9e59-3ba5a0d23c97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\modules\display\animated\characters">
+      <UniqueIdentifier>{3b155862-13dd-417a-8182-af562a0d63a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\modules\display\animated\characters">
+      <UniqueIdentifier>{3091a00e-4deb-4c25-9175-e9d623dcfdce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Lua.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="Subtitle.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="imgui.cpp">
@@ -54,32 +75,32 @@
     <ClCompile Include="imgui-SFML.cpp">
       <Filter>Quelldateien\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Quelldateien\modules\system</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua.cpp">
+      <Filter>Quelldateien\modules\system</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering.cpp">
+      <Filter>Quelldateien\modules\system</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Quelldateien\modules\display</Filter>
+    </ClCompile>
+    <ClCompile Include="Subtitle.cpp">
+      <Filter>Quelldateien\modules\display\basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Quelldateien\modules\display\basic</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Quelldateien\modules\display\animated</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveableObject.cpp">
+      <Filter>Quelldateien\modules\display\animated</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Lua.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="sol.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Exception.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="config.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Subtitle.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="imconfig.h">
       <Filter>Headerdateien\imgui</Filter>
     </ClInclude>
@@ -106,6 +127,48 @@
     </ClInclude>
     <ClInclude Include="stb_truetype.h">
       <Filter>Headerdateien\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedObject.hpp">
+      <Filter>Headerdateien\modules\display\animated</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.hpp">
+      <Filter>Headerdateien\modules\display\animated</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.hpp">
+      <Filter>Headerdateien\modules\display\animated\characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.hpp">
+      <Filter>Headerdateien\modules\system</Filter>
+    </ClInclude>
+    <ClInclude Include="Exception.hpp">
+      <Filter>Headerdateien\modules\system</Filter>
+    </ClInclude>
+    <ClInclude Include="Lua.hpp">
+      <Filter>Headerdateien\modules\system</Filter>
+    </ClInclude>
+    <ClInclude Include="config.hpp">
+      <Filter>Headerdateien\modules\system</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.hpp">
+      <Filter>Headerdateien\modules\display\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering.hpp">
+      <Filter>Headerdateien\modules\system</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.hpp">
+      <Filter>Headerdateien\modules\display</Filter>
+    </ClInclude>
+    <ClInclude Include="sol.hpp">
+      <Filter>Headerdateien\modules\system</Filter>
+    </ClInclude>
+    <ClInclude Include="Subtitle.hpp">
+      <Filter>Headerdateien\modules\display\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="SFML-Helper.hpp">
+      <Filter>Headerdateien\modules\system</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveableObject.hpp">
+      <Filter>Headerdateien\modules\display\animated</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

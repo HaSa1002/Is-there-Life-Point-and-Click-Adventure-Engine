@@ -8,6 +8,12 @@ scene["objects"] = {
 	-- 	Name = {Position: x,y,z, Texturepath, actions(use | collect, look, hover)}
 	Panel = {400, 389, 1, ".\\textures\\test2.png", {'u', 'l', 'h'}},
 	OtherRoom = {0, 0, 1, "r100,900", {'u', 'h'}},
+	-- Name = {Position: x,y,z, Texturepath, actions, {states{name, top, left, width, heigth}}, {areas{state, top, left, width, height}}, {points{x,y, name}}}
+	AnimationTest = {100, 100, 100, "m.\\textures\\animation.png", {'u', 'l'}, 
+		{{"l1", 3, 20, 57, 76}, {"l2", 60, 20, 48, 76}, {"l3", 117, 20, 38, 76}, {"m", 174, 20, 32, 76}, {"r3", 225, 20, 38, 76}, {"r2", 272, 20, 48, 78}, {"r1", 320, 20, 57, 76}}, 
+		{{"l1", 0, 0, 2000, 2000}}, 
+		{{100, 100, "point1"}, {600, 600, "point2"}}
+	}
 	-- TextDemo = {790, 500, 0, "tI am a text!", {'l', 'h'}}
 }
 -- Create the Walkboxestable

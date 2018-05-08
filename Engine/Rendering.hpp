@@ -123,6 +123,12 @@ namespace pc {
 		void createWindow(const std::string& title, const bool& fullscreen, const sf::VideoMode& video_mode = sf::VideoMode(0, 0, 0));
 
 		////////////////////////////////////////////////////////////
+		/// Returns the time
+		/// 
+		////////////////////////////////////////////////////////////
+		auto getTime()-> const sf::Time;
+
+		////////////////////////////////////////////////////////////
 		/// Returns a std::vector of all supported sf::VideoModes
 		///
 		/// returns: std::vector of all supported sf::VideoModes
@@ -142,7 +148,6 @@ namespace pc {
 		///			 valid
 		/// 
 		////////////////////////////////////////////////////////////
-
 		auto getWindowObject()->sf::RenderWindow&;
 
 		////////////////////////////////////////////////////////////
@@ -195,7 +200,7 @@ namespace pc {
 		/// draw order:
 		///  1. draw_list
 		///  2. gui_list
-		///  3. imGui
+		///  3. editor_list
 		///
 		////////////////////////////////////////////////////////////
 		void render();

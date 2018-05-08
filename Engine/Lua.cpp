@@ -60,7 +60,7 @@ namespace pc {
 		if (lua["game"]["loadScene"].get<std::string>().empty())
 			return "";
 
-		 std::string scene = lua["game"]["loadScene"].get_or<std::string>(scene);
+		std::string scene = lua["game"]["loadScene"].get_or<std::string>("");
 		lua["game"]["loadScene"] = "";
 		return scene;
 	}
@@ -101,6 +101,8 @@ namespace pc {
 		scene_temp = nullptr;
 	}
 
+
+
 	void Lua::readObject(std::pair<sol::object, sol::object> o) {
 		if (!o.second.is<sol::table>())
 #if defined _DEBUG || !defined NO_EXCEPTIONS
@@ -116,8 +118,49 @@ namespace pc {
 		auto t = o.second.as<sol::table>();
 		if (t[5].get_type() == sol::type::table)
 			t[5].get<sol::table>().for_each(getActions);
-		scene_temp->addObject(t[4].get_or<std::string>("r0,0"), sf::Vector3i(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0)), o.first.as<std::string>(), actions);
+		std::string texture = t[4].get_or<std::string>("r0,0");
+		if (texture[0] == 'm') {
+			
+			scene_temp->addMoveableObject(lua, t[4].get_or<std::string>("r0,0"), sf::Vector3i(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0)), o.first.as<std::string>(), actions);
+			MoveableObject* i = (MoveableObject*)&scene_temp->objects.back();
+			std::hash<std::string> hash;
+			i->areas.clear();
+			i->states.clear();
+			i->points.clear();
+			auto getStates = [i, hash](std::pair<sol::object, sol::object> o) {
+				auto s = o.second.as<sol::table>();
+				if (!o.second.is<sol::table>())
+					return;
+				pc::hash state = hash(s[1].get_or<std::string>(""));
+				sf::IntRect rect(s[2].get_or(0), s[3].get_or(0), s[4].get_or(0), s[5].get_or(0));
+				i->states.push_back(std::make_pair(state, rect));
+			};
+			auto getAreas = [i, hash](std::pair<sol::object, sol::object> o) {
+				auto s = o.second.as<sol::table>();
+				if (!o.second.is<sol::table>())
+					return;
+				pc::hash state = hash(s[1].get_or<std::string>(""));
+				sf::IntRect rect(s[2].get_or(0), s[3].get_or(0), s[4].get_or(0), s[5].get_or(0));
+				i->areas.push_back(std::make_pair(rect, state));
+			};
+			auto getPoints = [&i, hash](std::pair<sol::object, sol::object> o) {
+				auto s = o.second.as<sol::table>();
+				if (!o.second.is<sol::table>())
+					return;
+				pc::hash name = hash(s[3].get_or<std::string>(""));
+				sf::Vector2f pos(s[1].get_or(0), s[2].get_or(0));
+				i->points.push_back(std::make_pair(name, pos));
+			};
+
+			t[6].get<sol::table>().for_each(getStates);
+			t[7].get<sol::table>().for_each(getAreas);
+			t[8].get<sol::table>().for_each(getPoints);
+		} else
+			scene_temp->addObject(t[4].get_or<std::string>("r0,0"), sf::Vector3i(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0)), o.first.as<std::string>(), actions);
 	}
+
+
+
 
 	void Lua::readWalkbox(std::pair<sol::object, sol::object> o) {
 		if (!o.second.is<sol::table>())

@@ -18,41 +18,37 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef PC_LUA
-#define PC_LUA
+#ifndef PC_MOVEABLE_OBJECT
+#define PC_MOVEABLE_OBJECT
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#define SOL_CHECK_ARGUMENTS 1
-#include "Scene.hpp"
+#include "Animation.hpp"
+#include "Object.hpp"
 #include "sol.hpp"
+#include <SFML\Graphics.hpp>
+#include <memory>
 
 namespace pc {
-	class Lua {
-	public:
-		sol::state lua;
-		
-		bool init();
-		
-		bool editorConfig();
+	struct MoveableObject : public Animation, Object {
+		MoveableObject(sol::state& lua, const sf::Texture& texture, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions, const std::string& trigger);
+		std::list<std::pair<sf::IntRect, hash>> areas; 
+		std::list<std::pair<hash, sf::Vector2f>> points;
+		hash point = 0;
+		sf::Time toMove;
+		sf::Vector2f getPoint(hash point);
+		void setPosition(hash point);
+		void move(hash point, sf::Time duration);
+		const sf::IntRect getStateRect(sf::Vector2i position);
+		void update(sf::Time elapsed);
+		sf::Transformable& get();
 
-		const std::string getSceneToBeLoaded();
 
-		const std::wstring getSubtitleToBeLoaded();
-
-		void loadScene(Scene* scene);
-
-		void readObject(std::pair<sol::object, sol::object> o);
-
-		void readWalkbox(std::pair<sol::object, sol::object> o);
-
-		void readZoomline(std::pair<sol::object, sol::object> o);
 	private:
-		Scene* scene_temp;
-		
+		sol::state& l;
+
 	};
 }
 
-
-#endif // !PC_LUA
+#endif //!PC_MOVEABLE_OBJECT

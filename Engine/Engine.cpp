@@ -12,8 +12,8 @@ namespace pc {
 		scene.name = lua.getSceneToBeLoaded();
 		lua.loadScene(&scene);
 		for (auto& i : scene.objects) {
-			if (i.type == 's')
-				rendering.add(i.sprite, i.layer);
+			if (i->type == 's' || i->type == 'm')
+				rendering.add(i->sprite, i->layer);
 		}
 		rendering.removeEditor();
 		scene.createEditorHelper();
@@ -54,8 +54,14 @@ namespace pc {
 		sf::Clock clock;
 		while (rendering.isOpen()) {
 			processEvents();
+			for (auto& object : scene.objects) {
+				if (object->type != 'm')
+					continue;
+				MoveableObject* i = static_cast<MoveableObject*>(&*object);
+				i->update(rendering.getTime());
+			}
 			rendering.imgui_rendering(editor_mode);
-			if (editor_mode) {
+			/*if (editor_mode) {
 				rendering.newImGuiWindow();
 				if (ImGui::Begin("Editormodus")) {
 					str = scene.makeLuaString();
@@ -71,11 +77,11 @@ namespace pc {
 								if (ImGui::TreeNode(o_name.data())) {
 									ImGui::InputText("Texture String ", i.texture_string, 256);
 									int pos[3];
-									pos[0] = i.get().getPosition().x;
-									pos[1] = i.sprite->getPosition().y;
+									pos[0] = static_cast<int>(i.get().getPosition().x);
+									pos[1] = static_cast<int>(i.get().getPosition().y);
 									pos[2] = i.layer;
 									if (ImGui::InputInt3("Position ", pos)) {
-										i.sprite->setPosition(pos[0], pos[1]);
+										i.get().setPosition(pos[0], pos[1]);
 										i.layer = pos[2];
 										scene.helper_count *= 0;
 										rendering.removeEditor();
@@ -84,10 +90,10 @@ namespace pc {
 											rendering.addEditor(std::make_shared<sf::RectangleShape>(i), 0);
 									}
 									
-									bool hover = i.has_action('h');
-									bool look = i.has_action('l');
-									bool collect = i.has_action('c');
-									bool use = i.has_action('u');
+									bool hover = i.hasAction('h');
+									bool look = i.hasAction('l');
+									bool collect = i.hasAction('c');
+									bool use = i.hasAction('u');
 									if (collect == use && collect)
 										use = false;
 									ImGui::Checkbox("Hover", &hover);
@@ -124,7 +130,7 @@ namespace pc {
 				}
 				ImGui::End();
 				ImGui::EndFrame();
-			}
+			}*/
 			rendering.render();
 			
 			
@@ -170,8 +176,8 @@ namespace pc {
 					if (editor_editing == nullptr) { // No active Object --> make one object active;
 						scene.objects.sort(scene.sort_objects_by_layer);
 						for (auto& i : scene.objects) {
-							if ((i.type == 's' && i.sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i.type == 'c' && i.click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
-								editor_editing = i.sprite;
+							if ((i->type == 's' && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
+								editor_editing = i->sprite;
 								cursor_offset = sf::Vector2f(mouse_pos.x - editor_editing->getGlobalBounds().left, mouse_pos.y - editor_editing->getGlobalBounds().top);
 								break;
 							}
@@ -206,21 +212,21 @@ namespace pc {
 				}
 				scene.objects.sort(scene.sort_objects_by_layer);
 				for (auto& i : scene.objects) {
-					if ((i.type == 's' && i.sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i.type == 'c' && i.click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
-						auto callback = lua.lua["scenes"][scene.name]["objects"][i.name];
+					if ((i->type == 's' && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
+						auto callback = lua.lua["scenes"][scene.name]["objects"][i->name];
 						switch (event.mouseButton.button)
 						{
 						case sf::Mouse::Button::Left:
-							if (i.has_action('u')) {
+							if (i->hasAction('u')) {
 								callback["onUse"].call();
 								goto end_for;
 							}
-							if (i.has_action('c')) {
+							if (i->hasAction('c')) {
 								callback["onCollect"].call();
 								goto end_for;
 							}
 						case sf::Mouse::Button::Right:
-							if (i.has_action('l')) {
+							if (i->hasAction('l')) {
 								callback["onLook"].call();
 								goto end_for;
 							}
@@ -254,9 +260,9 @@ namespace pc {
 				 else { // Be normal
 					 scene.objects.sort(scene.sort_objects_by_layer);
 					 for (auto& i : scene.objects) {
-						 if (i.has_action('h')) {
-							 if ((i.type == 's' && i.sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i.type == 'c' && i.click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
-								 lua.lua["scenes"][scene.name]["objects"][i.name]["onHover"].call();
+						 if (i->hasAction('h')) {
+							 if ((i->type == 's' && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
+								 lua.lua["scenes"][scene.name]["objects"][i->name]["onHover"].call();
 								 //Updates
 								 //Check if we have to load a new scene:
 								 if (!lua.lua["game"]["loadScene"].get<std::string>().empty())

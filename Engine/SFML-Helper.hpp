@@ -18,41 +18,41 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef PC_LUA
-#define PC_LUA
+#ifndef PC_SFML_HELPER
+#define PC_SFML_HELPER
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#define SOL_CHECK_ARGUMENTS 1
-#include "Scene.hpp"
-#include "sol.hpp"
+#include <SFML\Graphics\Rect.hpp>
 
-namespace pc {
-	class Lua {
-	public:
-		sol::state lua;
-		
-		bool init();
-		
-		bool editorConfig();
+namespace SFML {
 
-		const std::string getSceneToBeLoaded();
+	template<typename T>
+	inline bool operator>(const Rect<T>& left, const Rect<T>& right) {
+		if ((left.width * left.height) > (right.width * right.height))
+			return true;
+		return false;
+	}
+	template<typename T>
+	inline bool operator>=(const Rect<T>& left, const Rect<T>& right) {
+		if ((left.width * left.height) >= (right.width * right.height))
+			return true;
+		return false;
+	}
+	template<typename T>
+	inline bool operator<(const Rect<T>& left, const Rect<T>& right) {
+		if ((left.width * left.height) < (right.width * right.height))
+			return true;
+		return false;
+	}
+	template<typename T>
+	inline bool operator<=(const Rect<T>& left, const Rect<T>& right) {
+		if ((left.width * left.height) <= (right.width * right.height))
+			return true;
+		return false;
+	}
 
-		const std::wstring getSubtitleToBeLoaded();
-
-		void loadScene(Scene* scene);
-
-		void readObject(std::pair<sol::object, sol::object> o);
-
-		void readWalkbox(std::pair<sol::object, sol::object> o);
-
-		void readZoomline(std::pair<sol::object, sol::object> o);
-	private:
-		Scene* scene_temp;
-		
-	};
 }
 
-
-#endif // !PC_LUA
+#endif //!PC_SFML_HELPER

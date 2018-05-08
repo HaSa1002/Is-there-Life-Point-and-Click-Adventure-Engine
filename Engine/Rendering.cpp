@@ -51,6 +51,10 @@ namespace pc {
 		ImGui::SFML::Init(window);
 	}
 
+	auto Rendering::getTime() -> const sf::Time {
+		return clock.getElapsedTime();
+	}
+
 
 	void Rendering::addGUI(std::shared_ptr<sf::Drawable> gui_element, int layer) {
 		if (layer >= gui_list.size())

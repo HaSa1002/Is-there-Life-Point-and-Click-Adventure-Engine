@@ -23,7 +23,7 @@ namespace pc {
 
 		std::shared_ptr<sf::Text>		subtitle;		///< The Subtitle we want to display
 		sf::Font						font;
-		std::wstring						text;
+		std::wstring					text;
 	private:
 		Lua& lua;
 		
