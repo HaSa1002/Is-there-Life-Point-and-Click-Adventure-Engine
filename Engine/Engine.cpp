@@ -15,6 +15,7 @@ namespace pc {
 			if (i->type == 's' || i->type == 'm')
 				rendering.add(i->sprite, i->layer);
 		}
+		lua.lua[scene.name].call("onEnter");
 		rendering.removeEditor();
 		scene.createEditorHelper();
 		if (editor_mode) {
@@ -50,18 +51,50 @@ namespace pc {
 
 
 	void Engine::main() {
-		
 		sf::Clock clock;
 		while (rendering.isOpen()) {
 			processEvents();
+
+			//Animation for_each Function
+			auto getAnimatedMoves = [this](std::pair<sol::object, sol::object> o) {
+				if (!o.second.is<sol::table>())
+					return;
+				auto data = o.second.as<sol::table>();
+				std::hash<std::string> h;
+				std::static_pointer_cast<MoveableObject>(scene.getObject(o.first.as<std::string>()))->move(h(data[1].get<std::string>()), sf::seconds(data[2].get_or<float>(60.0001)));
+
+			};
+
+			// Update everything
+			//Check if we have to load a new scene:
+			if (!lua.lua["game"]["loadScene"].get<std::string>().empty())
+				loadScene();
+			//Update the Subtitle
+			subtitle.updateSubtitle(rendering.getWindowObject().getSize());
+			//Read requested animations
+			auto anim = lua.lua["game"]["animatedMove"].get<sol::table>();
+			if (!anim.empty()) {
+				anim.for_each(getAnimatedMoves);
+				lua.lua.script(R"(game.animatedMove = {})");
+			}
+
 			for (auto& object : scene.objects) {
 				if (object->type != 'm')
 					continue;
-				MoveableObject* i = static_cast<MoveableObject*>(&*object);
+				std::shared_ptr<MoveableObject> i = std::static_pointer_cast<MoveableObject>(object);
 				i->update(rendering.getTime());
-			}
+
+				
+				}
+		if (editor_mode) {
+			scene.helper_count *= 0;
+			rendering.removeEditor();
+			scene.createEditorHelper();
+			for (auto& i : scene.helper)
+				rendering.addEditor(std::make_shared<sf::RectangleShape>(i), 0);
+				}
 			rendering.imgui_rendering(editor_mode);
-			/*if (editor_mode) {
+			if (editor_mode) {
 				rendering.newImGuiWindow();
 				if (ImGui::Begin("Editormodus")) {
 					str = scene.makeLuaString();
@@ -72,17 +105,17 @@ namespace pc {
 						if (ImGui::TreeNode("Objects")) {
 							//Add right-click menue
 							for (auto& i : scene.objects) {
-								ImGui::PushID(i.name.data(), "hhh");
-								std::string o_name = "Object (" + i.name + ")";
+								ImGui::PushID(i->name.data(), "hhh");
+								std::string o_name = "Object (" + i->name + ")";
 								if (ImGui::TreeNode(o_name.data())) {
-									ImGui::InputText("Texture String ", i.texture_string, 256);
+									ImGui::InputText("Texture String ", i->texture_string, 256);
 									int pos[3];
-									pos[0] = static_cast<int>(i.get().getPosition().x);
-									pos[1] = static_cast<int>(i.get().getPosition().y);
-									pos[2] = i.layer;
+									pos[0] = static_cast<int>(i->get().getPosition().x);
+									pos[1] = static_cast<int>(i->get().getPosition().y);
+									pos[2] = i->layer;
 									if (ImGui::InputInt3("Position ", pos)) {
-										i.get().setPosition(pos[0], pos[1]);
-										i.layer = pos[2];
+										i->get().setPosition(pos[0], pos[1]);
+										i->layer = pos[2];
 										scene.helper_count *= 0;
 										rendering.removeEditor();
 										scene.createEditorHelper();
@@ -90,10 +123,10 @@ namespace pc {
 											rendering.addEditor(std::make_shared<sf::RectangleShape>(i), 0);
 									}
 									
-									bool hover = i.hasAction('h');
-									bool look = i.hasAction('l');
-									bool collect = i.hasAction('c');
-									bool use = i.hasAction('u');
+									bool hover = i->hasAction('h');
+									bool look = i->hasAction('l');
+									bool collect = i->hasAction('c');
+									bool use = i->hasAction('u');
 									if (collect == use && collect)
 										use = false;
 									ImGui::Checkbox("Hover", &hover);
@@ -106,15 +139,15 @@ namespace pc {
 									if (ImGui::Checkbox("Use", &use))
 										collect = false;
 
-									i.actions.clear();
+									i->actions.clear();
 									if (hover)
-										i.actions.push_back('h');
+										i->actions.push_back('h');
 									if (look)
-										i.actions.push_back('l');
+										i->actions.push_back('l');
 									if (collect)
-										i.actions.push_back('c');
+										i->actions.push_back('c');
 									if (use)
-										i.actions.push_back('u');
+										i->actions.push_back('u');
 
 
 									ImGui::TreePop();
@@ -125,12 +158,14 @@ namespace pc {
 						}
 						
 					}
+					if (ImGui::CollapsingHeader("Variables")) {
+					}
 					
 					
 				}
 				ImGui::End();
 				ImGui::EndFrame();
-			}*/
+			}
 			rendering.render();
 			
 			
@@ -176,7 +211,7 @@ namespace pc {
 					if (editor_editing == nullptr) { // No active Object --> make one object active;
 						scene.objects.sort(scene.sort_objects_by_layer);
 						for (auto& i : scene.objects) {
-							if ((i->type == 's' && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
+							if (((i->type == 's' || i->type == 'm' ) && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
 								editor_editing = i->sprite;
 								cursor_offset = sf::Vector2f(mouse_pos.x - editor_editing->getGlobalBounds().left, mouse_pos.y - editor_editing->getGlobalBounds().top);
 								break;
@@ -212,23 +247,23 @@ namespace pc {
 				}
 				scene.objects.sort(scene.sort_objects_by_layer);
 				for (auto& i : scene.objects) {
-					if ((i->type == 's' && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
+					if (((i->type == 's' || i->type == 'm') && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
 						auto callback = lua.lua["scenes"][scene.name]["objects"][i->name];
 						switch (event.mouseButton.button)
 						{
 						case sf::Mouse::Button::Left:
 							if (i->hasAction('u')) {
 								callback["onUse"].call();
-								goto end_for;
+								break;
 							}
 							if (i->hasAction('c')) {
 								callback["onCollect"].call();
-								goto end_for;
+								break;
 							}
 						case sf::Mouse::Button::Right:
 							if (i->hasAction('l')) {
 								callback["onLook"].call();
-								goto end_for;
+								break;
 							}
 						default:
 							break;
@@ -236,16 +271,7 @@ namespace pc {
 					}
 				}
 			}
-		end_for:
-			//Updates
-			//Check if we have to load a new scene:
-			if (!lua.lua["game"]["loadScene"].get<std::string>().empty())
-				loadScene();
-			//Update the Subtitle
-			subtitle.updateSubtitle(rendering.getWindowObject().getSize());
 			break;
-
-
 			case sf::Event::MouseMoved: {
 				 mouse_pos = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
 				 
@@ -261,14 +287,8 @@ namespace pc {
 					 scene.objects.sort(scene.sort_objects_by_layer);
 					 for (auto& i : scene.objects) {
 						 if (i->hasAction('h')) {
-							 if ((i->type == 's' && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
+							 if (((i->type == 's' || i->type == 'm') && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
 								 lua.lua["scenes"][scene.name]["objects"][i->name]["onHover"].call();
-								 //Updates
-								 //Check if we have to load a new scene:
-								 if (!lua.lua["game"]["loadScene"].get<std::string>().empty())
-									 loadScene();
-								 //Update the Subtitle
-								 subtitle.updateSubtitle(rendering.getWindowObject().getSize());
 								 break;
 							 }
 						 }
@@ -303,6 +323,8 @@ namespace pc {
 			default:
 				break;
 			}
+
+			
 		}
 		
 	}

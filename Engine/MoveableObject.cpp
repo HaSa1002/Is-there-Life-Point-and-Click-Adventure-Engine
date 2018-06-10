@@ -25,9 +25,20 @@
 ////////////////////////////////////////////////////////////
 
 namespace pc {
+	const sf::Vector2i convertToVector2i(const sf::Vector2f& vec) {
+		return sf::Vector2i(static_cast<int>(vec.x), static_cast<int>(vec.y));
+	}
+
 	MoveableObject::MoveableObject(sol::state& lua, const sf::Texture& texture, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions, const std::string& trigger) : l{lua}, Object( texture, position, name, actions ) {
 		trigger_function = trigger;
 		type = 'm';
+		if (!areas.empty())
+			areas.clear();
+		if (!points.empty())
+			points.clear();
+		if (!states.empty())
+			states.clear();
+
 	}
 	sf::Vector2f MoveableObject::getPoint(hash point) {
 		for (const auto& i : points) {
@@ -44,21 +55,34 @@ namespace pc {
 		this->point = point;
 		toMove = duration;
 	}
-	const sf::IntRect MoveableObject::getStateRect(sf::Vector2i position) {
+	const sf::IntRect MoveableObject::getStateRect(const sf::Vector2i& position) {
+		for (const auto& i : areas) {
+			if (i.first.contains(position))
+				return Animation::getStateRect(i.second);
+		}
 		return sf::IntRect();
 	}
 	void MoveableObject::update(sf::Time elapsed) {
-	if (toMove.asSeconds() == 0) {
-		return;
+		//Skip if no movement has to be done
+		if (toMove.asSeconds() == 0)
+			goto set_texture;
+
+		//Calculate the current position to set
+		{
+		sf::Vector2f dest = getPoint(point);
+		if (toMove < elapsed) {
+			sprite->setPosition(dest);
+			toMove = sf::Time::Zero;
+			goto set_texture;
+		}
+		dest -= sprite->getPosition();
+		sprite->move((dest / toMove.asSeconds()) * elapsed.asSeconds());
+		toMove -= elapsed;
+		}
+	set_texture: //We are setting the correct texture now
+		sprite->setTextureRect(getStateRect(convertToVector2i(sprite->getPosition())));
 	}
-	sf::Vector2f dest = getPoint(point);
-	if (toMove < elapsed) {
-		sprite->setPosition(dest);
-		toMove = sf::Time::Zero;
-	}
-	dest -= sprite->getPosition();
-	sprite->move(dest / elapsed.asSeconds());
-	}
+
 	sf::Transformable & MoveableObject::get() {
 		return static_cast<sf::Transformable&>(*sprite);
 	}

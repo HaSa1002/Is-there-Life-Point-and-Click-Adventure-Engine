@@ -25,11 +25,12 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "Animation.hpp"
+#include "Object.hpp"
 #include <SFML\Graphics.hpp>
 #include <memory>
 
 namespace pc {
-	struct AnimatedObject : Animation {
+	struct AnimatedObject : Object, Animation {
 		
 	};
 }

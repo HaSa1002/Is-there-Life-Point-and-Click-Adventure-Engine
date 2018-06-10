@@ -40,7 +40,7 @@ namespace pc {
 		sf::Vector2f getPoint(hash point);
 		void setPosition(hash point);
 		void move(hash point, sf::Time duration);
-		const sf::IntRect getStateRect(sf::Vector2i position);
+		const sf::IntRect getStateRect(const sf::Vector2i& position);
 		void update(sf::Time elapsed);
 		sf::Transformable& get();
 

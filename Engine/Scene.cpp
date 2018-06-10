@@ -83,8 +83,8 @@ namespace pc {
 		zoomlines.emplace_back(position, factor, is_active);
 	}
 
-	bool Scene::sort_objects_by_layer(const Object & l, const Object & r) {
-		return (l.layer > r.layer) ? true : false;
+	bool Scene::sort_objects_by_layer(const std::shared_ptr<Object> & l, const std::shared_ptr<Object> & r) {
+		return (l->layer > r->layer) ? true : false;
 	}
 
 	void Scene::createEditorHelper() {
@@ -99,7 +99,7 @@ namespace pc {
 					helper.back().setFillColor(sf::Color::Transparent);
 					++helper_count.x;
 				}
-				if (i->type == 's') {
+				if (i->type == 's' || i->type == 'm') {
 					helper.emplace_back(sf::Vector2f(i->sprite->getGlobalBounds().width, i->sprite->getGlobalBounds().height));
 					helper.back().setPosition(i->sprite->getGlobalBounds().left, i->sprite->getGlobalBounds().top);
 					helper.back().setOutlineColor(sf::Color::Red);
@@ -138,6 +138,14 @@ namespace pc {
 		zoomlines.clear();
 		helper.clear();
 		helper_count *= 0;
+	}
+
+	std::shared_ptr<Object> Scene::getObject(const std::string & object_name) {
+		for (auto& i : objects) {
+			if (i->name == object_name)
+			return i;
+		}
+		return nullptr;
 	}
 
 	std::string Scene::makeLuaString() {

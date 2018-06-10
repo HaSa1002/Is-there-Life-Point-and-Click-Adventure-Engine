@@ -122,11 +122,10 @@ namespace pc {
 		if (texture[0] == 'm') {
 			
 			scene_temp->addMoveableObject(lua, t[4].get_or<std::string>("r0,0"), sf::Vector3i(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0)), o.first.as<std::string>(), actions);
-			MoveableObject* i = (MoveableObject*)&scene_temp->objects.back();
+			std::shared_ptr<MoveableObject> i = std::static_pointer_cast<MoveableObject>(scene_temp->objects.back());
+			//Scale up to 600%, for the pixel feeling
+			i->sprite->setScale(5,5);
 			std::hash<std::string> hash;
-			i->areas.clear();
-			i->states.clear();
-			i->points.clear();
 			auto getStates = [i, hash](std::pair<sol::object, sol::object> o) {
 				auto s = o.second.as<sol::table>();
 				if (!o.second.is<sol::table>())

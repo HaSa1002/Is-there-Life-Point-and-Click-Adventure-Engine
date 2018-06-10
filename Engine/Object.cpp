@@ -85,14 +85,13 @@ namespace pc {
 
 	////////////////////////////////////////////////////////////
 	sf::Transformable& Object::get() {
-		if (type == 's')
+		if (type == 's' ||type == 'm')
 			return static_cast<sf::Transformable&>(*sprite);
 		if (type == 'c')
 			return static_cast<sf::Transformable&>(*click);
 		if (type == 't')
 			return static_cast<sf::Transformable&>(*text);
-		std::string message = "The type of the Object is wrong. (" + type;
-		message += ')';
+		std::string message = "The type of the Object is wrong. : " + type;
 		throw(std::invalid_argument(message));
 	}
 }

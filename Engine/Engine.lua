@@ -19,6 +19,10 @@ game.lang = "de"
 game.subtitleColor = {255, 255, 255,  255} -- RGBa
 game.subtitleSize = 30
 game.subtitleFont = ".\\textures\\font.otf"
+
+-- Make Game Tables Ready
+game["animatedMove"] = {};
+
 -- dofile "Game.conf"
 
 

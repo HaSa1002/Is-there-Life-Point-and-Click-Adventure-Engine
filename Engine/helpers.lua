@@ -16,3 +16,7 @@ function changeScene(scene)
 	game["loadScene"] = scene
 end
 
+function animatedMove(object, pointTo, time)
+	game["animatedMove"][object] = {pointTo, time};
+end
+

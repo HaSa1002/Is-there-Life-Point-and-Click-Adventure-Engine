@@ -106,11 +106,13 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		void addZoomline(const sf::IntRect& position, const float factor, const bool is_active);
 
-		static bool sort_objects_by_layer(const Object& l, const Object& r);
+		static bool sort_objects_by_layer(const std::shared_ptr<Object>& l, const std::shared_ptr<Object>& r);
 
 		void createEditorHelper();
 
 		void reset();
+
+		std::shared_ptr<Object> getObject(const std::string& object_name);
 
 		std::string makeLuaString();
 
