@@ -76,7 +76,7 @@ namespace pc {
 			goto set_texture;
 		}
 		dest -= sprite->getPosition();
-		sprite->move((dest / toMove.asSeconds()) * elapsed.asSeconds());
+		sprite->move((dest / toMove.asSeconds())* elapsed.asSeconds());
 		toMove -= elapsed;
 		}
 	set_texture: //We are setting the correct texture now

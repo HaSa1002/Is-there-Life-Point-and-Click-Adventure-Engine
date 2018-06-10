@@ -46,8 +46,8 @@ namespace pc {
 			window.create(video_mode, title, sf::Style::Default);
 		this->title = title;
 
-		window.resetGLStates();
-		window.setVerticalSyncEnabled(false);
+		//window.resetGLStates();
+		window.setVerticalSyncEnabled(true);
 		ImGui::SFML::Init(window);
 	}
 
@@ -100,7 +100,7 @@ namespace pc {
 	}
 
 	void Rendering::newImGuiWindow() {
-		ImGui::SFML::Update(window, clock.restart());
+		ImGui::SFML::Update(window, clock.getElapsedTime());
 	}
 
 
@@ -193,6 +193,7 @@ namespace pc {
 
 	////////////////////////////////////////////////////////////
 	void Rendering::render() {
+		clock.restart();
 		if (has_focus) {
 			window.clear();
 			for (auto& draw_layer : draw_list) {
