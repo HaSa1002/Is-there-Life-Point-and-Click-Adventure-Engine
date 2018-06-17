@@ -20,7 +20,7 @@ namespace pc {
 		/// sets the subtitle
 		///
 		////////////////////////////////////////////////////////////
-		void setSubtitle(const std::wstring & to_set);
+		void setText(const std::wstring & to_set);
 
 
 		std::shared_ptr<sf::Text>		subtitle;		///< The Subtitle we want to display

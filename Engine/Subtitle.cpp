@@ -41,7 +41,7 @@ namespace pc {
 
 
 
-	void Subtitle::setSubtitle(const std::wstring& to_set) {
+	void Subtitle::setText(const std::wstring& to_set) {
 		text = to_set;
 		subtitle->setString(text);
 		subtitle->setPosition(static_cast<float>(window_size.x / 2), static_cast<float>(subtitle->getCharacterSize() + 20));
