@@ -1,5 +1,5 @@
 # Is there Life? Engine (2D Point&Click Adventures)
-Currently in development engine for 2D Point and Click Adventures. Feel free to contact me and/or collaborate to the project. As you may notice I'm not that C++ experienced so point mistakes out, please.
+This project is not finished. It is under active development. The mission is to have an engine were you can easily create Point and Click Adventures, and make them interactive, as well as animated. This engine is developed for an own project, but in a general approach. Currently I am working on making the engine independent from Lua, so that we could - theoretically - implement a different scripting language. That is the reason, why it currently is not compiling. If you are interested in insights in the development, follow my [blog](https://hasa1002.github.io/).
 
 # Features #
 -	Scripting as the main part of interacting with the engine
