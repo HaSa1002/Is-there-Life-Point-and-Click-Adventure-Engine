@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<part part="1">
-  <scene>
-    test_scene
-    <name>Test Szene</name>
-    <description>It's the testing scene!</description>
-  </scene>
-</part>

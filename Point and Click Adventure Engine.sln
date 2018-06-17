@@ -3,14 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Point and Click Adventure Engine", "Point and Click Adventure Engine\Point and Click Adventure Engine.vcxproj", "{324AEFAE-7E96-4190-BBE0-107B8A8B4571}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Message Bus", "Message Bus\Message Bus.vcxproj", "{AE2336B5-3553-4F6C-8F9C-3CB3544A7BB8}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTest\UnitTest.vcxproj", "{17A8C637-E5B2-45C4-9007-6A9D325216B3}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Component System", "Entity Component System\Entity Component System.vcxproj", "{E3894D58-0A90-44CC-A521-A7C535234D39}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua", "Lua\Lua.vcxproj", "{11372003-2551-4223-B32E-551B0666A359}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{CA8A336F-EF5E-4D0C-A5E8-DE27F87ECFB4}"
@@ -23,38 +15,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{324AEFAE-7E96-4190-BBE0-107B8A8B4571}.Debug|x64.ActiveCfg = Debug|x64
-		{324AEFAE-7E96-4190-BBE0-107B8A8B4571}.Debug|x64.Build.0 = Debug|x64
-		{324AEFAE-7E96-4190-BBE0-107B8A8B4571}.Debug|x86.ActiveCfg = Debug|Win32
-		{324AEFAE-7E96-4190-BBE0-107B8A8B4571}.Debug|x86.Build.0 = Debug|Win32
-		{324AEFAE-7E96-4190-BBE0-107B8A8B4571}.Release|x64.ActiveCfg = Release|x64
-		{324AEFAE-7E96-4190-BBE0-107B8A8B4571}.Release|x64.Build.0 = Release|x64
-		{324AEFAE-7E96-4190-BBE0-107B8A8B4571}.Release|x86.ActiveCfg = Release|Win32
-		{324AEFAE-7E96-4190-BBE0-107B8A8B4571}.Release|x86.Build.0 = Release|Win32
-		{AE2336B5-3553-4F6C-8F9C-3CB3544A7BB8}.Debug|x64.ActiveCfg = Debug|x64
-		{AE2336B5-3553-4F6C-8F9C-3CB3544A7BB8}.Debug|x64.Build.0 = Debug|x64
-		{AE2336B5-3553-4F6C-8F9C-3CB3544A7BB8}.Debug|x86.ActiveCfg = Debug|Win32
-		{AE2336B5-3553-4F6C-8F9C-3CB3544A7BB8}.Debug|x86.Build.0 = Debug|Win32
-		{AE2336B5-3553-4F6C-8F9C-3CB3544A7BB8}.Release|x64.ActiveCfg = Release|x64
-		{AE2336B5-3553-4F6C-8F9C-3CB3544A7BB8}.Release|x64.Build.0 = Release|x64
-		{AE2336B5-3553-4F6C-8F9C-3CB3544A7BB8}.Release|x86.ActiveCfg = Release|Win32
-		{AE2336B5-3553-4F6C-8F9C-3CB3544A7BB8}.Release|x86.Build.0 = Release|Win32
-		{17A8C637-E5B2-45C4-9007-6A9D325216B3}.Debug|x64.ActiveCfg = Debug|x64
-		{17A8C637-E5B2-45C4-9007-6A9D325216B3}.Debug|x64.Build.0 = Debug|x64
-		{17A8C637-E5B2-45C4-9007-6A9D325216B3}.Debug|x86.ActiveCfg = Debug|Win32
-		{17A8C637-E5B2-45C4-9007-6A9D325216B3}.Debug|x86.Build.0 = Debug|Win32
-		{17A8C637-E5B2-45C4-9007-6A9D325216B3}.Release|x64.ActiveCfg = Release|x64
-		{17A8C637-E5B2-45C4-9007-6A9D325216B3}.Release|x64.Build.0 = Release|x64
-		{17A8C637-E5B2-45C4-9007-6A9D325216B3}.Release|x86.ActiveCfg = Release|Win32
-		{17A8C637-E5B2-45C4-9007-6A9D325216B3}.Release|x86.Build.0 = Release|Win32
-		{E3894D58-0A90-44CC-A521-A7C535234D39}.Debug|x64.ActiveCfg = Debug|x64
-		{E3894D58-0A90-44CC-A521-A7C535234D39}.Debug|x64.Build.0 = Debug|x64
-		{E3894D58-0A90-44CC-A521-A7C535234D39}.Debug|x86.ActiveCfg = Debug|Win32
-		{E3894D58-0A90-44CC-A521-A7C535234D39}.Debug|x86.Build.0 = Debug|Win32
-		{E3894D58-0A90-44CC-A521-A7C535234D39}.Release|x64.ActiveCfg = Release|x64
-		{E3894D58-0A90-44CC-A521-A7C535234D39}.Release|x64.Build.0 = Release|x64
-		{E3894D58-0A90-44CC-A521-A7C535234D39}.Release|x86.ActiveCfg = Release|Win32
-		{E3894D58-0A90-44CC-A521-A7C535234D39}.Release|x86.Build.0 = Release|Win32
 		{11372003-2551-4223-B32E-551B0666A359}.Debug|x64.ActiveCfg = Debug|x64
 		{11372003-2551-4223-B32E-551B0666A359}.Debug|x64.Build.0 = Debug|x64
 		{11372003-2551-4223-B32E-551B0666A359}.Debug|x86.ActiveCfg = Debug|Win32
