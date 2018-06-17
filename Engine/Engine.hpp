@@ -39,7 +39,7 @@ namespace pc {
 		/// param editor	define wether we start the editor or the game
 		///
 		////////////////////////////////////////////////////////////
-		Engine(bool editor) :editor_mode{ editor }, subtitle{ lua } { start(); };
+		Engine(bool editor) :editor_mode{ editor }, subtitle{ script } { start(); };
 
 		////////////////////////////////////////////////////////////
 		/// We don't have a default constructor
@@ -48,6 +48,12 @@ namespace pc {
 		Engine() = delete;
 
 	private:
+
+		void addEditorHelper();
+
+		void addSceneToRendering();
+
+		
 
 		////////////////////////////////////////////////////////////
 		/// Loads a scene
@@ -77,16 +83,16 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		// Member data
 		////////////////////////////////////////////////////////////
-		bool			editor_mode;	///< states the mode
-		Rendering		rendering;		///< The Rendering. It's the only class who own's one
-		Lua				lua;			///< Lua State Holder and collection of nice functions
-		Scene			scene;			///< The scene we are going to see
-		sf::Font		font;			///< The Font we want to use to display the text
-		Subtitle		subtitle;
-		std::string		str;
-		sf::Vector2i	mouse_pos;
+		bool						editor_mode;	///< states the mode
+		Rendering					rendering;		///< The Rendering. It's the only class who own's one
+		Lua							script;			///< The ScriptEngine
+		Scene						scene;			///< The scene we are going to see
+		sf::Font					font;			///< The Font we want to use to display the text
+		Subtitle					subtitle;		///< Our Subtitle Controller
+		std::string					str;			///< I don't know. TODO
+		sf::Vector2i				mouse_pos;		///< Save for the mouse_pos, but why ??? TODO
 		std::shared_ptr<sf::Sprite> editor_editing;	///< The Object we are editing
-		sf::Vector2f	cursor_offset;
+		sf::Vector2f				cursor_offset;
 	};
 }
 

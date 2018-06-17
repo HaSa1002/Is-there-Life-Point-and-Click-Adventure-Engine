@@ -72,6 +72,7 @@ namespace pc {
 		objects.back()->texture_string = texture_path;
 	}
 
+
 	////////////////////////////////////////////////////////////
 	void Scene::addWalkbox(const sf::IntRect & rectangle, const bool is_active) {
 		walkboxes.emplace_back(rectangle, is_active);

@@ -136,6 +136,7 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Rendering.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="ScriptEngine.cpp" />
     <ClCompile Include="Subtitle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +157,7 @@
     <ClInclude Include="Object.hpp" />
     <ClInclude Include="Rendering.hpp" />
     <ClInclude Include="Scene.hpp" />
+    <ClInclude Include="ScriptEngine.hpp" />
     <ClInclude Include="SFML-Helper.hpp" />
     <ClInclude Include="sol.hpp" />
     <ClInclude Include="stb_rect_pack.h" />

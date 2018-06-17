@@ -120,9 +120,10 @@ namespace pc {
 		l["zoomlines"].get<sol::table>().for_each(it_zoomlines);
 
 	clean_and_end:
-		scene_temp = nullptr;
 		if (addToRenderer)
 			_scene_addToRenderingFunction();
+		l[scene_temp->name]["onEnter"].call();
+		scene_temp = nullptr;
 	}
 
 	void Lua::playAnimatedMove(const std::string & obj, const std::string & point, const float sec) { 

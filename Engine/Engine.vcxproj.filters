@@ -99,6 +99,9 @@
     <ClCompile Include="MoveableObject.cpp">
       <Filter>Quelldateien\modules\display\animated</Filter>
     </ClCompile>
+    <ClCompile Include="ScriptEngine.cpp">
+      <Filter>Quelldateien\modules\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imconfig.h">
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="MoveableObject.hpp">
       <Filter>Headerdateien\modules\display\animated</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptEngine.hpp">
+      <Filter>Headerdateien\modules\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

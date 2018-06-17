@@ -4,53 +4,54 @@
 
 namespace pc {
 
+	void Engine::addEditorHelper() {
+		rendering.removeEditor();
+		if (editor_mode) {
+			scene.createEditorHelper();
+			for (auto& i : scene.helper)
+				rendering.addEditor(std::make_shared<sf::RectangleShape>(i), 0);
+		}
+	}
 
-	void Engine::loadScene() {
-		//Load the room, the user set
+	void Engine::addSceneToRendering() {
 		rendering.remove();
-		scene.reset();
-		scene.name = lua.getSceneToBeLoaded();
-		lua.loadScene(&scene);
+		
 		for (auto& i : scene.objects) {
 			if (i->type == 's' || i->type == 'm')
 				rendering.add(i->sprite, i->layer);
 		}
-		lua.lua[scene.name].call("onEnter");
-		rendering.removeEditor();
-		scene.createEditorHelper();
-		if (editor_mode) {
-			for (auto& i : scene.helper) {
-				rendering.addEditor(std::make_shared<sf::RectangleShape>(i), 0);
-			}
+	}
 
-		}
+
+	void Engine::loadScene() {
+		//Load the scene, the user set
+		scene.reset();
+		//TODO: Here would be a detection if we are in range...
+		//...but we don't have one, so we do it immediately
+		script.loadScene(scene, true);
 	}
 
 
 
 	void Engine::start() {
-		//Load the config file, then set
-		lua.init();
-
-		//See the Editor.conf.lua to get an overview of what is possible
-		if (!lua.editorConfig())
-			return;
-
-		auto editor = lua.lua["editor"];
-		rendering.createWindow(editor["title"], editor["fullscreen"], sf::VideoMode(editor["solution"][1].get_or(1600), editor["solution"][2].get_or(900)));
+		ScriptEngine::EditorValues editor = script.getEditorConfig();
+		rendering.createWindow(editor.title, editor.fullscreen, editor.solution);
 		rendering.imgui_rendering(true);
 
-		subtitle.setSettings();
-		rendering.addGUI(subtitle.subtitle, 0);
+		//Start our ScriptEngine. The set Scene will be loaded
+		script.setFunctions(std::bind(&Engine::addSceneToRendering, this), std::bind(&Engine::loadScene, this));
+		//TODO: This has to be done. We need to write the functions, that will do the work of Engine stuff directly, and then pass it here, to then bind it with Lua in the function
+		script.bindFunctions();
+		script.init();
 
-		loadScene();
+		subtitle.setSettings(script.getSubtitleSettings());
+		rendering.addGUI(subtitle.subtitle, 0);
 
 		main();
 	}
 
 
 	void Engine::main() {
-		sf::Clock clock;
 		while (rendering.isOpen()) {
 			processEvents();
 
@@ -71,7 +72,7 @@ namespace pc {
 					ImGui::Separator();
 					if (ImGui::CollapsingHeader("Scene Properties")) {
 						if (ImGui::TreeNode("Objects")) {
-							//Add right-click menue
+							//TODO: Add right-click menue
 							for (auto& i : scene.objects) {
 								ImGui::PushID(i->name.data(), "hhh");
 								std::string o_name = "Object (" + i->name + ")";
@@ -129,9 +130,12 @@ namespace pc {
 				ImGui::EndFrame();
 			}
 
-
+			//
+			//WORK HERE: Continue splitting into Engine and scripting
+			//
 
 			//Animation for_each Function
+			
 			auto getAnimatedMoves = [this](std::pair<sol::object, sol::object> o) {
 				if (!o.second.is<sol::table>())
 					return;
@@ -141,12 +145,9 @@ namespace pc {
 
 			};
 
-			// Update everything
-			//Check if we have to load a new scene:
-			if (!lua.lua["game"]["loadScene"].get<std::string>().empty())
-				loadScene();
+
 			//Update the Subtitle
-			subtitle.updateSubtitle(rendering.getWindowObject().getSize());
+			subtitle.update(rendering.getWindowObject().getSize(), rendering.getTime());
 			//Read requested animations
 			auto anim = lua.lua["game"]["animatedMove"].get<sol::table>();
 			if (!anim.empty()) {
@@ -183,19 +184,14 @@ namespace pc {
 				switch (event.key.code) {
 					case sf::Keyboard::F3:
 					if (event.key.shift) {
-						lua.init();
-						lua.lua["game"]["loadScene"] = scene.name; // We are cheating here, cause our init set's the entry on the first scene to load, but we wanna get the current reloaded
+						script.init();
+						script.setScene(scene.name);
 						loadScene();
-						subtitle.setSettings();
+						subtitle.setSettings(script.getSubtitleSettings());
 
 					} else { //Only F3
 						editor_mode = !editor_mode;
-						if (editor_mode) {
-							scene.createEditorHelper();
-							for (auto& i : scene.helper)
-								rendering.addEditor(std::make_shared<sf::RectangleShape>(i), 0);
-						} else
-							rendering.removeEditor();
+						addEditorHelper();
 					}
 					break;
 					case sf::Keyboard::P:
@@ -215,8 +211,6 @@ namespace pc {
 						editor_editing = nullptr;
 
 					break;
-					default:
-					break;
 				}
 				break;
 				case sf::Event::MouseWheelMoved:
@@ -224,7 +218,6 @@ namespace pc {
 				case sf::Event::MouseWheelScrolled:
 				break;
 				case sf::Event::MouseButtonPressed:
-
 				break;
 				case sf::Event::MouseButtonReleased:
 				{
@@ -241,24 +234,21 @@ namespace pc {
 					scene.objects.sort(scene.sort_objects_by_layer);
 					for (auto& i : scene.objects) {
 						if (((i->type == 's' || i->type == 'm') && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
-							auto callback = lua.lua["scenes"][scene.name]["objects"][i->name];
 							switch (event.mouseButton.button) {
 								case sf::Mouse::Button::Left:
 								if (i->hasAction('u')) {
-									callback["onUse"].call();
+									script.call(scene, i->name, 'u');
 									break;
 								}
 								if (i->hasAction('c')) {
-									callback["onCollect"].call();
+									script.call(scene, i->name, 'c');
 									break;
 								}
 								case sf::Mouse::Button::Right:
 								if (i->hasAction('l')) {
-									callback["onLook"].call();
+									script.call(scene, i->name, 'l');
 									break;
 								}
-								default:
-								break;
 							}
 						}
 					}
@@ -270,25 +260,20 @@ namespace pc {
 					if (editor_editing != nullptr) { // Just move the object around; We don't wan't beeing bortherd by this;
 						editor_editing->setPosition(sf::Vector2f(mouse_pos) - cursor_offset);
 						scene.helper_count *= 0;
-						rendering.removeEditor();
-						scene.createEditorHelper();
-						for (auto& i : scene.helper)
-							rendering.addEditor(std::make_shared<sf::RectangleShape>(i), 0);
+						addEditorHelper();
 					} else { // Be normal
 						scene.objects.sort(scene.sort_objects_by_layer);
 						for (auto& i : scene.objects) {
 							if (i->hasAction('h')) {
 								if (((i->type == 's' || i->type == 'm') && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
-									lua.lua["scenes"][scene.name]["objects"][i->name]["onHover"].call();
+									script.call(scene, i->name, 'h');
 									break;
 								}
 							}
 						}
 					}
-
-
 				}
-											break;
+				break;
 				case sf::Event::MouseEntered:
 				break;
 				case sf::Event::MouseLeft:
@@ -310,8 +295,6 @@ namespace pc {
 				case sf::Event::TouchEnded:
 				break;
 				case sf::Event::SensorChanged:
-				break;
-				default:
 				break;
 			}
 
