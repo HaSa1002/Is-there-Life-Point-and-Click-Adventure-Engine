@@ -8,25 +8,26 @@
 namespace pc {
 	struct Subtitle {
 	public:
-		Subtitle(Lua& l);
+		Subtitle();
 
-		void setSettings();
+		void setSettings(const ScriptEngine::SubtitleValue& vals);
 
 		size_t getMiddlePosition();
 
+		bool update(const sf::Vector2u & w_size, const sf::Time& t);
+
 		////////////////////////////////////////////////////////////
-		/// set the subtitle
+		/// sets the subtitle
 		///
 		////////////////////////////////////////////////////////////
-		void updateSubtitle(const sf::Vector2u& window_size);
+		void setSubtitle(const std::wstring & to_set);
 
 
 		std::shared_ptr<sf::Text>		subtitle;		///< The Subtitle we want to display
 		sf::Font						font;
 		std::wstring					text;
+		sf::Vector2u & window_size;
 	private:
-		Lua& lua;
-		
 		
 	};
 }

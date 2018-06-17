@@ -3,19 +3,18 @@
 
 namespace pc { 
 
-	Subtitle::Subtitle(Lua& l) :lua{ l } { 
+	Subtitle::Subtitle() { 
 		subtitle = std::make_shared<sf::Text>();
 	};
 
 
-	void Subtitle::setSettings() {
-		if (!font.loadFromFile(lua.lua["game"]["subtitleFont"].get_or<std::string>(""))) {
+	void Subtitle::setSettings(const ScriptEngine::SubtitleValue& vals) {
+		if (!font.loadFromFile(vals.font)) {
 
 		}
 		subtitle->setFont(font);
-		subtitle->setCharacterSize(lua.lua["game"]["subtitleSize"].get_or(30));
-		auto color = lua.lua["game"]["subtitleColor"];
-		subtitle->setFillColor(sf::Color(color[1].get_or(255), color[2].get_or(255), color[3].get_or(255), color[4].get_or(255)));
+		subtitle->setCharacterSize(vals.size);
+		subtitle->setFillColor(vals.color);
 	}
 
 
@@ -36,10 +35,14 @@ namespace pc {
 		return (sizes.size() > 2) ? sizes[pos] + (longest / 2) : (text.size() / 2);
 	}
 
+	bool Subtitle::update(const sf::Vector2u & w_size, const sf::Time & t) {
+		window_size = w_size;
+	}
 
 
-	void Subtitle::updateSubtitle(const sf::Vector2u& window_size) {
-		text = lua.getSubtitleToBeLoaded();
+
+	void Subtitle::setSubtitle(const std::wstring& to_set) {
+		text = to_set;
 		subtitle->setString(text);
 		subtitle->setPosition(static_cast<float>(window_size.x / 2), static_cast<float>(subtitle->getCharacterSize() + 20));
 		subtitle->move(-subtitle->findCharacterPos(getMiddlePosition()).x + (window_size.x / 2), 0);
