@@ -7,11 +7,11 @@ Currently in development engine for 2D Point and Click Adventures. Feel free to 
 
 ## In Development ##
 - Editor mode [see](https://hasa1002.github.io/blog/2018/04/04/Basic-Engine/)
--	Leveleditor
+-	Animations
+- Scripting language independency, but deliverd Lua support
 
 ## Planned ##
 -	Savegames
--	Animations
 -	Cutscenes
 -	Scriptable GUI
 -	Doc
