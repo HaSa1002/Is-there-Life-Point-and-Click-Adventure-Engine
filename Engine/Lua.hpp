@@ -25,23 +25,33 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #define SOL_CHECK_ARGUMENTS 1
-#include "Scene.hpp"
+#include "ScriptEngine.hpp"
 #include "sol.hpp"
 
 namespace pc {
-	class Lua {
+	class Lua : public ScriptEngine {
 	public:
 		sol::state lua;
 		
-		bool init();
+		void init();
+
+		void setScene(const std::string& scene);
+
+		void call(pc::Scene& scene, const std::string& object, const char action);
 		
-		bool editorConfig();
+		EditorValues getEditorConfig();
+
+		SubtitleValue getSubtitleSettings();
+
+		void bindFunctions();
 
 		const std::string getSceneToBeLoaded();
 
 		const std::wstring getSubtitleToBeLoaded();
 
-		void loadScene(Scene* scene);
+		void loadScene(Scene& scene, bool addToRenderer);
+
+		void playAnimatedMove(const std::string& obj, const std::string& point, const float sec);
 
 		void readObject(std::pair<sol::object, sol::object> o);
 

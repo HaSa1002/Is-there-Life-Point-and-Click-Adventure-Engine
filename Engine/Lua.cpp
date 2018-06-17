@@ -3,58 +3,80 @@
 #include <fstream>
 
 namespace pc {
-	bool Lua::init() {
+	void Lua::init() {
 		lua.open_libraries(sol::lib::base, sol::lib::coroutine, sol::lib::io, sol::lib::math, sol::lib::os, sol::lib::package, sol::lib::string, sol::lib::table, sol::lib::utf8);
+		lua.script(R"(
+			scenes = {}
+			localisations = {}
+			game = {}
+			pc = {}
+			)");
 		try {
 			lua.script_file("Engine.lua");
-		}
-		catch (sol::error err) {
+		} catch (sol::error err) {
 			printf("%s\n", err.what());
-			return false;
 		}
-		if (lua["scenes"].valid() && lua["localisations"].valid() && lua["game"].valid())
-			return true;
-		return false;
+
+		return;
+	}
+
+	void Lua::setScene(const std::string & scene) { 
+		lua["game"]["loadScene"] = scene;
 	}
 
 
-	bool Lua::editorConfig() {
-		//See the Editor.conf.lua to get an overview of what is possible
-		// Create the variables first, so that we don't run into errors with the file nor with our Engine.cpp
+	void Lua::call(pc::Scene & scene, const std::string & object, const char action) {
+		std::string callAction;
+		switch (action) {
+			case 'c':
+			callAction = "onCollect";
+			break;
+			case 'u':
+			callAction = "onUse";
+			break;
+			case 'l':
+			callAction = "onLook";
+			break;
+			case 'h':
+			callAction = "onHover";
+			break;
+			default:
+			throw std::invalid_argument(action + " is not a valid Action.");
+		}
+		lua["scenes"][scene.name]["objects"][object][callAction].call();
+	}
+
+	ScriptEngine::EditorValues Lua::getEditorConfig() {
 		lua.script(R"(
 			editor = {
 				solution = {1600, 900},
 				title = "Is there Life? | Engine",
 				fullscreen = false,
-				open_menues = { "mainmenue" },
 			}
-			print "Config variables set.\n"
 			)");
 
-
-		//Load the Config File
 		try {
 			lua.script_file("Editor.conf.lua");
-		}
-		catch (sol::error err) {
+		} catch (sol::error err) {
 			printf("%s\n", err.what());
-			
-			try {
-				//Create a new file...
-				std::fstream file("Editor.conf.lua", std::fstream::out);
-				file << std::flush;
-				file.close();
-				//...and try again
-				lua.script_file("Editor.conf.lua");
 			}
-			catch (sol::error err) {
-				//if we are here. Something went terribly wrong
-				printf("%s\n", err.what());
-				return false;
-			}
-		}
-		return true;
+
+		return EditorValues(lua["editor"]["title"].get_or<std::string>(""), 
+		lua["editor"]["fullscreen"].get_or(false), 
+		lua["editor"]["solution"][0].get_or(1600), 
+		lua["editor"]["solution"][0].get_or(900));
 	}
+
+	ScriptEngine::SubtitleValue Lua::getSubtitleSettings() {
+		return SubtitleValue(lua["game"]["subtitleFont"].get_or<std::string>(""), lua["game"]["subtitleSize"].get_or(30), 
+		lua["game"]["subtitleColor"][1].get_or(255), lua["game"]["subtitleColor"][2].get_or(255), lua["game"]["subtitleColor"][3].get_or(255), 
+		lua["game"]["subtitleColor"][4].get_or(255));
+	}
+
+
+	//TODO: Bind the Functions to Lua in the pc Table
+	void Lua::bindFunctions() { }
+
 
 	const std::string Lua::getSceneToBeLoaded() {
 		if (lua["game"]["loadScene"].get<std::string>().empty())
@@ -73,14 +95,14 @@ namespace pc {
 
 		std::wstring dest = lua["game"]["setSubtitle"].get_or<std::wstring>(L"");
 		lua["game"]["setSubtitle"] = "";
-		
+
 		return dest;
 	}
 
-	void Lua::loadScene(Scene* scene) {
-		scene_temp = scene;
-		auto l = lua["scenes"][scene->name];
-		auto it_objects = [this](std::pair<sol::object, sol::object> o) { 
+	void Lua::loadScene(Scene& scene, bool addToRenderer) {
+		scene_temp = &scene;
+		auto l = lua["scenes"][scene.name];
+		auto it_objects = [this](std::pair<sol::object, sol::object> o) {
 			readObject(o);
 		};
 		auto it_walkboxes = [this](std::pair<sol::object, sol::object> o) {
@@ -99,17 +121,20 @@ namespace pc {
 
 	clean_and_end:
 		scene_temp = nullptr;
+		if (addToRenderer)
+			_scene_addToRenderingFunction();
+	}
+
+	void Lua::playAnimatedMove(const std::string & obj, const std::string & point, const float sec) { 
+	
 	}
 
 
-
 	void Lua::readObject(std::pair<sol::object, sol::object> o) {
-		if (!o.second.is<sol::table>())
-#if defined _DEBUG || !defined NO_EXCEPTIONS
-			throw Exception::noObjectTable;
-#else
+		if (!o.second.is<sol::table>()) {
+			_ASSERT_EXPR(false, "A Object was wrong");
 			return;
-#endif
+		}
 		std::list<char> actions;
 		auto getActions = [&actions](std::pair<sol::object, sol::object> a) {
 			if (a.second.is<char>())
@@ -120,11 +145,11 @@ namespace pc {
 			t[5].get<sol::table>().for_each(getActions);
 		std::string texture = t[4].get_or<std::string>("r0,0");
 		if (texture[0] == 'm') {
-			
+
 			scene_temp->addMoveableObject(lua, t[4].get_or<std::string>("r0,0"), sf::Vector3i(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0)), o.first.as<std::string>(), actions);
 			std::shared_ptr<MoveableObject> i = std::static_pointer_cast<MoveableObject>(scene_temp->objects.back());
 			//Scale up to 600%, for the pixel feeling
-			i->sprite->setScale(5,5);
+			i->sprite->setScale(5, 5);
 			std::hash<std::string> hash;
 			auto getStates = [i, hash](std::pair<sol::object, sol::object> o) {
 				auto s = o.second.as<sol::table>();
@@ -162,23 +187,19 @@ namespace pc {
 
 
 	void Lua::readWalkbox(std::pair<sol::object, sol::object> o) {
-		if (!o.second.is<sol::table>())
-#if defined _DEBUG || !defined NO_EXCEPTIONS
-			throw Exception::noObjectTable;
-#else
+		if (!o.second.is<sol::table>()) {
+			_ASSERT_EXPR(false, "A Walkbox was wrong");
 			return;
-#endif
+		}
 		auto t = o.second.as<sol::table>();
 		scene_temp->addWalkbox(sf::IntRect(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0), t[4].get_or(0)), t[5].get_or(true));
 	}
 
 	void Lua::readZoomline(std::pair<sol::object, sol::object> o) {
-		if (!o.second.is<sol::table>())
-#if defined _DEBUG || !defined NO_EXCEPTIONS
-			throw Exception::noObjectTable;
-#else
+		if (!o.second.is<sol::table>()) {
+			_ASSERT_EXPR(false, "A Zoomline was wrong");
 			return;
-#endif
+		}
 		auto t = o.second.as<sol::table>();
 		scene_temp->addZoomline(sf::IntRect(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0), t[4].get_or(0)), t[5].get_or<float>(0), t[6].get_or(true));
 	}
