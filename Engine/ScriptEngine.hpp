@@ -50,9 +50,13 @@ namespace pc {
 
 		virtual void init() = 0;
 
+		virtual void preInit() = 0;
+
 		virtual void setScene(const std::string& scene) = 0;
 
-		virtual EditorValues getEditorConfig() = 0;
+		virtual void setScene(pc::Scene& scene) = 0;
+
+		virtual const EditorValues getEditorConfig() = 0;
 
 		////////////////////////////////////////////////////////////
 		/// Calls a callback given on the scene, object and action.
@@ -65,7 +69,7 @@ namespace pc {
 
 		virtual void loadScene(pc::Scene& scene, bool addToRendering) = 0;
 
-		virtual SubtitleValue getSubtitleSettings() = 0;
+		virtual const SubtitleValue getSubtitleSettings() = 0;
 
 			////////////////////////////////////////////////////////////
 			// Saved Functions

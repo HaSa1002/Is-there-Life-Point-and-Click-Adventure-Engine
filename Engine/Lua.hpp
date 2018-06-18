@@ -35,13 +35,17 @@ namespace pc {
 		
 		void init();
 
+		void preInit();
+
 		void setScene(const std::string& scene);
+
+		void setScene(pc::Scene& scene);
 
 		void call(pc::Scene& scene, const std::string& object, const char action);
 		
-		EditorValues getEditorConfig();
+		const EditorValues getEditorConfig();
 
-		SubtitleValue getSubtitleSettings();
+		const SubtitleValue getSubtitleSettings();
 
 		void bindFunctions();
 

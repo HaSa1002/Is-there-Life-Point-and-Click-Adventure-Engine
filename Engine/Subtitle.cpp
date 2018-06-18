@@ -3,9 +3,7 @@
 
 namespace pc { 
 
-	Subtitle::Subtitle() { 
-		subtitle = std::make_shared<sf::Text>();
-	};
+	Subtitle::Subtitle() : font {}, subtitle { std::make_shared<sf::Text>((sf::Text())) } { };
 
 
 	void Subtitle::setSettings(const ScriptEngine::SubtitleValue& vals) {

@@ -39,7 +39,7 @@ namespace pc {
 		/// param editor	define wether we start the editor or the game
 		///
 		////////////////////////////////////////////////////////////
-		Engine(bool editor) :editor_mode{ editor }, subtitle{ script } { start(); };
+		Engine(bool editor) :editor_mode{ editor }, subtitle{ } { start(); };
 
 		////////////////////////////////////////////////////////////
 		/// We don't have a default constructor
@@ -84,6 +84,7 @@ namespace pc {
 		// Member data
 		////////////////////////////////////////////////////////////
 		bool						editor_mode;	///< states the mode
+		bool reload;
 		Rendering					rendering;		///< The Rendering. It's the only class who own's one
 		Lua							script;			///< The ScriptEngine
 		Scene						scene;			///< The scene we are going to see

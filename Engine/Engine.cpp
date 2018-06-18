@@ -15,7 +15,7 @@ namespace pc {
 
 	void Engine::addSceneToRendering() {
 		rendering.remove();
-		
+
 		for (auto& i : scene.objects) {
 			if (i->type == 's' || i->type == 'm')
 				rendering.add(i->sprite, i->layer);
@@ -24,6 +24,10 @@ namespace pc {
 
 
 	void Engine::loadScene() {
+		if (reload) {
+			reload = false;
+			return;
+		}
 		//Load the scene, the user set
 		scene.reset();
 		//TODO: Here would be a detection if we are in range...
@@ -39,6 +43,8 @@ namespace pc {
 		rendering.imgui_rendering(true);
 
 		//Start our ScriptEngine. The set Scene will be loaded
+		script.preInit();
+		script.setScene(scene);
 		script.setFunctions(std::bind(&Engine::addSceneToRendering, this), std::bind(&Engine::loadScene, this), std::bind(&Subtitle::setText, &subtitle, std::placeholders::_1));
 		//TODO: This has to be done. We need to write the functions, that will do the work of Engine stuff directly, and then pass it here, to then bind it with Lua in the function
 		script.bindFunctions();
@@ -161,8 +167,10 @@ namespace pc {
 				switch (event.key.code) {
 					case sf::Keyboard::F3:
 					if (event.key.shift) {
+						reload = true;
+						std::string scene_name = scene.name;
 						script.init();
-						script.setScene(scene.name);
+						script.setScene(scene_name);
 						loadScene();
 						subtitle.setSettings(script.getSubtitleSettings());
 
@@ -215,21 +223,22 @@ namespace pc {
 								case sf::Mouse::Button::Left:
 								if (i->hasAction('u')) {
 									script.call(scene, i->name, 'u');
-									break;
+									goto break_for;
 								}
 								if (i->hasAction('c')) {
 									script.call(scene, i->name, 'c');
-									break;
+									goto break_for;
 								}
 								case sf::Mouse::Button::Right:
 								if (i->hasAction('l')) {
 									script.call(scene, i->name, 'l');
-									break;
+									goto break_for;
 								}
 							}
 						}
 					}
 				}
+			break_for:
 				break;
 				case sf::Event::MouseMoved: {
 					mouse_pos = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
@@ -250,7 +259,7 @@ namespace pc {
 						}
 					}
 				}
-				break;
+											break;
 				case sf::Event::MouseEntered:
 				break;
 				case sf::Event::MouseLeft:

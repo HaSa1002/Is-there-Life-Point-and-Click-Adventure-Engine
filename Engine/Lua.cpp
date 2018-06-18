@@ -4,6 +4,14 @@
 
 namespace pc {
 	void Lua::init() {
+		try {
+			lua.script_file("Engine.lua");
+		} catch (sol::error err) {
+			printf("%s\n", err.what());
+		}
+	}
+
+	void Lua::preInit() {
 		lua.open_libraries(sol::lib::base, sol::lib::coroutine, sol::lib::io, sol::lib::math, sol::lib::os, sol::lib::package, sol::lib::string, sol::lib::table, sol::lib::utf8);
 		lua.script(R"(
 			scenes = {}
@@ -11,17 +19,14 @@ namespace pc {
 			game = {}
 			pc = {}
 			)");
-		try {
-			lua.script_file("Engine.lua");
-		} catch (sol::error err) {
-			printf("%s\n", err.what());
-		}
-
-		return;
 	}
 
-	void Lua::setScene(const std::string & scene) { 
-		lua["game"]["loadScene"] = scene;
+	void Lua::setScene(const std::string & scene) {
+		scene_temp->name = scene;
+	}
+
+	void Lua::setScene(pc::Scene & scene) {
+		scene_temp = &scene;
 	}
 
 
@@ -46,7 +51,7 @@ namespace pc {
 		lua["scenes"][scene.name]["objects"][object][callAction].call();
 	}
 
-	ScriptEngine::EditorValues Lua::getEditorConfig() {
+	const ScriptEngine::EditorValues Lua::getEditorConfig() {
 		lua.script(R"(
 			editor = {
 				solution = {1600, 900},
@@ -59,21 +64,21 @@ namespace pc {
 			lua.script_file("Editor.conf.lua");
 		} catch (sol::error err) {
 			printf("%s\n", err.what());
-			}
+		}
 
-		return EditorValues(lua["editor"]["title"].get_or<std::string>(""), 
-		lua["editor"]["fullscreen"].get_or(false), 
-		lua["editor"]["solution"][0].get_or(1600), 
-		lua["editor"]["solution"][0].get_or(900));
+		return EditorValues(lua["editor"]["title"].get_or<std::string>(""),
+			lua["editor"]["fullscreen"].get_or(false),
+			lua["editor"]["solution"][0].get_or(1600),
+			lua["editor"]["solution"][0].get_or(900));
 	}
 
-	ScriptEngine::SubtitleValue Lua::getSubtitleSettings() {
-		return SubtitleValue(lua["game"]["subtitleFont"].get_or<std::string>(""), lua["game"]["subtitleSize"].get_or(30), 
-		lua["game"]["subtitleColor"][1].get_or(255), lua["game"]["subtitleColor"][2].get_or(255), lua["game"]["subtitleColor"][3].get_or(255), 
-		lua["game"]["subtitleColor"][4].get_or(255));
+	const ScriptEngine::SubtitleValue Lua::getSubtitleSettings() {
+		return SubtitleValue(lua["game"]["subtitleFont"].get_or<std::string>(""), lua["game"]["subtitleSize"].get_or(30),
+			lua["game"]["subtitleColor"][1].get_or(255), lua["game"]["subtitleColor"][2].get_or(255), lua["game"]["subtitleColor"][3].get_or(255),
+			lua["game"]["subtitleColor"][4].get_or(255));
 	}
 
-	
+
 
 
 	//TODO: Bind the Functions to Lua in the pc Table
@@ -142,12 +147,13 @@ namespace pc {
 	clean_and_end:
 		if (addToRenderer)
 			_scene_addToRenderingFunction();
-		l[scene_temp->name]["onEnter"].call();
-		
+		if (l[scene_temp->name]["onEnter"].valid())
+			l[scene_temp->name]["onEnter"].call();
+
 	}
 
-	void Lua::playAnimatedMove(const std::string & obj, const std::string & point, const float sec) { 
-	
+	void Lua::playAnimatedMove(const std::string & obj, const std::string & point, const float sec) {
+
 	}
 
 
