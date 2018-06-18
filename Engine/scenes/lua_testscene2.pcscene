@@ -23,7 +23,7 @@ for i = 1, 7, 1 do
 
 	obj = scene["objects"]["ServerRack" .. i];
 	 function obj.onHover()
-	 	setSubtitle("Ein Server mit der Nummer " .. i)
+	 	pc.setSubtitle("Ein Server mit der Nummer " .. i)
 	 end
 end
 
@@ -42,24 +42,24 @@ scene["zoomlines"] = {
 -- You can do nice things with the onEnter Function
 function scene.onEnter()
 	-- Let's start a movement on entering
-	animatedMove("AnimationTest", "point2", 5);
+	pc.playAnimatedMove("AnimationTest", "point2", 5);
 end
 
 -- The Callback Functions:
 -- objects.ObjectName.action
 
 function scene.objects.Panel.onUse()
-	setSubtitle(display("PanelUse"))
-	animatedMove("ServerRack1", "point2", 1);
+	pc.setSubtitle(display("PanelUse"))
+	pc.playAnimatedMove("ServerRack1", "point2", 1);
 end
 
 function scene.objects.Panel.onLook()
-	setSubtitle(display("PanelLook"))
-	animatedMove("ServerRack1", "point1", 5);
+	pc.setSubtitle(display("PanelLook"))
+	pc.playAnimatedMove("ServerRack1", "point1", 5);
 end
 
 function scene.objects.Panel.onHover()
-	setSubtitle(display("PanelHover"))
+	pc.setSubtitle(display("PanelHover"))
 	
 end
 
@@ -69,11 +69,11 @@ end
 
 
 function scene.objects.OtherRoom.onUse()
-	changeScene "lua_testscene"
+	pc.loadScene("lua_testscene")
 end
 
 function scene.objects.OtherRoom.onHover()
-	setSubtitle(display("changeTo")..display("lua_testscene"))
+	pc.setSubtitle(display("changeTo")..display("lua_testscene"))
 end
 
 

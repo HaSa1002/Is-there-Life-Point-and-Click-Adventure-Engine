@@ -41,24 +41,24 @@ end
 
 -- Write your callback functions below
 function scene.objects.Change.onUse()
-	changeScene "lua_testscene2"
+	pc.loadScene("lua_testscene2")
 end
 
 function scene.objects.Change.onHover()
-	setSubtitle(display("changeTo")..display("lua_testscene2"))
+	pc.setSubtitle(display("changeTo")..display("lua_testscene2"))
 end
 
 function scene.objects.Tablet.onUse()
-	setSubtitle(display("tabletU"))
-	changeScene("bedroom_old")
+	pc.setSubtitle(display("tabletU"))
+	pc.loadScene("bedroom_old")
 end
 
 function scene.objects.Tablet.onLook()
-	setSubtitle(display("tabletL"))
+	pc.setSubtitle(display("tabletL"))
 end
 
 function scene.objects.Tablet.onHover()
-	setSubtitle(display("tablet"))
+	pc.setSubtitle(display("tablet"))
 end
 
 

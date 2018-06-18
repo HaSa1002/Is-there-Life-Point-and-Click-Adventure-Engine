@@ -2,12 +2,6 @@
 -- Currently you have to manually register all rooms. This may get obsolete someday
 -- Load our helpers
 
-
--- Initalize Tables
-scenes = {}
-localisations = {}
-game = {}
-
 -- Load our smart helpers
 dofile "helpers.lua"
 
@@ -19,9 +13,6 @@ game.lang = "de"
 game.subtitleColor = {255, 255, 255,  255} -- RGBa
 game.subtitleSize = 30
 game.subtitleFont = ".\\textures\\font.otf"
-
--- Make Game Tables Ready
-game["animatedMove"] = {};
 
 -- dofile "Game.conf"
 
@@ -37,4 +28,4 @@ dofile "scenes/bedroom_old.pcscene"
 
 
  -- Set the first scene to be loaded.
- changeScene "bedroom_old"
+pc.loadScene("lua_testscene")
