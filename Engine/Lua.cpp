@@ -73,9 +73,25 @@ namespace pc {
 		lua["game"]["subtitleColor"][4].get_or(255));
 	}
 
+	
+
 
 	//TODO: Bind the Functions to Lua in the pc Table
-	void Lua::bindFunctions() { }
+	void Lua::bindFunctions() {
+		lua["pc"]["loadScene"] = [this](const std::string& scene) {
+			setScene(scene);
+			_scene_loadScene();
+		};
+
+		lua["pc"]["playAnimatedMove"] = [this](const std::string& obj, const std::string& p, float sec) {
+			std::hash<std::string> h;
+			auto t = std::static_pointer_cast<MoveableObject>(scene_temp->getObject(obj));
+			if (t)
+				t->move(h(p), sf::seconds(sec));
+			else
+				printf("%s couldn't be found.\n", obj.data());
+		};
+	}
 
 
 	const std::string Lua::getSceneToBeLoaded() {
@@ -123,7 +139,7 @@ namespace pc {
 		if (addToRenderer)
 			_scene_addToRenderingFunction();
 		l[scene_temp->name]["onEnter"].call();
-		scene_temp = nullptr;
+		
 	}
 
 	void Lua::playAnimatedMove(const std::string & obj, const std::string & point, const float sec) { 
@@ -173,7 +189,7 @@ namespace pc {
 				if (!o.second.is<sol::table>())
 					return;
 				pc::hash name = hash(s[3].get_or<std::string>(""));
-				sf::Vector2f pos(s[1].get_or(0), s[2].get_or(0));
+				sf::Vector2f pos(s[1].get_or(0.f), s[2].get_or(0.f));
 				i->points.push_back(std::make_pair(name, pos));
 			};
 

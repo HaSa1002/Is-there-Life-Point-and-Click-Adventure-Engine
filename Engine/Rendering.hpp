@@ -60,7 +60,7 @@ namespace pc {
 		/// param object shared_ptr to the drawable
 		///
 		////////////////////////////////////////////////////////////
-		void add(std::shared_ptr<sf::Drawable> object, int layer);
+		void add(std::shared_ptr<sf::Drawable> object, unsigned int layer);
 
 		////////////////////////////////////////////////////////////
 		/// Adds a item to the gui draw list
@@ -71,7 +71,7 @@ namespace pc {
 		/// param object shared_ptr to the drawable
 		///
 		////////////////////////////////////////////////////////////
-		void addEditor(std::shared_ptr<sf::Drawable> object, int layer);
+		void addEditor(std::shared_ptr<sf::Drawable> object, unsigned int layer);
 
 		////////////////////////////////////////////////////////////
 		/// Adds a item to the gui draw list
@@ -82,7 +82,7 @@ namespace pc {
 		/// param object shared_ptr to the drawable
 		///
 		////////////////////////////////////////////////////////////
-		void addGUI(std::shared_ptr<sf::Drawable> gui_element, int layer);
+		void addGUI(std::shared_ptr<sf::Drawable> gui_element, unsigned int layer);
 
 		////////////////////////////////////////////////////////////
 		/// Closes the window

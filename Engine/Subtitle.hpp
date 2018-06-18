@@ -26,7 +26,7 @@ namespace pc {
 		std::shared_ptr<sf::Text>		subtitle;		///< The Subtitle we want to display
 		sf::Font						font;
 		std::wstring					text;
-		sf::Vector2u & window_size;
+		sf::Vector2u					window_size;
 	private:
 		
 	};

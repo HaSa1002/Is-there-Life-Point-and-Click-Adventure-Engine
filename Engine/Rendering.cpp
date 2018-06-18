@@ -10,13 +10,13 @@ namespace pc {
 			window.close();
 	}
 
-	void Rendering::add(std::shared_ptr<sf::Drawable> object, int layer) {
+	void Rendering::add(std::shared_ptr<sf::Drawable> object, unsigned int layer) {
 		if (layer >= draw_list.size())
 			draw_list.resize(layer + 1);
 		draw_list[layer].push_back(object);
 	}
 
-	void Rendering::addEditor(std::shared_ptr<sf::Drawable> object, int layer) {
+	void Rendering::addEditor(std::shared_ptr<sf::Drawable> object, unsigned int layer) {
 		if (layer >= editor_list.size())
 			editor_list.resize(layer + 1);
 		editor_list[layer].push_back(object);
@@ -56,7 +56,7 @@ namespace pc {
 	}
 
 
-	void Rendering::addGUI(std::shared_ptr<sf::Drawable> gui_element, int layer) {
+	void Rendering::addGUI(std::shared_ptr<sf::Drawable> gui_element, unsigned int layer) {
 		if (layer >= gui_list.size())
 			gui_list.resize(layer + 1);
 		gui_list[layer].push_back(gui_element);

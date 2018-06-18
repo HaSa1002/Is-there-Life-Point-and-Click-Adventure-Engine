@@ -46,7 +46,7 @@ namespace pc {
 			sf::Color color;
 		};
 
-		virtual void setFunctions(std::function<void(void)> scene_addToRenderingFunction, std::function<void(void)> scene_loadScene);
+		virtual void setFunctions(std::function<void(void)> scene_addToRenderingFunction, std::function<void(void)> scene_loadScene, std::function<void(const std::wstring&)> subtitle_setText);
 
 		virtual void init() = 0;
 
@@ -61,10 +61,7 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		virtual void call(pc::Scene& scene, const std::string& object, const char action) = 0;
 
-		virtual void playAnimatedMove(const std::string& obj, const std::string& point, const float sec) = 0;
-
 		virtual void bindFunctions() = 0;
-
 
 		virtual void loadScene(pc::Scene& scene, bool addToRendering) = 0;
 
@@ -75,6 +72,7 @@ namespace pc {
 			////////////////////////////////////////////////////////////
 			std::function<void(void)> _scene_addToRenderingFunction;
 		std::function<void(void)> _scene_loadScene;
+		std::function<void(const std::wstring&)> _subtitle_setText;
 	};
 }
 

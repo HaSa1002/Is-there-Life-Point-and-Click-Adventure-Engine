@@ -37,6 +37,7 @@ namespace pc {
 
 	bool Subtitle::update(const sf::Vector2u & w_size, const sf::Time & t) {
 		window_size = w_size;
+		return true;
 	}
 
 

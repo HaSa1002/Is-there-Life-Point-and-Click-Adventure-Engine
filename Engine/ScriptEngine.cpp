@@ -26,9 +26,10 @@
 
 
 namespace pc {
-	void ScriptEngine::setFunctions(std::function<void(void)> scene_addToRenderingFunction, std::function<void(void)> scene_loadScene) {
+	void ScriptEngine::setFunctions(std::function<void(void)> scene_addToRenderingFunction, std::function<void(void)> scene_loadScene, std::function<void(const std::wstring&)> subtitle_setText) {
 		_scene_addToRenderingFunction = scene_addToRenderingFunction;
 		_scene_loadScene = scene_loadScene;
+		_subtitle_setText = subtitle_setText;
 	};
 
 }

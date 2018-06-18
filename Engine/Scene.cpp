@@ -111,21 +111,21 @@ namespace pc {
 			}
 			for (auto& i : walkboxes) {
 				sf::Vector2i rect(sf::Vector2i(i.rectangle.left, i.rectangle.top) - sf::Vector2i(i.rectangle.width, i.rectangle.height));
-				helper.emplace_back(sf::Vector2f(i.rectangle.width, i.rectangle.height));
-				helper.back().setPosition(i.rectangle.left, i.rectangle.top);
+				helper.emplace_back(sf::Vector2f(static_cast<float>(i.rectangle.width), static_cast<float>(i.rectangle.height)));
+				helper.back().setPosition(static_cast<float>(i.rectangle.left), static_cast<float>(i.rectangle.top));
 				helper.back().setOutlineColor(sf::Color::Green);
 				helper.back().setOutlineThickness(1.f);
 				helper.back().setFillColor(sf::Color::Transparent);
 				++helper_count.y;
 			}
 			for (auto& i : zoomlines) {
-				float r = std::hypotf(i.position.width - i.position.left, i.position.height - i.position.top);
+				float r = std::hypotf(static_cast<float>(i.position.width - i.position.left), static_cast<float>(i.position.height - i.position.top));
 				if (r == 0)
 					continue;
 				int y = i.position.height - i.position.top;
 				helper.emplace_back(sf::Vector2f(r, 1));
-				helper.back().setPosition(i.position.left, i.position.top);
-				helper.back().setRotation(std::asin(y/r) * 180 / PI);
+				helper.back().setPosition(static_cast<float>(i.position.left), static_cast<float>(i.position.top));
+				helper.back().setRotation(std::asin(static_cast<float>(y/r)) * 180 / static_cast<float>(PI));
 				helper.back().setFillColor(sf::Color::Blue);
 				++helper_count.z;
 			}

@@ -39,7 +39,7 @@ namespace pc {
 		rendering.imgui_rendering(true);
 
 		//Start our ScriptEngine. The set Scene will be loaded
-		script.setFunctions(std::bind(&Engine::addSceneToRendering, this), std::bind(&Engine::loadScene, this));
+		script.setFunctions(std::bind(&Engine::addSceneToRendering, this), std::bind(&Engine::loadScene, this), std::bind(&Subtitle::setText, &subtitle, std::placeholders::_1));
 		//TODO: This has to be done. We need to write the functions, that will do the work of Engine stuff directly, and then pass it here, to then bind it with Lua in the function
 		script.bindFunctions();
 		script.init();
@@ -83,7 +83,7 @@ namespace pc {
 									pos[1] = static_cast<int>(i->get().getPosition().y);
 									pos[2] = i->layer;
 									if (ImGui::InputInt3("Position ", pos)) {
-										i->get().setPosition(pos[0], pos[1]);
+										i->get().setPosition(static_cast<float>(pos[0]), static_cast<float>(pos[1]));
 										i->layer = pos[2];
 									}
 									bool hover = i->hasAction('h');
@@ -130,31 +130,7 @@ namespace pc {
 				ImGui::EndFrame();
 			}
 
-			//
-			//WORK HERE: Continue splitting into Engine and scripting
-			//
-
-			//Animation for_each Function
-			
-			auto getAnimatedMoves = [this](std::pair<sol::object, sol::object> o) {
-				if (!o.second.is<sol::table>())
-					return;
-				auto data = o.second.as<sol::table>();
-				std::hash<std::string> h;
-				std::static_pointer_cast<MoveableObject>(scene.getObject(o.first.as<std::string>()))->move(h(data[1].get<std::string>()), sf::seconds(data[2].get_or<float>(60.0001)));
-
-			};
-
-
-			//Update the Subtitle
-			subtitle.update(rendering.getWindowObject().getSize(), rendering.getTime());
-			//Read requested animations
-			auto anim = lua.lua["game"]["animatedMove"].get<sol::table>();
-			if (!anim.empty()) {
-				anim.for_each(getAnimatedMoves);
-				lua.lua.script(R"(game.animatedMove = {})");
-			}
-
+			//Update Animations
 			for (auto& object : scene.objects) {
 				if (object->type != 'm')
 					continue;
@@ -162,7 +138,8 @@ namespace pc {
 				i->update(rendering.getTime());
 			}
 
-
+			//Update Subtitle
+			subtitle.update(rendering.getWindowObject().getSize(), rendering.getTime());
 
 
 			rendering.render();
