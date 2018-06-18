@@ -91,6 +91,10 @@ namespace pc {
 			else
 				printf("%s couldn't be found.\n", obj.data());
 		};
+
+		lua["pc"]["setSubtitle"] = [this](const std::wstring& text) {
+			_subtitle_setText(text);
+		};
 	}
 
 
