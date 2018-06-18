@@ -4,11 +4,13 @@ This project is not finished. It is under active development. The mission is to 
 # Features #
 -	Scripting as the main part of interacting with the engine
 -	Designed for 2D Point and Click Adventure
+- Scripting language independency, but deliverd Lua support
+- Support for Moving Objects
 
 ## In Development ##
 - Editor mode [see](https://hasa1002.github.io/blog/2018/04/04/Basic-Engine/)
 -	Animations
-- Scripting language independency, but deliverd Lua support
+
 
 ## Planned ##
 -	Savegames
