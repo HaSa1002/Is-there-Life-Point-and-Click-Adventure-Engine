@@ -4,11 +4,13 @@ This project is not finished. It is under active development. The mission is to 
 # Features #
 -	Scripting as the main part of interacting with the engine
 -	Designed for 2D Point and Click Adventure
+- Scripting language independency, but deliverd Lua support
+- Support for Moving Objects
 
 ## In Development ##
 - Editor mode [see](https://hasa1002.github.io/blog/2018/04/04/Basic-Engine/)
 -	Animations
-- Scripting language independency, but deliverd Lua support
+
 
 ## Planned ##
 -	Savegames
@@ -16,6 +18,18 @@ This project is not finished. It is under active development. The mission is to 
 -	Scriptable GUI
 -	Doc
 -	Multiple Platforms
+
+## Installation ##
+You need to have Visual Studio 2017 installed (however I am sure, that you can get this on every Platform running, since I am not using any windows specific librarys)
+1. Clone the project
+2. Install SFML version 2.5 (https://www.sfml-dev.org/tutorials/2.5/start-vc.php)
+
+## Libraries ##
+This Software uses the following libraries:
+- [SFML](https://www.sfml-dev.org/) (zlib/png license)
+- [ImGui](https://github.com/ocornut/imgui) (MIT license) (included)
+- [ImGui-SFML](https://github.com/eliasdaler/imgui-sfml) (MIT license) (included)
+- [Lua](https://lua.org) (MIT license) (included)
 
 ## Help Wanted ##
 Since this is my hobby project I update here as I have time. I made this open, so that everyone can use and modify it, but to let people influence this project.
