@@ -6,7 +6,8 @@ local scene = scenes["lua_testscene2"]
 
 scene["objects"] = {
 	-- 	Name = {Position: x,y,z, Texturepath, actions(use | collect, look, hover)}
-	Panel = {400, 389, 1, ".\\textures\\test2.png", {'u', 'l', 'h'}},
+	Panel = {400, 570, 1, ".\\textures\\test2.png", {'u', 'l', 'h'}},
+	Panel1 = {530, 570, 1, ".\\textures\\test2.png", {'u', 'l', 'h'}},
 	OtherRoom = {0, 0, 1, "r100,900", {'u', 'h'}},
 	
 
@@ -16,10 +17,10 @@ scene["objects"] = {
 -- This is an example of creating multiple objects, with the same resource
 for i = 1, 7, 1 do
 	-- Name = {Position: x,y,z, Texturepath, actions, {states{name, top, left, width, heigth}}, {areas{state, top, left, width, height}}, {points{x,y, name}}}
-	scene["objects"]["ServerRack" .. i] = {0, 100, 1, "m.\\textures\\animation.png", {'h', 'l'}, 
+	scene["objects"]["ServerRack" .. i] = {0, 100, i, "m.\\textures\\animation.png", {'h', 'l'}, 
 	{{"l1", 3, 20, 57, 76}, {"l2", 60, 20, 48, 76}, {"l3", 117, 20, 38, 76}, {"m", 174, 20, 32, 76}, {"r3", 225, 20, 38, 76}, {"r2", 272, 20, 48, 78}, {"r1", 320, 20, 57, 76}}, 
 	{{"l1", -1000, -1000, 1100, 2000}, {"l2", 100, 0, 100, 2000}, {"l3", 200, 0, 100, 2000}, {"l3", 300, 0, 100, 2000}, {"m", 400, 0, 100, 2000}, {"r3", 500, 0, 100, 2000}, {"r2", 600, 0, 100, 2000}, {"r1", 700, 0, 10000, 2000}}, 
-	{{100, 100, "point1"}, {800, 300, "point2"}}}
+	{{100, 100, "point1"}, {800, 300, "point2"}, {800, 100, "point3"}}}
 
 	obj = scene["objects"]["ServerRack" .. i];
 	 function obj.onHover()
@@ -55,7 +56,17 @@ end
 
 function scene.objects.Panel.onLook()
 	pc.setSubtitle(display("PanelLook"))
-	pc.playAnimatedMove("ServerRack1", "point1", 5);
+	pc.playAnimatedMove("ServerRack1", "point1", 0.5);
+end
+
+function scene.objects.Panel1.onUse()
+	pc.setSubtitle(display("PanelUse"))
+	pc.playAnimatedMove("ServerRack2", "point1", 0.1);
+end
+
+function scene.objects.Panel1.onLook()
+	pc.setSubtitle(display("PanelLook"))
+	pc.playAnimatedMove("ServerRack2", "point3", 0.5);
 end
 
 function scene.objects.Panel.onHover()

@@ -58,7 +58,7 @@ namespace pc {
 	}
 
 
-	void Scene::addMoveableObject(sol::state& lua, const std::string& texture_path, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions) {
+	void Scene::addMoveableObject(const std::string& texture_path, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions) {
 		textures.emplace_back(sf::Texture());
 		if (!textures.back().loadFromFile(texture_path.substr(1))) {
 #if defined _DEBUG || !defined NO_EXCEPTIONS
@@ -68,7 +68,7 @@ namespace pc {
 #endif
 		}
 
-		objects.emplace_back(std::make_shared<MoveableObject>(lua, textures.back(), position, name, actions, ""));
+		objects.emplace_back(std::make_shared<MoveableObject>(textures.back(), position, name, actions, ""));
 		objects.back()->texture_string = texture_path;
 	}
 

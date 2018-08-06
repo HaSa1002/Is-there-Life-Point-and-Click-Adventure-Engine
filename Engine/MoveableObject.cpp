@@ -29,7 +29,7 @@ namespace pc {
 		return sf::Vector2i(static_cast<int>(vec.x), static_cast<int>(vec.y));
 	}
 
-	MoveableObject::MoveableObject(sol::state& lua, const sf::Texture& texture, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions, const std::string& trigger) : l{lua}, Object( texture, position, name, actions ) {
+	MoveableObject::MoveableObject(const sf::Texture& texture, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions, const std::string& trigger) :Object{ texture, position, name, actions } {
 		trigger_function = trigger;
 		type = 'm';
 		if (!areas.empty())

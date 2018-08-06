@@ -32,7 +32,7 @@
 
 namespace pc {
 	struct MoveableObject : public Animation, Object {
-		MoveableObject(sol::state& lua, const sf::Texture& texture, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions, const std::string& trigger);
+		MoveableObject(const sf::Texture& texture, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions, const std::string& trigger);
 		std::list<std::pair<sf::IntRect, hash>> areas; 
 		std::list<std::pair<hash, sf::Vector2f>> points;
 		hash point = 0;
@@ -46,7 +46,6 @@ namespace pc {
 
 
 	private:
-		sol::state& l;
 
 	};
 }

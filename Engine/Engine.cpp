@@ -91,6 +91,7 @@ namespace pc {
 									if (ImGui::InputInt3("Position ", pos)) {
 										i->get().setPosition(static_cast<float>(pos[0]), static_cast<float>(pos[1]));
 										i->layer = pos[2];
+										addSceneToRendering();
 									}
 									bool hover = i->hasAction('h');
 									bool look = i->hasAction('l');

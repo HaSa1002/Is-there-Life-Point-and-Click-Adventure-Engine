@@ -86,7 +86,7 @@ namespace pc {
 		/// can throw (DEBUG): Exception::cantLoadImage
 		///
 		////////////////////////////////////////////////////////////
-		void addMoveableObject(sol::state& lua, const std::string& texture_path, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions);
+		void addMoveableObject(const std::string& texture_path, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions);
 
 		////////////////////////////////////////////////////////////
 		/// adds a Walkbox to the Scene
