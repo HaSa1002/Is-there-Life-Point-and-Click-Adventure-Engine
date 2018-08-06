@@ -34,9 +34,10 @@ namespace pc {
 		std::list<std::pair<hash, sf::IntRect>> states;
 		std::string trigger_function;
 		hash state = 0;
+		const sf::Vector2i convertToVector2i(const sf::Vector2f & vec);
 		const sf::IntRect getStateRect(std::string state);
 		const sf::IntRect getStateRect(hash state);
-
+		virtual void update(sf::Time elapsed) = 0;
 	};
 }
 

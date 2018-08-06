@@ -171,44 +171,87 @@ namespace pc {
 		if (t[5].get_type() == sol::type::table)
 			t[5].get<sol::table>().for_each(getActions);
 		std::string texture = t[4].get_or<std::string>("r0,0");
-		if (texture[0] == 'm') {
 
-			scene_temp->addMoveableObject(t[4].get_or<std::string>("r0,0"), sf::Vector3i(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0)), o.first.as<std::string>(), actions);
-			std::shared_ptr<MoveableObject> i = std::static_pointer_cast<MoveableObject>(scene_temp->objects.back());
-			//TODO: Set this value in the settings
-			//Scale up to 500%, for the pixel feeling
-			i->sprite->setScale(5, 5);
-			std::hash<std::string> hash;
-			auto getStates = [i, hash](std::pair<sol::object, sol::object> o) {
-				auto s = o.second.as<sol::table>();
-				if (!o.second.is<sol::table>())
-					return;
-				pc::hash state = hash(s[1].get_or<std::string>(""));
-				sf::IntRect rect(s[2].get_or(0), s[3].get_or(0), s[4].get_or(0), s[5].get_or(0));
-				i->states.push_back(std::make_pair(state, rect));
-			};
-			auto getAreas = [i, hash](std::pair<sol::object, sol::object> o) {
-				auto s = o.second.as<sol::table>();
-				if (!o.second.is<sol::table>())
-					return;
-				pc::hash state = hash(s[1].get_or<std::string>(""));
-				sf::IntRect rect(s[2].get_or(0), s[3].get_or(0), s[4].get_or(0), s[5].get_or(0));
-				i->areas.push_back(std::make_pair(rect, state));
-			};
-			auto getPoints = [&i, hash](std::pair<sol::object, sol::object> o) {
-				auto s = o.second.as<sol::table>();
-				if (!o.second.is<sol::table>())
-					return;
-				pc::hash name = hash(s[3].get_or<std::string>(""));
-				sf::Vector2f pos(s[1].get_or(0.f), s[2].get_or(0.f));
-				i->points.push_back(std::make_pair(name, pos));
-			};
+		std::hash<std::string> hash;
 
-			t[6].get<sol::table>().for_each(getStates);
-			t[7].get<sol::table>().for_each(getAreas);
-			t[8].get<sol::table>().for_each(getPoints);
-		} else
-			scene_temp->addObject(t[4].get_or<std::string>("r0,0"), sf::Vector3i(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0)), o.first.as<std::string>(), actions);
+		std::shared_ptr<Animation> a;
+
+		auto getStates = [&a, hash](std::pair<sol::object, sol::object> o) {
+			auto s = o.second.as<sol::table>();
+			if (!o.second.is<sol::table>())
+				return;
+			pc::hash state = hash(s[1].get_or<std::string>(""));
+			sf::IntRect rect(s[2].get_or(0), s[3].get_or(0), s[4].get_or(0), s[5].get_or(0));
+			a->states.push_back(std::make_pair(state, rect));
+		};
+
+
+
+
+		switch (texture[0]) {
+			case 'm': {
+				scene_temp->addMoveableObject(t[4].get_or<std::string>("r0,0"), sf::Vector3i(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0)), o.first.as<std::string>(), actions);
+				std::shared_ptr<MoveableObject> i = std::static_pointer_cast<MoveableObject>(scene_temp->objects.back());
+				a = i;
+				//TODO: Set this value in the settings
+				//Scale up to 500%, for the pixel feeling
+				i->sprite->setScale(5, 5);
+
+				auto getAreas = [&i, hash](std::pair<sol::object, sol::object> o) {
+					auto s = o.second.as<sol::table>();
+					if (!o.second.is<sol::table>())
+						return;
+					pc::hash state = hash(s[1].get_or<std::string>(""));
+					sf::IntRect rect(s[2].get_or(0), s[3].get_or(0), s[4].get_or(0), s[5].get_or(0));
+					i->areas.push_back(std::make_pair(rect, state));
+				};
+
+				auto getPoints = [&i, hash](std::pair<sol::object, sol::object> o) {
+					auto s = o.second.as<sol::table>();
+					if (!o.second.is<sol::table>())
+						return;
+					pc::hash name = hash(s[3].get_or<std::string>(""));
+					sf::Vector2f pos(s[1].get_or(0.f), s[2].get_or(0.f));
+					i->points.push_back(std::make_pair(name, pos));
+				};
+
+				t[6].get<sol::table>().for_each(getStates);
+				t[7].get<sol::table>().for_each(getAreas);
+				t[8].get<sol::table>().for_each(getPoints);
+
+				}
+			break;
+			case 'a': {
+				scene_temp->addAnimatedObject(t[4].get_or<std::string>("r0,0"), sf::Vector3i(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0)), o.first.as<std::string>(), actions);
+				std::shared_ptr<AnimatedObject> i = std::static_pointer_cast<AnimatedObject>(scene_temp->objects.back());
+				a = i;
+				//TODO: Set this value in the settings
+				//Scale up to 500%, for the pixel feeling
+				i->sprite->setScale(5, 5);
+
+				auto getTimes = [&i, hash](std::pair<sol::object, sol::object> o) {
+					auto s = o.second.as<sol::table>();
+					if (!o.second.is<sol::table>())
+						return;
+					pc::hash state = hash(s[1].get_or<std::string>(""));
+					sf::Time time = sf::seconds(s[2].get_or<float>(0));
+					i->times.push_back(std::make_pair(state, time));
+				};
+
+
+				t[6].get<sol::table>().for_each(getStates);
+				t[7].get<sol::table>().for_each(getTimes);
+				}
+			break;
+
+			case 't':
+			case 'r':
+			default:
+				scene_temp->addObject(t[4].get_or<std::string>("r0,0"), sf::Vector3i(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0)), o.first.as<std::string>(), actions);
+
+			break;
+		}
+			
 	}
 
 

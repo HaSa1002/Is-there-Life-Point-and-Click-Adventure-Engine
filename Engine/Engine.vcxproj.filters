@@ -102,6 +102,9 @@
     <ClCompile Include="ScriptEngine.cpp">
       <Filter>Quelldateien\modules\system</Filter>
     </ClCompile>
+    <ClCompile Include="AnimatedObject.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imconfig.h">

@@ -17,7 +17,7 @@ namespace pc {
 		rendering.remove();
 
 		for (auto& i : scene.objects) {
-			if (i->type == 's' || i->type == 'm')
+			if (i->type == 's' || i->type == 'm' || i->type == 'a')
 				rendering.add(i->sprite, i->layer);
 		}
 	}
@@ -138,11 +138,19 @@ namespace pc {
 			}
 
 			//Update Animations
+			std::shared_ptr<Animation> a;
 			for (auto& object : scene.objects) {
-				if (object->type != 'm')
-					continue;
-				std::shared_ptr<MoveableObject> i = std::static_pointer_cast<MoveableObject>(object);
-				i->update(rendering.getTime());
+				switch (object->type) {
+					case 'm':
+						a = std::static_pointer_cast<MoveableObject>(object);
+						break;
+					case 'a':
+						a = std::static_pointer_cast<AnimatedObject>(object);
+						break;
+					default:
+						continue;
+				}
+				a->update(rendering.getTime());
 			}
 
 			//Update Subtitle
@@ -187,7 +195,7 @@ namespace pc {
 					if (editor_editing == nullptr) { // No active Object --> make one object active;
 						scene.objects.sort(scene.sort_objects_by_layer);
 						for (auto& i : scene.objects) {
-							if (((i->type == 's' || i->type == 'm') && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
+							if (((i->type == 's' || i->type == 'm' || i->type == 'a') && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
 								editor_editing = i->sprite;
 								cursor_offset = sf::Vector2f(mouse_pos.x - editor_editing->getGlobalBounds().left, mouse_pos.y - editor_editing->getGlobalBounds().top);
 								break;
@@ -219,7 +227,7 @@ namespace pc {
 					}
 					scene.objects.sort(scene.sort_objects_by_layer);
 					for (auto& i : scene.objects) {
-						if (((i->type == 's' || i->type == 'm') && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
+						if (((i->type == 's' || i->type == 'm' || i->type == 'a') && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
 							switch (event.mouseButton.button) {
 								case sf::Mouse::Button::Left:
 								if (i->hasAction('u')) {
@@ -252,7 +260,7 @@ namespace pc {
 						scene.objects.sort(scene.sort_objects_by_layer);
 						for (auto& i : scene.objects) {
 							if (i->hasAction('h')) {
-								if (((i->type == 's' || i->type == 'm') && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
+								if (((i->type == 's' || i->type == 'm' || i->type == 'a') && i->sprite->getGlobalBounds().contains(sf::Vector2f(mouse_pos))) || (i->type == 'c' && i->click->getGlobalBounds().contains(sf::Vector2f(mouse_pos)))) {
 									script.call(scene, i->name, 'h');
 									break;
 								}

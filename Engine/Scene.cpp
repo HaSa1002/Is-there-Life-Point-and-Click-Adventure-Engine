@@ -74,6 +74,22 @@ namespace pc {
 
 
 	////////////////////////////////////////////////////////////
+	void Scene::addAnimatedObject(const std::string& texture_path, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions) {
+		textures.emplace_back(sf::Texture());
+		if (!textures.back().loadFromFile(texture_path.substr(1))) {
+#if defined _DEBUG || !defined NO_EXCEPTIONS
+			throw Exception::cantLoadImage;
+#else
+			printf("Couldn't load image from: \"%s\"\n", texture_path.data());
+#endif
+		}
+
+		objects.emplace_back(std::make_shared<AnimatedObject>(textures.back(), position, name, actions, ""));
+		objects.back()->texture_string = texture_path;
+	}
+
+
+	////////////////////////////////////////////////////////////
 	void Scene::addWalkbox(const sf::IntRect & rectangle, const bool is_active) {
 		walkboxes.emplace_back(rectangle, is_active);
 	}
@@ -100,7 +116,7 @@ namespace pc {
 					helper.back().setFillColor(sf::Color::Transparent);
 					++helper_count.x;
 				}
-				if (i->type == 's' || i->type == 'm') {
+				if (i->type == 's' || i->type == 'm' || i->type == 'a') {
 					helper.emplace_back(sf::Vector2f(i->sprite->getGlobalBounds().width, i->sprite->getGlobalBounds().height));
 					helper.back().setPosition(i->sprite->getGlobalBounds().left, i->sprite->getGlobalBounds().top);
 					helper.back().setOutlineColor(sf::Color::Red);

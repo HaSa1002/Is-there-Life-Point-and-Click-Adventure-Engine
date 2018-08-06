@@ -85,7 +85,7 @@ namespace pc {
 
 	////////////////////////////////////////////////////////////
 	sf::Transformable& Object::get() {
-		if (type == 's' ||type == 'm')
+		if (type == 's' ||type == 'm' || type == 'a')
 			return static_cast<sf::Transformable&>(*sprite);
 		if (type == 'c')
 			return static_cast<sf::Transformable&>(*click);

@@ -25,10 +25,6 @@
 ////////////////////////////////////////////////////////////
 
 namespace pc {
-	const sf::Vector2i convertToVector2i(const sf::Vector2f& vec) {
-		return sf::Vector2i(static_cast<int>(vec.x), static_cast<int>(vec.y));
-	}
-
 	MoveableObject::MoveableObject(const sf::Texture& texture, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions, const std::string& trigger) :Object{ texture, position, name, actions } {
 		trigger_function = trigger;
 		type = 'm';

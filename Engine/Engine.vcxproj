@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimatedObject.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="imgui-helper.cpp" />
