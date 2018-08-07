@@ -1,5 +1,5 @@
 
-function display( string )
+function locals( string )
 	if localisations[game.lang] ~= nil then
 		return localisations[game.lang][string];
 		elseif localisations[game.stdlang] ~= nil then

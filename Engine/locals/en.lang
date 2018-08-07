@@ -1,9 +1,14 @@
 -- Register all your texts
 -- Be aware that you need to be consistent with your keys
-localisations["en"] = {};
+localisations["en"] = {
+	tablet = "Ohh. It crashed!",
+	accesspointU = "Pieep.",
+};
 local en = localisations["en"];
 en.test = "Hello Testy World"
 en.tabletL = "It's a simple tablet!"
 en.tabletU = "Runs..."
+
+
 
 return en;

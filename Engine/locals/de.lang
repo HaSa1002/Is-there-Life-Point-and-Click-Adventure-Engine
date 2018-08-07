@@ -1,6 +1,8 @@
 -- Register all your texts
 -- Be aware that you need to be consistent with your keys
-localisations["de"] = {};
+localisations["de"] = {
+	tabelt = "Ohh. Abgestürzt",
+};
 local de = localisations["de"];
 de.test = "Hallo Testwelt!"
 de.tabletL = "Das ist ein Tablet!"

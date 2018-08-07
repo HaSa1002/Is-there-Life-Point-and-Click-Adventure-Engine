@@ -13,11 +13,8 @@ scene["objects"] = {
 	-- AnimatedObject Test
 	anim = {450, 100, i, "a.\\textures\\animation.png", {}, 
 	{{"l1", 3, 20, 57, 76}, {"l2", 60, 20, 48, 76}, {"l3", 117, 20, 38, 76}, {"m", 174, 20, 32, 76}, {"r3", 225, 20, 38, 76}, {"r2", 272, 20, 48, 78}, {"r1", 320, 20, 57, 76}}, 
-	{{"l1", 0.3}, {"r1", 0.3}}}
+	{{"l1", 0.3}, {"r1", 0.3}, {"m", 0.5}}}
 
-	
-
-	
 	-- TextDemo = {790, 500, 0, "tI am a text!", {'l', 'h'}}
 }
 -- This is an example of creating multiple objects, with the same resource
@@ -79,10 +76,6 @@ function scene.objects.Panel.onHover()
 	pc.setSubtitle(display("PanelHover"))
 	
 end
-
-
-
-
 
 
 function scene.objects.OtherRoom.onUse()
