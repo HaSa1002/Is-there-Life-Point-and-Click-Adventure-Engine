@@ -45,20 +45,20 @@ function scene.objects.Change.onUse()
 end
 
 function scene.objects.Change.onHover()
-	pc.setSubtitle(display("changeTo")..display("lua_testscene2"))
+	pc.setSubtitle(locals("changeTo")..locals("lua_testscene2"))
 end
 
 function scene.objects.Tablet.onUse()
-	pc.setSubtitle(display("tabletU"))
+	pc.setSubtitle(locals("tabletU"))
 	pc.loadScene("bedroom_old")
 end
 
 function scene.objects.Tablet.onLook()
-	pc.setSubtitle(display("tabletL"))
+	pc.setSubtitle(locals("tabletL"))
 end
 
 function scene.objects.Tablet.onHover()
-	pc.setSubtitle(display("tablet"))
+	pc.setSubtitle(locals("tablet"))
 end
 
 

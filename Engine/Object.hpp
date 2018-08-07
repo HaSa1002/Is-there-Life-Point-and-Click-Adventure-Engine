@@ -35,7 +35,7 @@ namespace pc {
 			std::shared_ptr<sf::RectangleShape>	click;
 			std::shared_ptr<sf::Text>			text;
 		};
-
+		
 		std::string name;
 		char type;
 		int layer;

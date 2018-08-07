@@ -17,8 +17,24 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 ////////////////////////////////////////////////////////////
-#pragma once
 
-//States if no exceptions wished in release mode
-#define NO_EXCEPTIONS
-#define PI 3.14159265358979323846
+#ifndef PC_ANIMATED_OBJECT
+#define PC_ANIMATED_OBJECT
+
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include "TimedAnimation.hpp"
+#include "Object.hpp"
+#include <SFML\Graphics.hpp>
+#include <memory>
+
+namespace pc {
+	struct TimedAnimatedObject : public Object, TimedAnimation {
+		TimedAnimatedObject(const sf::Texture & texture, const sf::Vector3i & position, const std::string & name, const std::list<char>& actions, const std::string & trigger);
+
+		void update(sf::Time elapsed);
+	};
+}
+
+#endif //!PC_ANIMATED_OBJECT

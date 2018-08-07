@@ -42,6 +42,8 @@ namespace pc {
 		void setScene(pc::Scene& scene);
 
 		void call(pc::Scene& scene, const std::string& object, const char action);
+
+		void call(std::chrono::steady_clock::time_point function);
 		
 		const EditorValues getEditorConfig();
 
@@ -57,11 +59,18 @@ namespace pc {
 
 		void playAnimatedMove(const std::string& obj, const std::string& point, const float sec);
 
+		std::map<std::chrono::steady_clock::time_point, sol::function> callbacks;
+
+
+
+	protected:
+
 		void readObject(std::pair<sol::object, sol::object> o);
 
 		void readWalkbox(std::pair<sol::object, sol::object> o);
 
 		void readZoomline(std::pair<sol::object, sol::object> o);
+
 	private:
 		Scene* scene_temp;
 		

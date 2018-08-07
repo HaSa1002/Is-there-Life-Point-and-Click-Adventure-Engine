@@ -30,14 +30,14 @@
 #include <memory>
 
 namespace pc {
-	struct AnimatedObject : public Object, Animation {
-		std::vector<std::pair<hash, sf::Time>> times;
+	struct StaticAnimatedObject : public Object, Animation {
 		sf::Time toWait;
 		size_t currentTime = 0;
 
-		AnimatedObject(const sf::Texture & texture, const sf::Vector3i & position, const std::string & name, const std::list<char>& actions, const std::string & trigger);
+		StaticAnimatedObject(const sf::Texture & texture, const sf::Vector3i & position, const std::string & name, const std::list<char>& actions, const std::string & trigger);
 
 		void update(sf::Time elapsed);
+		void play(hash state, sf::Time duration)
 	};
 }
 

@@ -51,6 +51,10 @@ namespace pc {
 		lua["scenes"][scene.name]["objects"][object][callAction].call();
 	}
 
+	void Lua::call(std::chrono::steady_clock::time_point function) {
+		callbacks.find(function)->second.call();
+	}
+
 	const ScriptEngine::EditorValues Lua::getEditorConfig() {
 		lua.script(R"(
 			editor = {
@@ -99,6 +103,14 @@ namespace pc {
 
 		lua["pc"]["setSubtitle"] = [this](const std::wstring& text) {
 			_subtitle_setText(text);
+		};
+
+		lua["pc"]["addTextures"] = [this](sol::table t) {
+			auto it_textures = [this](std::pair<sol::object, sol::object> o) {
+				scene_temp->res.addTexture(o.second.as<std::string>(), o.first.as<std::string>());
+				
+			};
+			t.for_each(it_textures);
 		};
 	}
 

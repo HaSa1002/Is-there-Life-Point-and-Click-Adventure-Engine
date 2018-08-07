@@ -6,11 +6,11 @@
 require 'class';
 
 objects.accesspoint = class(function(o)
-	o.pos = nil
-	o.scale = {5,5}
-	o.rotation = 0
-	o.texture = ".\\texture\\accesspoint.png"
-	o.actions = {'u'}
+	o.pos = nil;
+	o.scale = {5,5};
+	o.rotation = 0;
+	o.texture = "accesspoint";
+	o.actions = {'u'};
 end);
 Object = objects.accesspoint;
 function Object:onUse()

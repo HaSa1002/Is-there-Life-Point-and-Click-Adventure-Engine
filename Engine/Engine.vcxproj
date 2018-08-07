@@ -136,9 +136,11 @@
     <ClCompile Include="MoveableObject.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Rendering.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScriptEngine.cpp" />
     <ClCompile Include="Subtitle.cpp" />
+    <ClCompile Include="TimedAnimatedObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedObject.hpp" />
@@ -157,6 +159,7 @@
     <ClInclude Include="MoveableObject.hpp" />
     <ClInclude Include="Object.hpp" />
     <ClInclude Include="Rendering.hpp" />
+    <ClInclude Include="ResourceManager.hpp" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="ScriptEngine.hpp" />
     <ClInclude Include="SFML-Helper.hpp" />
@@ -165,6 +168,9 @@
     <ClInclude Include="stb_textedit.h" />
     <ClInclude Include="stb_truetype.h" />
     <ClInclude Include="Subtitle.hpp" />
+    <ClInclude Include="TimedAnimatedObject.hpp" />
+    <ClInclude Include="TimedAnimation.hpp" />
+    <ClInclude Include="typedefs.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lua\Lua.vcxproj">

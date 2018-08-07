@@ -17,8 +17,41 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 ////////////////////////////////////////////////////////////
-#pragma once
 
-//States if no exceptions wished in release mode
-#define NO_EXCEPTIONS
-#define PI 3.14159265358979323846
+#ifndef PC_RESOURCEMANAGER
+#define PC_RESOURCEMANAGER
+
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include "typedefs.hpp"
+
+#include <SFML\Graphics\Texture.hpp>
+#include <map>
+
+namespace pc {
+
+	struct Texture {
+		std::string path;
+		sf::Texture texture;
+
+	};
+
+	////////////////////////////////////////////////////////////
+	/// Class that handles Resources
+	///
+	////////////////////////////////////////////////////////////
+	class ResourceManager {
+	public:
+		std::map<hash, Texture> textures;
+		bool addTexture(const std::string& path, const std::string& name);
+		Texture* getTexture(const hash name);
+		Texture* getTexture(const std::string& name);
+		
+
+	private:
+		std::hash<std::string> hasher;
+	};
+
+}
+#endif

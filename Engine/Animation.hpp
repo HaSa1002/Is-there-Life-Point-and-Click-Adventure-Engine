@@ -24,15 +24,16 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include "typedefs.hpp"
 #include <SFML\Graphics.hpp>
 #include <list>
 #include <utility>
 
 namespace pc {
-	typedef size_t hash;
+	
 	struct Animation {
 		std::list<std::pair<hash, sf::IntRect>> states;
-		std::string trigger_function;
+		std::string trigger_function; //TODO: Delete
 		hash state = 0;
 		const sf::Vector2i convertToVector2i(const sf::Vector2f & vec);
 		const sf::IntRect getStateRect(std::string state);

@@ -27,6 +27,7 @@
 #include "Exception.hpp"
 #include "MoveableObject.hpp"
 #include "AnimatedObject.hpp"
+#include "ResourceManager.hpp"
 #include "sol.hpp"
 #include <SFML\Graphics\Texture.hpp>
 #include <SFML\System\Vector3.hpp>
@@ -121,6 +122,7 @@ namespace pc {
 
 		std::string name;
 		std::list<sf::Texture> textures;
+		ResourceManager res;
 		std::list<std::shared_ptr<Object>> objects;
 		std::list<Walkbox> walkboxes;
 		std::list<Zoomline> zoomlines;

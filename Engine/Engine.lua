@@ -17,6 +17,9 @@ dofile "locals/helpers.lua"
 dofile "locals/en.lang"
 dofile "locals/de.lang"
 
+-- Register the textures and objects
+dofile "objects/textures.lua";
+
 
 -- Register the scenes
 dofile "scenes/lua_testscene.pcscene"

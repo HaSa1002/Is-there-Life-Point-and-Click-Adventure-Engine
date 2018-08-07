@@ -17,8 +17,26 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 ////////////////////////////////////////////////////////////
-#pragma once
 
-//States if no exceptions wished in release mode
-#define NO_EXCEPTIONS
-#define PI 3.14159265358979323846
+#ifndef PC_TIMED_ANIMATION
+#define PC_TIMED_ANIMATION
+
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include "Animation.hpp"
+#include "Object.hpp"
+#include <SFML\Graphics.hpp>
+#include <memory>
+
+namespace pc {
+	struct TimedAnimation : public Animation {
+		std::vector<std::pair<hash, sf::Time>> times;
+		sf::Time toWait;
+		size_t currentTime = 0;
+
+		virtual void update(sf::Time elapsed) = 0;
+	};
+}
+
+#endif //!PC_TIMED_ANIMATION

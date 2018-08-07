@@ -24,9 +24,10 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <string>
 #include "Scene.hpp"
 #include "Rendering.hpp"
+#include <string>
+#include <chrono>
 
 namespace pc {
 	class ScriptEngine {
@@ -64,6 +65,8 @@ namespace pc {
 		///
 		////////////////////////////////////////////////////////////
 		virtual void call(pc::Scene& scene, const std::string& object, const char action) = 0;
+		virtual void call(std::chrono::steady_clock::time_point function) = 0;
+
 
 		virtual void bindFunctions() = 0;
 
@@ -77,6 +80,7 @@ namespace pc {
 			std::function<void(void)> _scene_addToRenderingFunction;
 		std::function<void(void)> _scene_loadScene;
 		std::function<void(const std::wstring&)> _subtitle_setText;
+
 	};
 }
 

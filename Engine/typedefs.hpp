@@ -17,8 +17,8 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 ////////////////////////////////////////////////////////////
-#pragma once
 
-//States if no exceptions wished in release mode
-#define NO_EXCEPTIONS
-#define PI 3.14159265358979323846
+namespace pc {
+	typedef size_t hash;
+
+}

@@ -4,12 +4,12 @@
 
 
 objects.simple = class(function(o)
-	o.pos = {0,0,1},
-	o.scale = {4.9, 6},
-	o.rotation = 100,
-	o.texture = ".\\textures\\tablet.png",
-	o.actions = {'u', 'l', 'h'},
-	o.data = 1,
+	o.pos = {0,0,1}
+	o.scale = {4.9, 6}
+	o.rotation = 100
+	o.texture = "tablet"
+	o.actions = {'u', 'l', 'h'}
+	o.data = 1
 end);
 Object = objects.simple;
 

@@ -55,6 +55,21 @@
     <Filter Include="Headerdateien\modules\display\animated\characters">
       <UniqueIdentifier>{3091a00e-4deb-4c25-9175-e9d623dcfdce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\modules\config">
+      <UniqueIdentifier>{693014df-fab5-453f-a194-f635acc893a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\modules\display\animated\objects">
+      <UniqueIdentifier>{21ed1ccd-74d3-4de6-859a-b62bad38615b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\modules\display\animated\animations">
+      <UniqueIdentifier>{a94d4bd1-48fc-403a-9e94-5fb5d3e122e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\modules\display\animated\animations">
+      <UniqueIdentifier>{e8e216ad-bea4-4d3b-bf89-20fcb2bc3690}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\modules\display\animated\objects">
+      <UniqueIdentifier>{06efff40-67f2-4935-98bc-9260ff6e702c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -93,17 +108,23 @@
     <ClCompile Include="Object.cpp">
       <Filter>Quelldateien\modules\display\basic</Filter>
     </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Quelldateien\modules\display\animated</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveableObject.cpp">
-      <Filter>Quelldateien\modules\display\animated</Filter>
-    </ClCompile>
     <ClCompile Include="ScriptEngine.cpp">
       <Filter>Quelldateien\modules\system</Filter>
     </ClCompile>
-    <ClCompile Include="AnimatedObject.cpp">
+    <ClCompile Include="ResourceManager.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Quelldateien\modules\display\animated\animations</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveableObject.cpp">
+      <Filter>Quelldateien\modules\display\animated\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedObject.cpp">
+      <Filter>Quelldateien\modules\display\animated\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="TimedAnimatedObject.cpp">
+      <Filter>Quelldateien\modules\display\animated\objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,12 +155,6 @@
     <ClInclude Include="stb_truetype.h">
       <Filter>Headerdateien\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="AnimatedObject.hpp">
-      <Filter>Headerdateien\modules\display\animated</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.hpp">
-      <Filter>Headerdateien\modules\display\animated</Filter>
-    </ClInclude>
     <ClInclude Include="Character.hpp">
       <Filter>Headerdateien\modules\display\animated\characters</Filter>
     </ClInclude>
@@ -150,9 +165,6 @@
       <Filter>Headerdateien\modules\system</Filter>
     </ClInclude>
     <ClInclude Include="Lua.hpp">
-      <Filter>Headerdateien\modules\system</Filter>
-    </ClInclude>
-    <ClInclude Include="config.hpp">
       <Filter>Headerdateien\modules\system</Filter>
     </ClInclude>
     <ClInclude Include="Object.hpp">
@@ -173,11 +185,32 @@
     <ClInclude Include="SFML-Helper.hpp">
       <Filter>Headerdateien\modules\system</Filter>
     </ClInclude>
-    <ClInclude Include="MoveableObject.hpp">
-      <Filter>Headerdateien\modules\display\animated</Filter>
-    </ClInclude>
     <ClInclude Include="ScriptEngine.hpp">
       <Filter>Headerdateien\modules\system</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.hpp">
+      <Filter>Headerdateien\modules\system</Filter>
+    </ClInclude>
+    <ClInclude Include="config.hpp">
+      <Filter>Headerdateien\modules\config</Filter>
+    </ClInclude>
+    <ClInclude Include="typedefs.hpp">
+      <Filter>Headerdateien\modules\config</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.hpp">
+      <Filter>Headerdateien\modules\display\animated\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="TimedAnimation.hpp">
+      <Filter>Headerdateien\modules\display\animated\animations</Filter>
+    </ClInclude>
+    <ClInclude Include="TimedAnimatedObject.hpp">
+      <Filter>Headerdateien\modules\display\animated\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveableObject.hpp">
+      <Filter>Headerdateien\modules\display\animated\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedObject.hpp">
+      <Filter>Headerdateien\modules\display\animated\objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
