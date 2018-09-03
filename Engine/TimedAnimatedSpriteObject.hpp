@@ -24,20 +24,16 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "Animation.hpp"
-#include "Object.hpp"
+#include "TimedAnimation.hpp"
+#include "SpriteObject.hpp"
 #include <SFML\Graphics.hpp>
 #include <memory>
 
 namespace pc {
-	struct StaticAnimatedObject : public Object, Animation {
-		sf::Time toWait;
-		size_t currentTime = 0;
-
-		StaticAnimatedObject(const sf::Texture & texture, const sf::Vector3i & position, const std::string & name, const std::list<char>& actions, const std::string & trigger);
+	struct TimedAnimatedSpriteObject : public SpriteObject, TimedAnimation {
+		TimedAnimatedSpriteObject(const sf::Texture & texture, const sf::Vector3i & position, const std::string & name, const std::list<char>& actions);
 
 		void update(sf::Time elapsed);
-		void play(hash state, sf::Time duration)
 	};
 }
 

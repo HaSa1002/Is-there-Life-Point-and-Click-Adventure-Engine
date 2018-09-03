@@ -2,7 +2,7 @@
 
 
 
-objects.keypad.button = class(num, function(o)
+objects.keypad.button = class(function(o, num)
 	o.pos = {0,0,3}
 	o.scale = {6, 6}
 	o.rotation = 0

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "scenes"
+		},
+		{
+			"path": "locals"
+		},
+		{
+			"path": "objects"
+		}
+	],
+	"settings": {}
+}

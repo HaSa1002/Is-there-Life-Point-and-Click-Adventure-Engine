@@ -18,23 +18,27 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef PC_ANIMATED_OBJECT
-#define PC_ANIMATED_OBJECT
+#ifndef PC_SPRITE_OBJECT
+#define PC_SPRITE_OBJECT
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "TimedAnimation.hpp"
+#include "typedefs.hpp"
 #include "Object.hpp"
-#include <SFML\Graphics.hpp>
-#include <memory>
 
 namespace pc {
-	struct TimedAnimatedObject : public Object, TimedAnimation {
-		TimedAnimatedObject(const sf::Texture & texture, const sf::Vector3i & position, const std::string & name, const std::list<char>& actions, const std::string & trigger);
+	struct SpriteObject : public Object {
+		std::shared_ptr<sf::Sprite>	sprite;
+		hash texture;
 
-		void update(sf::Time elapsed);
+		SpriteObject(const sf::Texture& s, const sf::Vector3i& pos, const std::string& name, const std::list<char>& actions);
+		SpriteObject(const SpriteObject& object);
+		~SpriteObject();
+		bool hasAction(const char& action);
+		void setPosition(const sf::Vector2i& pos);
+		sf::Transformable& get();
 	};
 }
 
-#endif //!PC_ANIMATED_OBJECT
+#endif //!PC_OBJECT

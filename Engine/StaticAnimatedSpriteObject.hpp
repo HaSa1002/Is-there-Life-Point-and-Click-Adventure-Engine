@@ -18,27 +18,30 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef PC_ANIMATION
-#define PC_ANIMATION
+#ifndef PC_ANIMATED_OBJECT
+#define PC_ANIMATED_OBJECT
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "typedefs.hpp"
+#include "Animation.hpp"
+#include "SpriteObject.hpp"
 #include <SFML\Graphics.hpp>
-#include <list>
-#include <utility>
+#include <memory>
+#include <functional>
+#include <chrono>
 
 namespace pc {
-	
-	struct Animation {
-		std::list<std::pair<hash, sf::IntRect>> states;
-		hash state = 0;
-		const sf::Vector2i convertToVector2i(const sf::Vector2f & vec);
-		const sf::IntRect getStateRect(std::string state);
-		const sf::IntRect getStateRect(hash state);
-		virtual void update(sf::Time elapsed) = 0;
+	struct StaticAnimatedSpriteObject : public SpriteObject, Animation {
+		sf::Time toWait;
+		std::chrono::steady_clock::time_point callback;
+		std::function<void(const std::chrono::steady_clock::time_point&)> callFunction;
+
+		StaticAnimatedSpriteObject(const sf::Texture & texture, const sf::Vector3i & position, const std::string & name, const std::list<char>& actions, std::function<void(const std::chrono::steady_clock::time_point&)> call_func);
+
+		void update(sf::Time elapsed);
+		void play(hash state, sf::Time duration, std::chrono::steady_clock::time_point callback);
 	};
 }
 
-#endif //!PC_ANIMATION
+#endif //!PC_ANIMATED_OBJECT

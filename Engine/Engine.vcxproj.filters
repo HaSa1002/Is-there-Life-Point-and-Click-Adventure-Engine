@@ -120,10 +120,10 @@
     <ClCompile Include="MoveableObject.cpp">
       <Filter>Quelldateien\modules\display\animated\objects</Filter>
     </ClCompile>
-    <ClCompile Include="AnimatedObject.cpp">
+    <ClCompile Include="TimedAnimatedSpriteObject.cpp">
       <Filter>Quelldateien\modules\display\animated\objects</Filter>
     </ClCompile>
-    <ClCompile Include="TimedAnimatedObject.cpp">
+    <ClCompile Include="StaticAnimatedSpriteObject.cpp">
       <Filter>Quelldateien\modules\display\animated\objects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -203,13 +203,22 @@
     <ClInclude Include="TimedAnimation.hpp">
       <Filter>Headerdateien\modules\display\animated\animations</Filter>
     </ClInclude>
-    <ClInclude Include="TimedAnimatedObject.hpp">
-      <Filter>Headerdateien\modules\display\animated\objects</Filter>
-    </ClInclude>
     <ClInclude Include="MoveableObject.hpp">
       <Filter>Headerdateien\modules\display\animated\objects</Filter>
     </ClInclude>
-    <ClInclude Include="AnimatedObject.hpp">
+    <ClInclude Include="SpriteObject.hpp">
+      <Filter>Headerdateien\modules\display\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="RectangleObject.hpp">
+      <Filter>Headerdateien\modules\display\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="Textobject.hpp">
+      <Filter>Headerdateien\modules\display\basic</Filter>
+    </ClInclude>
+    <ClInclude Include="TimedAnimatedSpriteObject.hpp">
+      <Filter>Headerdateien\modules\display\animated\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticAnimatedSpriteObject.hpp">
       <Filter>Headerdateien\modules\display\animated\objects</Filter>
     </ClInclude>
   </ItemGroup>

@@ -26,7 +26,7 @@
 ////////////////////////////////////////////////////////////
 #include "Exception.hpp"
 #include "MoveableObject.hpp"
-#include "AnimatedObject.hpp"
+#include "TimedAnimatedSpriteObject.hpp"
 #include "ResourceManager.hpp"
 #include "sol.hpp"
 #include <SFML\Graphics\Texture.hpp>
@@ -90,7 +90,7 @@ namespace pc {
 		////////////////////////////////////////////////////////////
 		void addMoveableObject(const std::string& texture_path, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions);
 
-		void addAnimatedObject(const std::string & texture_path, const sf::Vector3i & position, const std::string & name, const std::list<char>& actions);
+		void addTimedAnimatedSpriteObject(const std::string & texture_path, const sf::Vector3i & position, const std::string & name, const std::list<char>& actions);
 
 		////////////////////////////////////////////////////////////
 		/// adds a Walkbox to the Scene

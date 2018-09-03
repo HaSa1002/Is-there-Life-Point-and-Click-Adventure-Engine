@@ -145,7 +145,7 @@ namespace pc {
 						a = std::static_pointer_cast<MoveableObject>(object);
 						break;
 					case 'a':
-						a = std::static_pointer_cast<AnimatedObject>(object);
+						a = std::static_pointer_cast<TimedAnimatedObject>(object);
 						break;
 					default:
 						continue;

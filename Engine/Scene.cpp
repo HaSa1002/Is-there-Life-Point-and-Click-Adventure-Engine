@@ -34,7 +34,7 @@ namespace pc {
 			if (texture_path[0] == 'r') {
 				
 				sf::Vector2f size(std::stof(texture_path.substr(1, texture_path.find(','))), std::stof(texture_path.substr(texture_path.find(',') + 1)));
-				objects.emplace_back(std::make_shared<Object>(sf::RectangleShape(size), position, name, action));
+				objects.emplace_back(std::make_shared<SpriteObject>(sf::RectangleShape(size), position, name, action));
 				objects.back()->texture_string = texture_path;
 				return;
 			}
@@ -74,7 +74,7 @@ namespace pc {
 
 
 	////////////////////////////////////////////////////////////
-	void Scene::addAnimatedObject(const std::string& texture_path, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions) {
+	void Scene::addTimedAnimatedSpriteObject(const std::string& texture_path, const sf::Vector3i& position, const std::string& name, const std::list<char>& actions) {
 		textures.emplace_back(sf::Texture());
 		if (!textures.back().loadFromFile(texture_path.substr(1))) {
 #if defined _DEBUG || !defined NO_EXCEPTIONS
@@ -84,7 +84,7 @@ namespace pc {
 #endif
 		}
 
-		objects.emplace_back(std::make_shared<AnimatedObject>(textures.back(), position, name, actions, ""));
+		objects.emplace_back(std::make_shared<TimedAnimatedSpriteObject>(textures.back(), position, name, actions, ""));
 		objects.back()->texture_string = texture_path;
 	}
 

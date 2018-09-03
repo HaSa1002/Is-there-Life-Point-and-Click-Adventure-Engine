@@ -1,18 +1,16 @@
 -- Register all your texts
 -- Be aware that you need to be consistent with your keys
 localisations["de"] = {
-	tabelt = "Ohh. Abgestürzt",
+	tablet = "Ohh. Abgestürzt",
+	test = "Hallo Testwelt!"
+	tabletL = "Das ist ein Tablet!"
+	tabletU = "Funktioniert!"
+	lua_testscene = "Lua Testszene"
+	changeTo = "Zur "
+	PanelHover = "The Panel"
+	PanelUse = "Ich sollte das nicht drücken\n(I shouldn't press that)"
+	PanelLook = "Many characters in a\nmultiline string. That's nice!\n"
+	lua_testscene2 = "2. Lua Testszene"
 };
-local de = localisations["de"];
-de.test = "Hallo Testwelt!"
-de.tabletL = "Das ist ein Tablet!"
-de.tabletU = "Funktioniert!"
-de.lua_testscene = "Lua Testszene"
-de.changeTo = "Zur "
-de.tablet = "Tablet"
-de.PanelHover = "The Panel"
-de.PanelUse = "Ich sollte das nicht drücken\n(I shouldn't press that)"
-de.PanelLook = "Many characters in a\nmultiline string. That's nice!\n"
-de.lua_testscene2 = "2. Lua Testszene"
 
 return de;

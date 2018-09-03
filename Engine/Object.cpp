@@ -25,29 +25,7 @@
 ////////////////////////////////////////////////////////////
 
 namespace pc {
-	Object::Object(const sf::Texture& s, const sf::Vector3i & pos, const std::string & call, const std::list<char>& a) : sprite{ std::make_shared<sf::Sprite>(s) }, layer{ pos.z }, name{ call }, actions{ a } {
-		sprite->setPosition(static_cast<float>(pos.x), static_cast<float>(pos.y));
-		type = 's';
-	}
-
-
-	////////////////////////////////////////////////////////////
-	Object::Object(const sf::RectangleShape & c, const sf::Vector3i & pos, const std::string & call, const std::list<char>& actions) : click{ std::make_shared<sf::RectangleShape>(c) }, layer{ pos.z }, name{ call }, actions{ actions } {
-		click->setPosition(static_cast<float>(pos.x), static_cast<float>(pos.y));
-		type = 'c';
-	}
-
-
-	////////////////////////////////////////////////////////////
 	Object::Object(const Object & object) {
-		switch (object.type) {
-		case 's':
-			sprite = object.sprite;
-			break;
-		case 'c':
-			click = object.click;
-			break;
-		}
 		type = object.type;
 		layer = object.layer;
 		name = object.name;
@@ -56,8 +34,7 @@ namespace pc {
 
 
 	////////////////////////////////////////////////////////////
-	Object::~Object() {
-	}
+	Object::~Object() {	}
 
 
 	////////////////////////////////////////////////////////////
@@ -67,31 +44,5 @@ namespace pc {
 				return true;
 		}
 		return false;
-	}
-	void Object::setPosition(const sf::Vector2i & pos) {
-		switch (type) {
-		case 's':
-			sprite->setPosition(sf::Vector2f(pos));
-			break;
-		case 'c':
-			click->setPosition(sf::Vector2f(pos));
-			break;
-		case 't':
-			text->setPosition(sf::Vector2f(pos));
-			break;
-		}
-	}
-
-
-	////////////////////////////////////////////////////////////
-	sf::Transformable& Object::get() {
-		if (type == 's' ||type == 'm' || type == 'a')
-			return static_cast<sf::Transformable&>(*sprite);
-		if (type == 'c')
-			return static_cast<sf::Transformable&>(*click);
-		if (type == 't')
-			return static_cast<sf::Transformable&>(*text);
-		std::string message = "The type of the Object is wrong. : " + type;
-		throw(std::invalid_argument(message));
 	}
 }

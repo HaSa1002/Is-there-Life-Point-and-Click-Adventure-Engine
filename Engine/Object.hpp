@@ -24,31 +24,37 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+
 #include <SFML\Graphics.hpp>
 #include <memory>
 #include <list>
 
 namespace pc {
 	struct Object {
-		union {
-			std::shared_ptr<sf::Sprite>			sprite;
-			std::shared_ptr<sf::RectangleShape>	click;
-			std::shared_ptr<sf::Text>			text;
+		enum class types {
+			SPRITE,		// SpriteObject
+			RECT,		// RectangleObject
+			TEXT,		// TextObject
+
+			// Inherits from SpriteObject
+			STATIC_ANIMATED,
+			TIMED_ANIMATED,
+			STATIC_MOVABLE,
+			TIMED_MOVABLE,
+
+			SUM
 		};
 		
 		std::string name;
-		char type;
+		types type;
 		int layer;
 		std::list<char> actions;
-		std::string texture_string;
-
-		Object(const sf::Texture& s, const sf::Vector3i& pos, const std::string& name, const std::list<char>& actions);
-		Object(const sf::RectangleShape& s, const sf::Vector3i& pos, const std::string& name, const std::list<char>& actions);
+		
 		Object(const Object& object);
 		~Object();
 		bool hasAction(const char& action);
-		void setPosition(const sf::Vector2i& pos);
-		sf::Transformable& get();
+		virtual void setPosition(const sf::Vector2i& pos) = 0;
+		virtual sf::Transformable& get() = 0;
 	};
 }
 

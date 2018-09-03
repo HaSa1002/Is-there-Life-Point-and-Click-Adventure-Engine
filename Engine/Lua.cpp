@@ -235,7 +235,7 @@ namespace pc {
 			break;
 			case 'a': {
 				scene_temp->addAnimatedObject(t[4].get_or<std::string>("r0,0"), sf::Vector3i(t[1].get_or(0), t[2].get_or(0), t[3].get_or(0)), o.first.as<std::string>(), actions);
-				std::shared_ptr<AnimatedObject> i = std::static_pointer_cast<AnimatedObject>(scene_temp->objects.back());
+				std::shared_ptr<TimedAnimatedObject> i = std::static_pointer_cast<TimedAnimatedObject>(scene_temp->objects.back());
 				a = i;
 				//TODO: Set this value in the settings
 				//Scale up to 500%, for the pixel feeling

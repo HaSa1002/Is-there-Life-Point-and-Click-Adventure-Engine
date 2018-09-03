@@ -65,7 +65,7 @@ namespace pc {
 		///
 		////////////////////////////////////////////////////////////
 		virtual void call(pc::Scene& scene, const std::string& object, const char action) = 0;
-		virtual void call(std::chrono::steady_clock::time_point function) = 0;
+		virtual void call(const std::chrono::steady_clock::time_point& function) = 0;
 
 
 		virtual void bindFunctions() = 0;

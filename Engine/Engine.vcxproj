@@ -123,7 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AnimatedObject.cpp" />
+    <ClCompile Include="StaticAnimatedSpriteObject.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="imgui-helper.cpp" />
@@ -140,10 +140,12 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScriptEngine.cpp" />
     <ClCompile Include="Subtitle.cpp" />
-    <ClCompile Include="TimedAnimatedObject.cpp" />
+    <ClCompile Include="TimedAnimatedSpriteObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimatedObject.hpp" />
+    <ClInclude Include="RectangleObject.hpp" />
+    <ClInclude Include="SpriteObject.hpp" />
+    <ClInclude Include="StaticAnimatedSpriteObject.hpp" />
     <ClInclude Include="Animation.hpp" />
     <ClInclude Include="Character.hpp" />
     <ClInclude Include="config.hpp" />
@@ -168,7 +170,8 @@
     <ClInclude Include="stb_textedit.h" />
     <ClInclude Include="stb_truetype.h" />
     <ClInclude Include="Subtitle.hpp" />
-    <ClInclude Include="TimedAnimatedObject.hpp" />
+    <ClInclude Include="Textobject.hpp" />
+    <ClInclude Include="TimedAnimatedSpriteObject.hpp" />
     <ClInclude Include="TimedAnimation.hpp" />
     <ClInclude Include="typedefs.hpp" />
   </ItemGroup>
