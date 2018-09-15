@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien\TextureManager">
+      <UniqueIdentifier>{6edb7563-b7ba-4cb7-975b-982048a4f39e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\TextureManager\RectanglePacking">
+      <UniqueIdentifier>{1db9ecc3-e3ab-477a-ae3a-cc951ea1e204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\TextureManager">
+      <UniqueIdentifier>{ce1aa5e0-64aa-46ba-9547-0ba82d8e5561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\TextureManager\RectanglePacking">
+      <UniqueIdentifier>{e6551fa8-d410-424e-8774-dee28a1a4dd7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SFMLHelper.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.hpp">
+      <Filter>Headerdateien\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.hpp">
+      <Filter>Headerdateien\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect.h">
+      <Filter>Headerdateien\TextureManager\RectanglePacking</Filter>
+    </ClInclude>
+    <ClInclude Include="MaxRectsBinPack.h">
+      <Filter>Headerdateien\TextureManager\RectanglePacking</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Rect.cpp">
+      <Filter>Quelldateien\TextureManager\RectanglePacking</Filter>
+    </ClCompile>
+    <ClCompile Include="MaxRectsBinPack.cpp">
+      <Filter>Quelldateien\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Quelldateien\TextureManager</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
