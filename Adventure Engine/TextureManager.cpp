@@ -33,6 +33,8 @@ namespace itl {
 		return false;
 	}
 
+
+	////////////////////////////////////////////////////////////
 	TextureManager::TextureManager(std::vector<std::pair<const std::string&, const size_t>>& textures) {
 		buffer = std::move(textures);
 		this->build();
@@ -40,8 +42,10 @@ namespace itl {
 
 
 	////////////////////////////////////////////////////////////
-	const Texture* TextureManager::get(size_t name) {
-		return &loaded_textures.find(name)->second;
+	const Texture* TextureManager::find(size_t name) {
+		auto ret = loaded_textures.find(name);
+		if (ret != loaded_textures.end()) return &ret->second;
+		else return nullptr;
 	}
 
 
@@ -121,7 +125,7 @@ namespace itl {
 		unsigned int maxSize = sf::Texture::getMaximumSize();
 		rbp::MaxRectsBinPack packing(maxSize, maxSize, false);
 
-
+		//FIXME: To work with multiple bins
 		//Step 4: Run the MaxRect Algorithm
 		packing.Insert(rects, res, rbp::MaxRectsBinPack::RectBestAreaFit);
 
@@ -137,21 +141,5 @@ namespace itl {
 
 		//Step 6: Push Textures to graphics device
 		textures.push_back(std::move(t));
-
-		//TODO: Change the way, the resources (are saved, so that you can build on top of existing texture atlas')
-
-
-
-
 	}
-	void TextureManager::addTexture(const sf::Vector2u& vec) {
-		sf::Texture t;
-		if (vec == sf::Vector2u(0, 0)) {
-			unsigned int maxSize = sf::Texture::getMaximumSize();
-			t.create(maxSize, maxSize);
-		} else
-			t.create(vec.x, vec.y);
-		textures.push_back(std::move(t));
-	}
-
 }

@@ -39,10 +39,42 @@ namespace itl {
 		typedef size_t hashedName;
 
 	public:
+
+		////////////////////////////////////////////////////////////
+		/// Standard constructor
+		///
+		////////////////////////////////////////////////////////////
 		TextureManager() { };
-		TextureManager(std::vector<std::pair<const std::string&, const size_t>>& textures);
-		auto get(size_t name) -> const Texture*;
+
+		////////////////////////////////////////////////////////////
+		/// Instantly loads the textures and builds the texture atlas
+		///
+		/// param textures - std::vector of pairs of the path and hashed name
+		////////////////////////////////////////////////////////////
+		TextureManager(std::vector<std::pair<const std::string&, const hashedName>>& textures);
+
+		////////////////////////////////////////////////////////////
+		/// Gets the texture with the given name
+		///
+		/// param name - hashed name of the texture
+		/// returns Texture* or nullptr if nothing was found
+		////////////////////////////////////////////////////////////
+		auto find(size_t name) -> const Texture*;
+
+		////////////////////////////////////////////////////////////
+		/// Adds a texture to the buffer
+		///
+		/// param path - Path to the texture
+		/// param name - hashed name of the texture
+		///
+		////////////////////////////////////////////////////////////
 		void add(const std::string& path, const size_t name);
+
+		////////////////////////////////////////////////////////////
+		/// Clears the buffer and given on the param also the texture atlas
+		///
+		/// param onlyBuffer - if true only the buffer is cleared
+		////////////////////////////////////////////////////////////
 		void clear(bool onlyBuffer = false);
 		
 		////////////////////////////////////////////////////////////
@@ -50,20 +82,21 @@ namespace itl {
 		///
 		/// call clear() before adding textures, to not include
 		/// existing textures
+		/// If a texture can't be loaded, the engine will replace it with 
+		/// a 50x50px sized purple texture
 		////////////////////////////////////////////////////////////
 		void build();
 
 
 
 	private:
-		void addTexture(const sf::Vector2u& vec = sf::Vector2u(0, 0));
 
 		////////////////////////////////////////////////////////////
 		// Member Data
 		////////////////////////////////////////////////////////////
-		std::vector<std::pair<const std::string&, const hashedName>> buffer;
-		std::map<hashedName, Texture> loaded_textures;
-		std::vector<sf::Texture> textures;
+		std::vector<std::pair<const std::string&, const hashedName>>	buffer;				/// Saves the path and name of the textues to be loaded
+		std::map<hashedName, Texture>									loaded_textures;	/// Holds the loaded Textures
+		std::vector<sf::Texture>										textures;			///  Holds the texture atlas'
 
 		
 	};
