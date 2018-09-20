@@ -19,16 +19,35 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine.hpp" />
+    <ClInclude Include="imgui\imconfig-SFML.h" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui-SFML.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\ImGuiAddon.hpp" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="MaxRectsBinPack.h" />
     <ClInclude Include="Rect.h" />
+    <ClInclude Include="Rendering.hpp" />
     <ClInclude Include="SFMLHelper.hpp" />
     <ClInclude Include="Texture.hpp" />
     <ClInclude Include="TextureManager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="imgui\imgui-SFML.cpp" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\ImGuiAddon.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MaxRectsBinPack.cpp" />
     <ClCompile Include="Rect.cpp" />
+    <ClCompile Include="Rendering.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
