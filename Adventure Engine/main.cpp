@@ -18,20 +18,15 @@
 //
 ////////////////////////////////////////////////////////////
 
-//#pragma comment(linker, "/subsystem:windows /entry:mainCRTStartup")
+#pragma comment(linker, "/subsystem:windows /entry:mainCRTStartup")
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "TextureManager.hpp"
+#include "Engine.hpp"
 
 
 int main(int argc, char* argv[]) {
-	bool intoEngine = false; //Change this to false for normal use
-	for (int i = 0; i < argc; i++) {
-		if (argv[i] == "-engine")
-			intoEngine = true;
-	}
-	printf("%d", sf::Texture::getMaximumSize());
+	itl::Engine engine;
 	return 0;
 }

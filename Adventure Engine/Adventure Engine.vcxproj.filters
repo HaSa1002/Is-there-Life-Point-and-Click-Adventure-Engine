@@ -60,9 +60,6 @@
     <ClInclude Include="MaxRectsBinPack.h">
       <Filter>Headerdateien\TextureManager\RectanglePacking</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering.hpp">
-      <Filter>Headerdateien\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
       <Filter>Headerdateien\gui\imgui</Filter>
     </ClInclude>
@@ -92,6 +89,15 @@
     </ClInclude>
     <ClInclude Include="Engine.hpp">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneNode.hpp">
+      <Filter>Headerdateien\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteNode.hpp">
+      <Filter>Headerdateien\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.hpp">
+      <Filter>Headerdateien\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -125,11 +131,17 @@
     <ClCompile Include="imgui\ImGuiAddon.cpp">
       <Filter>Quelldateien\gui\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering.cpp">
-      <Filter>Quelldateien\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneNode.cpp">
+      <Filter>Quelldateien\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteNode.cpp">
+      <Filter>Quelldateien\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Quelldateien\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

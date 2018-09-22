@@ -24,22 +24,31 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "TextureManager.hpp"
+#include "SceneNode.hpp"
+#include "imgui\ImGuiAddon.hpp"
+
+#include <SFML\Graphics\RenderWindow.hpp>
 
 namespace itl {
 	class Engine {
 	public:
 		Engine();
-		start();
+		void start();
 
 
 	private:
-		main();
-		processEvents();
+		void main();
+		void processEvents();
 
 		////////////////////////////////////////////////////////////
 		// Memberdata
 		////////////////////////////////////////////////////////////
-		TextureManager texture_manager;
-
+		TextureManager	texture_manager;
+		SceneNode		scene_graph;
+		sf::RenderWindow	window;
+		sf::View			view;
+		sf::Clock			clock;
+		bool				has_focus = true;
+		bool				draw_imgui = false;
 	};
 }

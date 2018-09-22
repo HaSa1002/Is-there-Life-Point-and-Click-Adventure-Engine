@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 // 
 // ITLengine - Is there Life? Engine
-// Copyright (c) 2017-2018 Johannes Witt (johawitt@outlook.de)
+// Copyright (c) 2017-2018 Johannes Witt (johawitt@outlook.de) based on "SFML GAME DEVELOPMENT"
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
@@ -18,76 +18,27 @@
 //
 ////////////////////////////////////////////////////////////
 
-#include "Engine.hpp"
+#pragma once
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "SFML\Window\Event.hpp"
+#include "SceneNode.hpp"
+
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace itl {
-	Engine::Engine() {
-		start();
-	}
-	void Engine::start() {
-		// Load the scriptmanager here
-		// Create the window
-		window.create(sf::VideoMode(1600,900), "ITL Engine");
-		ImGui::SFML::Init(window);
-
-		//Load the textures here
-
-		main();
-	}
-	void Engine::main() {
-		while (window.isOpen()) {
-			// 1. process events
-			this->processEvents();
-
-			// 2. Logic
-
-			// 3. Render
-			clock.restart();
-			if (has_focus) {
-				window.clear();
-
-				window.draw(scene_graph);
-
-				if (draw_imgui)
-					ImGui::SFML::Render(window);
-			}
-			window.display();
-		}
+	class SpriteNode : public SceneNode {
+	public:
+		explicit			SpriteNode(const sf::Texture& texture);
+		SpriteNode(const sf::Texture& texture, const sf::IntRect& textureRect);
 
 
-	}
+	private:
+		virtual void		drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
-	void Engine::processEvents() {
-		sf::Event event;
-		while (window.pollEvent(event)) {
-			if (draw_imgui)
-				ImGui::SFML::ProcessEvent(event);
-			switch (event.type) {
-				case sf::Event::Closed:
-					ImGui::SFML::Shutdown();
-					window.close();
-					break;
-				case sf::Event::Resized: {
-						sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
-						view = std::move(sf::View(visibleArea));
-						window.setView(view);
-						break;
-					}
-				case sf::Event::LostFocus:
-					has_focus = false;
-					break;
-				case sf::Event::GainedFocus:
-					has_focus = true;
-					break;
 
-				default:
-					break;
-			}
-		}
-	}
+	private:
+		sf::Sprite			mSprite;
+	};
 }
