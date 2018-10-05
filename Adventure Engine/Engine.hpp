@@ -29,6 +29,9 @@
 
 #include <SFML\Graphics\RenderWindow.hpp>
 
+#include <list>
+#include <map>
+
 namespace itl {
 	class Engine {
 	public:
@@ -43,12 +46,14 @@ namespace itl {
 		////////////////////////////////////////////////////////////
 		// Memberdata
 		////////////////////////////////////////////////////////////
-		TextureManager	texture_manager;
-		SceneNode		scene_graph;
-		sf::RenderWindow	window;
-		sf::View			view;
-		sf::Clock			clock;
-		bool				has_focus = true;
-		bool				draw_imgui = false;
+		TextureManager									texture_manager;
+		SceneNode										scene_graph;
+		std::map<size_t, std::shared_ptr<SceneNode>>	scene_layers;
+
+		sf::RenderWindow								window;
+		sf::View										view;
+		sf::Clock										clock;
+		bool											has_focus = true;
+		bool											draw_imgui = false;
 	};
 }
