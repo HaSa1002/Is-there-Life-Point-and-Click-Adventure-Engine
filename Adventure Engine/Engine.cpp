@@ -24,14 +24,20 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "LuaObject.hpp"
+#include "SpriteNode.hpp"
+#include <string>
 
 
 namespace itl {
+	TextureManager texture_manager;
+	std::map<size_t, std::weak_ptr<SceneNode>>	scene_layers;
+	SceneNode									scene_graph;
 
 	Engine::Engine() {
 		start();
 	}
 	void Engine::start() {
+		lua.init();
 		// Bind the classes to Lua
 		sol::state& l = lua.lua;
 		l.new_usertype<LuaObject>("obj", sol::constructors<
@@ -46,14 +52,25 @@ namespace itl {
 			"scale", &LuaObject::scale
 			);
 
+		l.script(R"(
+		textures = {})");
+		l["textures"]["add"] = [](std::string path, std::string name) {
+			std::hash<std::string> sh;
+			texture_manager.add(path, sh(name));
+		};
+		l["textures"]["build"] = []() {texture_manager.build(); };
+		l["textures"]["clear"] = [](bool onlyBuffer = false) {texture_manager.clear(onlyBuffer); };
 
-
+		lua.postinit();
 		// Create the window
 		window.create(sf::VideoMode(1600, 900), "ITL Engine");
 		ImGui::SFML::Init(window);
 
 		//Load the textures here
-
+		std::hash<std::string> hs;
+		auto obj = SpriteNode(texture_manager.find(hs("test"))->texture_ref);
+		scene_layers.find(0)->second.lock()->attachChild(std::move(std::make_shared<SpriteNode>(obj)));
+		
 		main();
 	}
 	void Engine::main() {
@@ -63,9 +80,10 @@ namespace itl {
 			this->processEvents();
 
 			// 2. Logic
-
+			scene_layers.find(0)->second.lock()->setPosition(100,100);
 			// 3. Render
 			clock.restart();
+			has_focus = true;
 			if (has_focus) {
 				window.clear();
 

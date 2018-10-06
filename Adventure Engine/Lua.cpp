@@ -26,7 +26,12 @@
 
 namespace itl {
 	void Lua::init() { 
+		lua.open_libraries(sol::lib::base, sol::lib::coroutine, sol::lib::io, sol::lib::math, sol::lib::os, sol::lib::package, sol::lib::string, sol::lib::table, sol::lib::utf8);
 		bindClassMetatableHelper();
+		
+	}
+
+	void Lua::postinit() {
 		lua.script_file("ITL.lua");
 	}
 

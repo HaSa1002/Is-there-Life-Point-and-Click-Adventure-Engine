@@ -35,7 +35,7 @@ namespace itl {
 
 
 	////////////////////////////////////////////////////////////
-	TextureManager::TextureManager(std::vector<std::pair<const std::string&, const size_t>>& textures) {
+	TextureManager::TextureManager(std::vector<std::pair<const std::string, const size_t>>& textures) {
 		buffer = std::move(textures);
 		this->build();
 	}
@@ -130,16 +130,20 @@ namespace itl {
 		packing.Insert(rects, res, rbp::MaxRectsBinPack::RectBestAreaFit);
 
 		//Step 5: Create the textures by Interpreting the result
-		sf::Texture t;
+		std::shared_ptr<sf::Texture> t = std::make_shared<sf::Texture>();
 		sf::Vector2u s = packing.Size();
-		t.create(s.x, s.y);
+		t->create(s.x, s.y);
+		int x = 0;
+		int y = 0;
 		for (auto& i : res) {
 			auto img = images.find(i.name);
-			t.update(img->second, i.x, i.y);
-			loaded_textures.emplace(i.name, std::move(Texture(sf::IntRect(i.x, i.y, i.width, i.height), i.name, t)));
+			t->update(img->second, x, y);
+			loaded_textures.emplace(i.name, std::move(Texture(sf::IntRect(i.x, i.y, i.width, i.height), i.name, *t)));
+			x = i.x;
+			y = i.y;
 		}
 
 		//Step 6: Push Textures to graphics device
-		textures.push_back(std::move(t));
+		textures.push_back(t);
 	}
 }

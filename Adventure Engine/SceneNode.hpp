@@ -66,6 +66,5 @@ namespace itl {
 		SceneNode*				mParent;
 	};
 
-	static std::map<size_t, std::weak_ptr<SceneNode>>	scene_layers;
-	static SceneNode									scene_graph;
+	
 }

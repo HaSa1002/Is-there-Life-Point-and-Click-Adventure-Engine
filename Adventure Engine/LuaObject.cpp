@@ -26,7 +26,9 @@
 
 
 namespace itl {
-
+	extern TextureManager texture_manager;
+	extern std::map<size_t, std::weak_ptr<SceneNode>>	scene_layers;
+	extern SceneNode									scene_graph;
 
 	LuaObject::LuaObject(const std::string& n, const std::string& t, const int x, const int y, const int z) : LuaObject(n, t, x, y, z, 0, 0.f, 0.f) { }
 
@@ -46,14 +48,17 @@ namespace itl {
 			std::shared_ptr<SceneNode> s = std::make_shared<SceneNode>();
 			scene_graph.attachChild(s);
 			scene_layers.emplace(z, s);
+			s->attachChild(std::move(std::make_shared<LuaObject>(std::move(*this))));
 
 		} else if (res->second.expired()) {
 			std::shared_ptr<SceneNode> s = std::make_shared<SceneNode>();
 			scene_graph.attachChild(s);
 			res->second = s;
+			s->attachChild(std::move(std::make_shared<LuaObject>(std::move(*this))));
+		} else {
+			res->second.lock()->attachChild(std::move(std::make_shared<LuaObject>(std::move(*this))));
 		}
-		std::shared_ptr<SceneNode> p = res->second.lock();
-		p->attachChild(std::make_shared<SceneNode>(std::move(*this)));
+
 
 	}
 
@@ -75,9 +80,13 @@ namespace itl {
 		std::hash<std::string> sh;
 		texture_name = name;
 		texture_hash = sh(texture_name);
+		auto t = texture_manager.find(texture_hash);
+		if (t != nullptr) {
+			sprite.setTexture(t->texture_ref);
+			//sprite.setTextureRect(t->rect);
+		}
 
-		updatePositions();
-		updateTexCoords();
+
 	}
 
 
@@ -139,12 +148,8 @@ namespace itl {
 
 
 	////////////////////////////////////////////////////////////
-	void LuaObject::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) {
-		auto r = texture_manager.find(texture_hash);
-		if (r) {
-			states.texture = &r->texture_ref;
-			target.draw(vertices, 4, sf::PrimitiveType::TriangleStrip, states);
-		}
+	void LuaObject::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {
+		target.draw(sprite, states);
 	}
 
 
@@ -153,7 +158,7 @@ namespace itl {
 		auto r = texture_manager.find(texture_hash);
 		if (r == nullptr) {
 			printf("%s hasn't a correct texture. Texturename was \"%s\". Are you sure the spelling is correct?\n", object_name.data(), texture_name.data());
-			assert(false); // The Texture can't be nothing. Check the spelling
+			assert(r); // The Texture can't be nothing. Check the spelling
 			return sf::IntRect();
 		}
 		return r->rect;
@@ -193,6 +198,15 @@ namespace itl {
 		vertices[1].texCoords = sf::Vector2f(left, bottom);
 		vertices[2].texCoords = sf::Vector2f(right, top);
 		vertices[3].texCoords = sf::Vector2f(right, bottom);
+	}
+
+	////////////////////////////////////////////////////////////
+	void LuaObject::setColor(const sf::Color& color) {
+		// Update the vertices' color
+		vertices[0].color = color;
+		vertices[1].color = color;
+		vertices[2].color = color;
+		vertices[3].color = color;
 	}
 }
 

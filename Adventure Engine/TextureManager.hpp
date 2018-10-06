@@ -30,10 +30,12 @@
 #include <vector>
 #include <set>
 #include <map>
+#include <memory>
 
 
 
 namespace itl {
+
 	class TextureManager {
 	private:
 		typedef size_t hashedName;
@@ -51,7 +53,7 @@ namespace itl {
 		///
 		/// param textures - std::vector of pairs of the path and hashed name
 		////////////////////////////////////////////////////////////
-		TextureManager(std::vector<std::pair<const std::string&, const hashedName>>& textures);
+		TextureManager(std::vector<std::pair<const std::string, const hashedName>>& textures);
 
 		////////////////////////////////////////////////////////////
 		/// Gets the texture with the given name
@@ -94,14 +96,12 @@ namespace itl {
 		////////////////////////////////////////////////////////////
 		// Member Data
 		////////////////////////////////////////////////////////////
-		std::vector<std::pair<const std::string&, const hashedName>>	buffer;				/// Saves the path and name of the textues to be loaded
-		std::map<hashedName, Texture>									loaded_textures;	/// Holds the loaded Textures
-		std::vector<sf::Texture>										textures;			/// Holds the texture atlas'
+		std::vector<std::pair<const std::string, const hashedName>>	buffer;				/// Saves the path and name of the textues to be loaded
+		std::map<hashedName, Texture>								loaded_textures;	/// Holds the loaded Textures
+		std::vector<std::shared_ptr<sf::Texture>>					textures;			/// Holds the texture atlas'
 
 		
 	};
-
-	static TextureManager	texture_manager;
 }
 
 

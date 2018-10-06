@@ -33,6 +33,8 @@ namespace itl {
 		sol::state lua;
 		void init();
 
+		void postinit();
+
 
 
 	private:

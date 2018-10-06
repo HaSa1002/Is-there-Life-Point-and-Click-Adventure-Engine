@@ -28,9 +28,11 @@
 #include "Lua.hpp"
 #include "Event.hpp"
 
+#include <SFML\Graphics\VertexBuffer.hpp>
 #include <SFML\Graphics\Vertex.hpp>
 #include <SFML\Graphics\PrimitiveType.hpp>
 #include <SFML\Graphics\RenderTarget.hpp>
+#include <SFML\Graphics\Sprite.hpp>
 
 
 
@@ -59,7 +61,7 @@ namespace itl {
 
 	private:
 		virtual void updateCurrent(sf::Time dt);
-		virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states);
+		virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		sf::IntRect getTextureRect();
 
@@ -69,11 +71,14 @@ namespace itl {
 
 		void updateTexCoords();
 
+		void setColor(const sf::Color & color);
+
 		std::string texture_name;
 		size_t texture_hash;
 
 		const std::string object_name;
 		sf::Vertex vertices[4];
 		const std::shared_ptr<LuaObject> t;
+		sf::Sprite sprite;
 	};
 }
