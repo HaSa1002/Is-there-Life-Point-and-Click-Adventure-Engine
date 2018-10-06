@@ -43,6 +43,12 @@
     <Filter Include="Quelldateien\Rendering">
       <UniqueIdentifier>{396cd691-193b-4851-800d-c2f7524a1b8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\Scripting">
+      <UniqueIdentifier>{2da3c39a-4f63-49e9-8f4c-e223f3bd2ae9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Scripting">
+      <UniqueIdentifier>{489b4d07-08f6-44c8-9246-ed3e59085ebb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SFMLHelper.hpp">
@@ -99,6 +105,18 @@
     <ClInclude Include="Entity.hpp">
       <Filter>Headerdateien\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Lua.hpp">
+      <Filter>Headerdateien\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="sol.hpp">
+      <Filter>Headerdateien\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaObject.hpp">
+      <Filter>Headerdateien\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -142,6 +160,12 @@
     </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Quelldateien\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Lua.cpp">
+      <Filter>Quelldateien\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaObject.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -23,42 +23,57 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "TextureManager.hpp"
 #include "SceneNode.hpp"
+#include "TextureManager.hpp"
 #include "Lua.hpp"
 #include "Event.hpp"
-#include "imgui\ImGuiAddon.hpp"
 
-#include <SFML\Graphics\RenderWindow.hpp>
+#include <SFML\Graphics\Vertex.hpp>
+#include <SFML\Graphics\PrimitiveType.hpp>
+#include <SFML\Graphics\RenderTarget.hpp>
 
-#include <list>
-#include <map>
+
 
 namespace itl {
-	
-	class Engine {
+	class LuaObject : public SceneNode {
 	public:
-		Engine();
-		void start();
+		
+		LuaObject(const std::string& n, const std::string& t, const int x, const int y, const int z);
+		LuaObject(const std::string& n, const std::string& t, const int x, const int y, const int z, const int a);
+		LuaObject(const std::string& n, const std::string& t, const int x, const int y, const int z, const int a, const float sx, const float sy);
+
+		void setPosition(const float x, const float y);
+		void setScale(const float sx, const float sy);
+		void setTexture(const std::string& name);
+		void setRotation(const float angle);
+
+		void move(const float x, const float y);
+		void rotate(const float angle);
+		void scale(const float sx, const float sy);
+
+		auto getPosition() -> std::pair<float, float>;
+		auto getScale() -> std::pair<float, float>;
+		auto getTexture() -> const std::string&;
+		const float getRotation();
 
 
 	private:
-		void main();
-		void processEvents();
+		virtual void updateCurrent(sf::Time dt);
+		virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states);
 
-		void createObject(/*FIXME: Implment params */);
+		sf::IntRect getTextureRect();
 
-		////////////////////////////////////////////////////////////
-		// Memberdata
-		////////////////////////////////////////////////////////////
-		
-		
-		
-		
-		sf::RenderWindow							window;
-		sf::View									view;
-		sf::Clock									clock;
-		bool										has_focus = true;
-		bool										draw_imgui = false;
+		const sf::FloatRect getLocalBounds();
+
+		void updatePositions();
+
+		void updateTexCoords();
+
+		std::string texture_name;
+		size_t texture_hash;
+
+		const std::string object_name;
+		sf::Vertex vertices[4];
+		const std::shared_ptr<LuaObject> t;
 	};
 }

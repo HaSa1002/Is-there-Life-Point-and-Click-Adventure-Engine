@@ -12,13 +12,7 @@ function s.init()
 	-- Add objects to the scene
 	scenes["system_test"] = {
 		objects = {
-			tablet = function()
-				local obj = objects.simple();
-				obj.pos(0,0,0);
-				obj.scale(6,6);
-				s.add(obj);
-				return obj;
-			end,
+			tablet = obj.new(0,0,0,)
 		}
 	}
 end

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 // 
 // ITLengine - Is there Life? Engine
-// Copyright (c) 2017-2018 Johannes Witt (johawitt@outlook.de) based on "SFML GAME DEVELOPMENT"
+// Copyright (c) 2017-2018 Johannes Witt (johawitt@outlook.de)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
@@ -23,49 +23,22 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/System/NonCopyable.hpp>
-#include <SFML/System/Time.hpp>
-#include <SFML/Graphics/Transformable.hpp>
-#include <SFML/Graphics/Drawable.hpp>
-
+#include <SFML\Window\Event.hpp>
 #include <vector>
-#include <map>
-#include <memory>
 
 namespace itl {
-	
+	struct Event {
+		Event(const char act, const int x, const int y) :action { act }, x { x }, y { y } { }
+		Event(Event& e) :action { e.action }, x { e.x }, y { e.y } { }
 
-	class SceneNode : public sf::Transformable, public sf::Drawable/*, private sf::NonCopyable*/ {
-	public:
-		typedef std::shared_ptr<SceneNode> Ptr;
+		///Ether l (left), r (right), m (middle), '1' (extra Button 1), '2' (extra Button 2) or h (hover [no click])
+		const char action;
+		/// Mouse x
+		const int x;
 
-
-	public:
-		SceneNode();
-
-		void					attachChild(Ptr child);
-		Ptr						detachChild(const SceneNode& node);
-
-		void					update(sf::Time dt);
-
-		sf::Vector2f			getWorldPosition() const;
-		sf::Transform			getWorldTransform() const;
-
-
-	private:
-		virtual void			updateCurrent(sf::Time dt);
-		void					updateChildren(sf::Time dt);
-
-		virtual void			draw(sf::RenderTarget& target, sf::RenderStates states) const;
-		virtual void			drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
-		void					drawChildren(sf::RenderTarget& target, sf::RenderStates states) const;
-
-
-	private:
-		std::vector<Ptr>		mChildren;
-		SceneNode*				mParent;
+		//Mouse y
+		const int y;
 	};
 
-	static std::map<size_t, std::weak_ptr<SceneNode>>	scene_layers;
-	static SceneNode									scene_graph;
+	static std::unique_ptr<Event> last_event;
 }

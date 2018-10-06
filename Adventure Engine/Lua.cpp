@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 // 
 // ITLengine - Is there Life? Engine
-// Copyright (c) 2017-2018 Johannes Witt (johawitt@outlook.de) based on "SFML GAME DEVELOPMENT"
+// Copyright (c) 2017-2018 Johannes Witt (johawitt@outlook.de)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
@@ -18,54 +18,64 @@
 //
 ////////////////////////////////////////////////////////////
 
-#pragma once
+#include "Lua.hpp"
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/System/NonCopyable.hpp>
-#include <SFML/System/Time.hpp>
-#include <SFML/Graphics/Transformable.hpp>
-#include <SFML/Graphics/Drawable.hpp>
-
-#include <vector>
-#include <map>
-#include <memory>
 
 namespace itl {
-	
-
-	class SceneNode : public sf::Transformable, public sf::Drawable/*, private sf::NonCopyable*/ {
-	public:
-		typedef std::shared_ptr<SceneNode> Ptr;
-
-
-	public:
-		SceneNode();
-
-		void					attachChild(Ptr child);
-		Ptr						detachChild(const SceneNode& node);
-
-		void					update(sf::Time dt);
-
-		sf::Vector2f			getWorldPosition() const;
-		sf::Transform			getWorldTransform() const;
+	void Lua::init() { 
+		bindClassMetatableHelper();
+		lua.script_file("ITL.lua");
+	}
 
 
-	private:
-		virtual void			updateCurrent(sf::Time dt);
-		void					updateChildren(sf::Time dt);
-
-		virtual void			draw(sf::RenderTarget& target, sf::RenderStates states) const;
-		virtual void			drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
-		void					drawChildren(sf::RenderTarget& target, sf::RenderStates states) const;
-
-
-	private:
-		std::vector<Ptr>		mChildren;
-		SceneNode*				mParent;
-	};
-
-	static std::map<size_t, std::weak_ptr<SceneNode>>	scene_layers;
-	static SceneNode									scene_graph;
+	////////////////////////////////////////////////////////////
+	void Lua::bindClassMetatableHelper() {
+		lua.script(R"(
+function class(base, init)
+	local c = {}    -- a new class instance
+	if not init and type(base) == 'function' then
+	   init = base
+	   base = nil
+	elseif type(base) == 'table' then
+	 -- our new class is a shallow copy of the base class!
+	   for i,v in pairs(base) do
+		  c[i] = v
+	   end
+	   c._base = base
+	end
+	-- the class will be the metatable for all its objects,
+	-- and they will look up their methods in it.
+	c.__index = c
+ 
+	-- expose a constructor which can be called by <classname>(<args>)
+	local mt = {}
+	mt.__call = function(class_tbl, ...)
+	local obj = {}
+	setmetatable(obj,c)
+	if init then
+	   init(obj,...)
+	else 
+	   -- make sure that any stuff from the base class is initialized!
+	   if base and base.init then
+	   base.init(obj, ...)
+	   end
+	end
+	return obj
+	end
+	c.init = init
+	c.is_a = function(self, klass)
+	   local m = getmetatable(self)
+	   while m do 
+		  if m == klass then return true end
+		  m = m._base
+	   end
+	   return false
+	end
+	setmetatable(c, mt)
+	return c
+ end)");
+	}
 }

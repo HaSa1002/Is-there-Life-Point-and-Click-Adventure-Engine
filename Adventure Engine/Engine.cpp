@@ -23,16 +23,33 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "SFML\Window\Event.hpp"
+#include "LuaObject.hpp"
+
 
 namespace itl {
+
 	Engine::Engine() {
 		start();
 	}
 	void Engine::start() {
-		// Load the scriptmanager here
+		// Bind the classes to Lua
+		sol::state& l = lua.lua;
+		l.new_usertype<LuaObject>("obj", sol::constructors<
+			LuaObject(const std::string&, const std::string&, const int, const int, const int),
+			LuaObject(const std::string&, const std::string&, const int, const int, const int, const int),
+			LuaObject(const std::string&, const std::string&, const int, const int, const int, const int, const float, const float)>(),
+			"pos", sol::overload(&LuaObject::getPosition, &LuaObject::setPosition),
+			"scale", sol::overload(&LuaObject::getScale, &LuaObject::setScale),
+			"texture", sol::overload(&LuaObject::getTexture, &LuaObject::setTexture),
+			"move", &LuaObject::move,
+			"rotate", &LuaObject::rotate,
+			"scale", &LuaObject::scale
+			);
+
+
+
 		// Create the window
-		window.create(sf::VideoMode(1600,900), "ITL Engine");
+		window.create(sf::VideoMode(1600, 900), "ITL Engine");
 		ImGui::SFML::Init(window);
 
 		//Load the textures here
@@ -42,6 +59,7 @@ namespace itl {
 	void Engine::main() {
 		while (window.isOpen()) {
 			// 1. process events
+			last_event.release();
 			this->processEvents();
 
 			// 2. Logic
@@ -84,7 +102,31 @@ namespace itl {
 				case sf::Event::GainedFocus:
 					has_focus = true;
 					break;
-
+				case sf::Event::MouseMoved:
+					last_event = std::make_unique<Event>(Event('h', event.mouseMove.x, event.mouseMove.y));
+					break;
+				case sf::Event::MouseButtonReleased: {
+						char btn = 'h';
+						switch (event.mouseButton.button) {
+							case sf::Mouse::Button::Left:
+								btn = 'l';
+								break;
+							case sf::Mouse::Button::Middle:
+								btn = 'm';
+								break;
+							case sf::Mouse::Button::Right:
+								btn = 'r';
+								break;
+							case sf::Mouse::Button::XButton1:
+								btn = '1';
+								break;
+							case sf::Mouse::Button::XButton2:
+								btn = '2';
+								break;
+						}
+						last_event = std::make_unique<Event>(Event(btn, event.mouseButton.x, event.mouseButton.y));
+						break;
+					}
 				default:
 					break;
 			}

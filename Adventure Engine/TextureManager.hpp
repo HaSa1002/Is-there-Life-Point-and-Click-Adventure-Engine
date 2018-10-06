@@ -96,10 +96,12 @@ namespace itl {
 		////////////////////////////////////////////////////////////
 		std::vector<std::pair<const std::string&, const hashedName>>	buffer;				/// Saves the path and name of the textues to be loaded
 		std::map<hashedName, Texture>									loaded_textures;	/// Holds the loaded Textures
-		std::vector<sf::Texture>										textures;			///  Holds the texture atlas'
+		std::vector<sf::Texture>										textures;			/// Holds the texture atlas'
 
 		
 	};
+
+	static TextureManager	texture_manager;
 }
 
 

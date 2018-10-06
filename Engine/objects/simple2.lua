@@ -3,7 +3,7 @@
 -- We are using the tablet texture
 
 
-objects.simple = class(function(o)
+simple = class(function(o)
 	o.pos = {0,0,1}
 	o.scale = {4.9, 6}
 	o.rotation = 100
@@ -11,19 +11,24 @@ objects.simple = class(function(o)
 	o.actions = {'u', 'l', 'h'}
 	o.data = 1
 end);
-Object = objects.simple;
 
-function Object:onUse()
+o = simple();
+o2 = simple();
+
+
+function simple:onUse()
 	-- Default callback maybe nil??
-	pc.setSubtitle(local("tabletU"));
+	print("use")
 end
-function Object:onLook()
+function simple:onLook()
 	-- Default callback maybe nil??
-	pc.setSubtitle(local("tabletL"));
+	print("look")
 end
-function Object:onHover()
+function simple:onHover()
 	-- Default callback maybe nil??
-	pc.setSubtitle(local("tablet"));
+	print("hover")
 end
 
-pc.objects.add("simple");
+function o.update(dt, actions)
+	print("Hello")
+end
