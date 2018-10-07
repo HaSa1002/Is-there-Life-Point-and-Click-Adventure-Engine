@@ -49,9 +49,7 @@ namespace itl {
 		updateChildren(dt);
 	}
 
-	void SceneNode::updateCurrent(sf::Time) {
-		// Do nothing by default
-	}
+	void SceneNode::updateCurrent(sf::Time) { }
 
 	void SceneNode::updateChildren(sf::Time dt) {
 		for (Ptr& child : mChildren)
@@ -60,16 +58,14 @@ namespace itl {
 
 	void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 		// Apply transform of current node
-		states.transform *= getTransform();
+		//states.transform *= getTransform();
 
 		// Draw node and children with changed transform
 		drawCurrent(target, states);
 		drawChildren(target, states);
 	}
 
-	void SceneNode::drawCurrent(sf::RenderTarget&, sf::RenderStates) const {
-		// Do nothing by default
-	}
+	void SceneNode::drawCurrent(sf::RenderTarget&, sf::RenderStates) const { }
 
 	void SceneNode::drawChildren(sf::RenderTarget& target, sf::RenderStates states) const {
 		for (const Ptr& child : mChildren)

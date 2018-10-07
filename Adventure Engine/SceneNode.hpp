@@ -29,13 +29,13 @@
 #include <SFML/Graphics/Drawable.hpp>
 
 #include <vector>
-#include <map>
 #include <memory>
+#include <map>
 
 namespace itl {
 	
 
-	class SceneNode : public sf::Transformable, public sf::Drawable/*, private sf::NonCopyable*/ {
+	class SceneNode : public sf::Transformable, public sf::Drawable {
 	public:
 		typedef std::shared_ptr<SceneNode> Ptr;
 

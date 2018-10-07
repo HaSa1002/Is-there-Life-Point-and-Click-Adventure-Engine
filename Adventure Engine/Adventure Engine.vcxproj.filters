@@ -119,14 +119,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="Rect.cpp">
       <Filter>Quelldateien\TextureManager\RectanglePacking</Filter>
-    </ClCompile>
-    <ClCompile Include="MaxRectsBinPack.cpp">
-      <Filter>Quelldateien\TextureManager</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>Quelldateien\TextureManager</Filter>
@@ -165,6 +159,12 @@
       <Filter>Quelldateien\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="LuaObject.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="MaxRectsBinPack.cpp">
+      <Filter>Quelldateien\TextureManager\RectanglePacking</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

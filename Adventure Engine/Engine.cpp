@@ -85,8 +85,9 @@ namespace itl {
 		//Load the textures here
 		std::hash<std::string> hs;
 		auto obj = LuaObject("t", "test", 100, 100, 0);
-		scene_layers.find(0)->second.lock()->attachChild(std::move(std::make_shared<LuaObject>(obj)));
-		
+		scene_graph.attachChild(std::move(std::make_shared<LuaObject>(obj)));
+		//scene_layers.find(0)->second.lock()->attachChild(std::move(std::make_shared<LuaObject>(obj)));
+		obj.setPosition(100,100);
 		main();
 	}
 	void Engine::main() {
@@ -95,6 +96,7 @@ namespace itl {
 	sprite.setTexture(texture_manager.find(hs("test"))->texture_ref);
 	sprite.setTextureRect(texture_manager.find(hs("test"))->rect);
 
+				scene_graph.setPosition(0,0);
 
 
 		while (window.isOpen()) {
@@ -111,7 +113,7 @@ namespace itl {
 				window.clear();
 
 				window.draw(scene_graph);
-				window.draw(sprite);
+				//window.draw(sprite);
 
 				if (draw_imgui)
 					ImGui::SFML::Render(window);

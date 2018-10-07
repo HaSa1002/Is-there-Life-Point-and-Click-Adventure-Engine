@@ -137,6 +137,7 @@ namespace itl {
 	////////////////////////////////////////////////////////////
 	void LuaObject::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {
 		if (texture_ref) {
+			//states.transform *= getTransform();
 			states.texture = texture_ref;
 			target.draw(vertices, 4, sf::PrimitiveType::TriangleStrip, states);
 		} else {
