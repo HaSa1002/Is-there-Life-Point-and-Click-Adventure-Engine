@@ -40,26 +40,11 @@ namespace itl {
 	////////////////////////////////////////////////////////////
 	LuaObject::LuaObject(const std::string& n, const std::string& t, const int x, const int y, const int z, const int a, const float sx, const float sy) : object_name { n } {
 		setTexture(t);
+		//sprite.setSize(sf::Vector2f(400, 100));
+		//sprite.setFillColor(sf::Color::Blue);
 		setPosition(x, y);
 		setScale(sx, sy);
 		setRotation(a);
-		auto res = scene_layers.find(z);
-		if (res == scene_layers.end()) {
-			std::shared_ptr<SceneNode> s = std::make_shared<SceneNode>();
-			scene_graph.attachChild(s);
-			scene_layers.emplace(z, s);
-			s->attachChild(std::move(std::make_shared<LuaObject>(std::move(*this))));
-
-		} else if (res->second.expired()) {
-			std::shared_ptr<SceneNode> s = std::make_shared<SceneNode>();
-			scene_graph.attachChild(s);
-			res->second = s;
-			s->attachChild(std::move(std::make_shared<LuaObject>(std::move(*this))));
-		} else {
-			res->second.lock()->attachChild(std::move(std::make_shared<LuaObject>(std::move(*this))));
-		}
-
-
 	}
 
 
@@ -82,10 +67,12 @@ namespace itl {
 		texture_hash = sh(texture_name);
 		auto t = texture_manager.find(texture_hash);
 		if (t != nullptr) {
+			texture_ref = &t->texture_ref;
 			sprite.setTexture(t->texture_ref);
-			//sprite.setTextureRect(t->rect);
+			sprite.setTextureRect(t->rect);
 		}
-
+		updatePositions();
+		updateTexCoords();
 
 	}
 
@@ -134,8 +121,8 @@ namespace itl {
 	}
 
 
-	////////////////////////////////////////////////////////////
-	auto LuaObject::getRotation() -> const float {
+		////////////////////////////////////////////////////////////
+		auto LuaObject::getRotation() -> const float {
 		return SceneNode::getRotation();
 	}
 
@@ -149,7 +136,13 @@ namespace itl {
 
 	////////////////////////////////////////////////////////////
 	void LuaObject::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {
-		target.draw(sprite, states);
+		if (texture_ref) {
+			states.texture = texture_ref;
+			target.draw(vertices, 4, sf::PrimitiveType::TriangleStrip, states);
+		} else {
+			printf("No texture set");
+		}
+
 	}
 
 

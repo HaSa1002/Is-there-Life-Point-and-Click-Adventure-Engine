@@ -33,6 +33,7 @@
 #include <SFML\Graphics\PrimitiveType.hpp>
 #include <SFML\Graphics\RenderTarget.hpp>
 #include <SFML\Graphics\Sprite.hpp>
+#include <SFML\Graphics\RectangleShape.hpp>
 
 
 
@@ -80,5 +81,6 @@ namespace itl {
 		sf::Vertex vertices[4];
 		const std::shared_ptr<LuaObject> t;
 		sf::Sprite sprite;
+		sf::Texture* texture_ref;
 	};
 }

@@ -41,14 +41,14 @@ namespace itl {
 		/// param texture_name: hash of the name
 		///
 		////////////////////////////////////////////////////////////
-		Texture(const sf::IntRect& textureRect, const size_t& textureName, const sf::Texture& on_texture) noexcept: rect { textureRect }, name { textureName }, texture_ref { on_texture } { }
+		Texture(const sf::IntRect& textureRect, const size_t& textureName, sf::Texture& on_texture) noexcept: rect { textureRect }, name { textureName }, texture_ref { on_texture } { }
 
 		////////////////////////////////////////////////////////////
 		// Member Data
 		////////////////////////////////////////////////////////////
 		const sf::IntRect	rect;			/// Texture rect
 		const size_t		name;			/// Texture name
-		const sf::Texture&	texture_ref;	/// Refrence to the texture
+		sf::Texture&	texture_ref;	/// Refrence to the texture
 
 	};
 }
