@@ -26,12 +26,14 @@
 #include "LuaObject.hpp"
 #include "SpriteNode.hpp"
 #include <string>
+#include <utility>
 
 
 namespace itl {
 	TextureManager texture_manager;
 	std::map<size_t, std::weak_ptr<SceneNode>>	scene_layers;
-	SceneNode									scene_graph;
+	sf::Texture t;
+	SpriteNode sn;
 
 	Engine::Engine() {
 		start();
@@ -40,29 +42,39 @@ namespace itl {
 		lua.init();
 		// Bind the classes to Lua
 		sol::state& l = lua.lua;
-		l.new_usertype<LuaObject>("obj", sol::constructors<
-			LuaObject(const std::string&, const std::string&, const int, const int, const int),
-			LuaObject(const std::string&, const std::string&, const int, const int, const int, const int),
-			LuaObject(const std::string&, const std::string&, const int, const int, const int, const int, const float, const float)>(),
-			"pos", sol::overload(&LuaObject::getPosition, &LuaObject::setPosition),
-			"scale", sol::overload(&LuaObject::getScale, &LuaObject::setScale),
-			"texture", sol::overload(&LuaObject::getTexture, &LuaObject::setTexture),
-			"move", &LuaObject::move,
-			"rotate", &LuaObject::rotate,
-			"scale", &LuaObject::scale
-			);
-
 		l.script(R"(
 		textures = {};
-		objects = {})");
-		l["textures"]["add"] = [](std::string path, std::string name) {
-			std::hash<std::string> sh;
-			texture_manager.add(path, sh(name));
-		};
-		l["textures"]["build"] = []() {texture_manager.build(); };
-		l["textures"]["clear"] = [](bool onlyBuffer = false) {texture_manager.clear(onlyBuffer); };
+		objects = {};
+		objects.test = {};
+		utils = {};
+		utils.hash = {})");
+		l.new_usertype<TextureManager>("textures", sol::constructors<
+			TextureManager()>(),
+			"find", &TextureManager::find,
+			"add", &TextureManager::add,
+			"clear", &TextureManager::clear,
+			"build", &TextureManager::build
+			);
 
-		l["objects"]["setLayer"] = [](LuaObject& obj, size_t layer) {
+
+		l.new_usertype<LuaObject>("obj", sol::constructors<
+			LuaObject(const std::string&, const std::string&, const TextureManager&, const int, const int, const int),
+			LuaObject(const std::string&, const std::string&, const TextureManager&, const int, const int, const int, const int),
+			LuaObject(const std::string&, const std::string&, const TextureManager&, const int, const int, const int, const int, const float, const float)>(),
+			"setPosition", sol::resolve<void(float, float)>(&LuaObject::Transformable::setPosition),
+			"scale", sol::overload(&LuaObject::getScale, sol::resolve<void(float, float)>(&LuaObject::Transformable::setScale)),
+			"texture", sol::overload(&LuaObject::getTexture, &LuaObject::setTexture),
+			"move", sol::resolve<void(float, float)>(&LuaObject::move),
+			"rotate", &LuaObject::rotate,
+			"scale", sol::resolve<void(float, float)>(&LuaObject::scale)
+			);
+
+		l["utils"]["hash"]["string"] = [](const std::string& s) {
+			std::hash<std::string> hs;
+			return hs(s);
+		};
+
+		l["objects"]["setLayer"] = [this](SpriteNode& obj, size_t layer) {
 			auto r = scene_layers.find(layer);
 			if (r == scene_layers.end()) {
 				auto o = std::make_shared<SceneNode>();
@@ -73,7 +85,7 @@ namespace itl {
 				scene_graph.attachChild(r->second.lock());
 			}
 			r = scene_layers.find(layer);
-			r->second.lock()->attachChild(std::make_shared<LuaObject>(std::move(obj)));
+			r->second.lock()->attachChild(std::make_shared<SpriteNode>(std::move(obj)));
 
 		};
 
@@ -81,31 +93,34 @@ namespace itl {
 		// Create the window
 		window.create(sf::VideoMode(1600, 900), "ITL Engine");
 		ImGui::SFML::Init(window);
-
+		
+		t.loadFromFile("test.png");
+		//l.script("test:move(100,100)");
 		//Load the textures here
-		std::hash<std::string> hs;
-		auto obj = LuaObject("t", "test", 100, 100, 0);
-		scene_graph.attachChild(std::move(std::make_shared<LuaObject>(obj)));
-		//scene_layers.find(0)->second.lock()->attachChild(std::move(std::make_shared<LuaObject>(obj)));
-		obj.setPosition(100,100);
+		//std::hash<std::string> hs;
+		//auto obj = SpriteNode(l["t"].get<TextureManager>().find(hs("test"))->texture_ref);
+		//scene_graph.attachChild(std::move(std::make_shared<SpriteNode>(obj)));
+		//l["objects"]["setLayer"].call(obj, 0);
+		scene_graph.setTexture(t);
+		sn.setTexture(t);
+		scene_graph.setPosition(100,100);
+		scene_graph.attachChild(std::make_shared<SpriteNode>(std::move(sn)));
+		sn.setPosition(0,100);
 		main();
 	}
 	void Engine::main() {
-	sf::Sprite sprite;
-	std::hash<std::string> hs;
-	sprite.setTexture(texture_manager.find(hs("test"))->texture_ref);
-	sprite.setTextureRect(texture_manager.find(hs("test"))->rect);
 
-				scene_graph.setPosition(0,0);
-
-
+		sf::Clock clock;
 		while (window.isOpen()) {
 			// 1. process events
 			last_event.release();
 			this->processEvents();
 
 			// 2. Logic
-			scene_layers.find(0)->second.lock()->setPosition(100,100);
+			scene_graph.update(clock.restart());
+			sn.move(0.1,0);
+			
+			//lua.lua["test"]["move"].call(10,10);
 			// 3. Render
 			clock.restart();
 			has_focus = true;
@@ -113,7 +128,6 @@ namespace itl {
 				window.clear();
 
 				window.draw(scene_graph);
-				//window.draw(sprite);
 
 				if (draw_imgui)
 					ImGui::SFML::Render(window);

@@ -26,37 +26,25 @@
 
 
 namespace itl {
-	extern TextureManager texture_manager;
 	extern std::map<size_t, std::weak_ptr<SceneNode>>	scene_layers;
 	extern SceneNode									scene_graph;
 
-	LuaObject::LuaObject(const std::string& n, const std::string& t, const int x, const int y, const int z) : LuaObject(n, t, x, y, z, 0, 0.f, 0.f) { }
+	LuaObject::LuaObject(const std::string& n, const std::string& t, const TextureManager& tm, const int x, const int y) : LuaObject(n, t, tm, x, y, 0, 1.f, 1.f) { }
 
 
 	////////////////////////////////////////////////////////////
-	LuaObject::LuaObject(const std::string& n, const std::string& t, const int x, const int y, const int z, const int a) : LuaObject(n, t, x, y, z, a, 0.f, 0.f) { }
+	LuaObject::LuaObject(const std::string& n, const std::string& t, const TextureManager& tm, const int x, const int y, const int a) : LuaObject(n, t, tm, x, y, a, 1.f, 1.f) { }
 
 
 	////////////////////////////////////////////////////////////
-	LuaObject::LuaObject(const std::string& n, const std::string& t, const int x, const int y, const int z, const int a, const float sx, const float sy) : object_name { n } {
+	LuaObject::LuaObject(const std::string& n, const std::string& t, const TextureManager& tm, const int x, const int y, const int a, const float sx, const float sy) : object_name { n }, tm { tm } {
 		setTexture(t);
-		//sprite.setSize(sf::Vector2f(400, 100));
-		//sprite.setFillColor(sf::Color::Blue);
-		setPosition(x, y);
-		setScale(sx, sy);
+		setPosition(x,y);
 		setRotation(a);
-	}
-
-
-	////////////////////////////////////////////////////////////
-	void LuaObject::setPosition(const float x, const float y) {
-		SceneNode::setPosition(x, y);
-	}
-
-
-	////////////////////////////////////////////////////////////
-	void LuaObject::setScale(const float x, const float y) {
-		SceneNode::setScale(x, y);
+		setScale(sx,sy);
+		//Create the object table to give the user a place to put their functions into
+		//FIXME: Get the tablecreation done
+		//lua.lua.script("objects."+object_name+" = {}");
 	}
 
 
@@ -65,7 +53,7 @@ namespace itl {
 		std::hash<std::string> sh;
 		texture_name = name;
 		texture_hash = sh(texture_name);
-		auto t = texture_manager.find(texture_hash);
+		auto t = tm.find(texture_hash);
 		if (t != nullptr) {
 			texture_ref = &t->texture_ref;
 			sprite.setTexture(t->texture_ref);
@@ -78,66 +66,27 @@ namespace itl {
 
 
 	////////////////////////////////////////////////////////////
-	void LuaObject::setRotation(const float angle) {
-		SceneNode::setRotation(angle);
-	}
-
-
-	////////////////////////////////////////////////////////////
-	void LuaObject::move(const float x, const float y) {
-		SceneNode::move(x, y);
-	}
-
-
-	////////////////////////////////////////////////////////////
-	void LuaObject::rotate(const float angle) {
-		SceneNode::rotate(angle);
-	}
-
-
-	////////////////////////////////////////////////////////////
-	void LuaObject::scale(const float sx, const float sy) {
-		SceneNode::scale(sx, sy);
-	}
-
-
-	////////////////////////////////////////////////////////////
-	auto LuaObject::getPosition() -> std::pair<float, float> {
-		sf::Vector2f p = SceneNode::getPosition();
-		return std::pair<float, float>(p.x, p.y);
-	}
-
-
-	////////////////////////////////////////////////////////////
-	auto LuaObject::getScale() -> std::pair<float, float> {
-		sf::Vector2f s = SceneNode::getScale();
-		return std::pair<float, float>(s.x, s.y);
-	}
-
-
-	////////////////////////////////////////////////////////////
 	auto LuaObject::getTexture() -> const std::string & {
 		return texture_name;
 	}
 
 
+
 		////////////////////////////////////////////////////////////
-		auto LuaObject::getRotation() -> const float {
-		return SceneNode::getRotation();
-	}
-
-
-	////////////////////////////////////////////////////////////
-	void LuaObject::updateCurrent(sf::Time dt) {
-		if (last_event == nullptr) lua.lua[object_name]["update"].call(dt.asSeconds());
-		else lua.lua[object_name]["update"].call(dt.asSeconds(), last_event->action, last_event->x, last_event->y);
+		void LuaObject::updateCurrent(sf::Time dt) {
+		/*if (lua.lua["objects"]["test"].get_type() == sol::type::table) {
+			printf("Found");
+		} else {
+			printf("%d", lua.lua["objects"]["test"].get_type());
+		}
+		if (last_event == nullptr) lua.lua["objects"][object_name]["update"].call(dt.asSeconds());
+		else lua.lua["objects"][object_name]["update"].call(dt.asSeconds(), last_event->action, last_event->x, last_event->y);*/
 	}
 
 
 	////////////////////////////////////////////////////////////
 	void LuaObject::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {
 		if (texture_ref) {
-			//states.transform *= getTransform();
 			states.texture = texture_ref;
 			target.draw(vertices, 4, sf::PrimitiveType::TriangleStrip, states);
 		} else {
@@ -149,7 +98,7 @@ namespace itl {
 
 	////////////////////////////////////////////////////////////
 	sf::IntRect LuaObject::getTextureRect() {
-		auto r = texture_manager.find(texture_hash);
+		auto r = tm.find(texture_hash);
 		if (r == nullptr) {
 			printf("%s hasn't a correct texture. Texturename was \"%s\". Are you sure the spelling is correct?\n", object_name.data(), texture_name.data());
 			assert(r); // The Texture can't be nothing. Check the spelling

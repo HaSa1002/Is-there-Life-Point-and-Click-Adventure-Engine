@@ -30,9 +30,10 @@
 namespace itl {
 	class SpriteNode : public SceneNode {
 	public:
+		SpriteNode();
 		explicit			SpriteNode(const sf::Texture& texture);
 		SpriteNode(const sf::Texture& texture, const sf::IntRect& textureRect);
-
+		void setTexture(const sf::Texture& texture);
 
 	private:
 		virtual void		drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;

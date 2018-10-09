@@ -58,7 +58,7 @@ namespace itl {
 
 	void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 		// Apply transform of current node
-		//states.transform *= getTransform();
+		states.transform *= getTransform();
 
 		// Draw node and children with changed transform
 		drawCurrent(target, states);

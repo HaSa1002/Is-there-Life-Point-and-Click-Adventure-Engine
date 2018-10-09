@@ -158,14 +158,14 @@
     <ClCompile Include="Lua.cpp">
       <Filter>Quelldateien\Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="LuaObject.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="MaxRectsBinPack.cpp">
       <Filter>Quelldateien\TextureManager\RectanglePacking</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaObject.cpp">
+      <Filter>Quelldateien\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

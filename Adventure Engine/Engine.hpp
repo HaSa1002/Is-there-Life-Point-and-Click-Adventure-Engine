@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////
 #include "TextureManager.hpp"
 #include "SceneNode.hpp"
+#include "SpriteNode.hpp"
 #include "Lua.hpp"
 #include "Event.hpp"
 #include "imgui\ImGuiAddon.hpp"
@@ -46,15 +47,13 @@ namespace itl {
 		void main();
 		void processEvents();
 
-		void createObject(/*FIXME: Implment params */);
-
 		////////////////////////////////////////////////////////////
 		// Memberdata
 		////////////////////////////////////////////////////////////
 		
 		
 		
-		
+		SpriteNode									scene_graph;
 		sf::RenderWindow							window;
 		sf::View									view;
 		sf::Clock									clock;

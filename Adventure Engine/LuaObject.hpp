@@ -41,23 +41,13 @@ namespace itl {
 	class LuaObject : public SceneNode {
 	public:
 		
-		LuaObject(const std::string& n, const std::string& t, const int x, const int y, const int z);
-		LuaObject(const std::string& n, const std::string& t, const int x, const int y, const int z, const int a);
-		LuaObject(const std::string& n, const std::string& t, const int x, const int y, const int z, const int a, const float sx, const float sy);
+		LuaObject(const std::string& n, const std::string& t, const TextureManager& tm,  const int x, const int y);
+		LuaObject(const std::string& n, const std::string& t, const TextureManager& tm, const int x, const int y, const int a);
+		LuaObject(const std::string& n, const std::string& t, const TextureManager& tm, const int x, const int y, const int a, const float sx, const float sy);
 
-		void setPosition(const float x, const float y);
-		void setScale(const float sx, const float sy);
 		void setTexture(const std::string& name);
-		void setRotation(const float angle);
 
-		void move(const float x, const float y);
-		void rotate(const float angle);
-		void scale(const float sx, const float sy);
-
-		auto getPosition() -> std::pair<float, float>;
-		auto getScale() -> std::pair<float, float>;
 		auto getTexture() -> const std::string&;
-		const float getRotation();
 
 
 	private:
@@ -82,5 +72,6 @@ namespace itl {
 		const std::shared_ptr<LuaObject> t;
 		sf::Sprite sprite;
 		sf::Texture* texture_ref;
+		TextureManager tm;
 	};
 }
