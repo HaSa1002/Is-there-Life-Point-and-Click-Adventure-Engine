@@ -23,6 +23,8 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include "Lua.hpp"
+#include "Event.hpp"
 #include "SceneNode.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
@@ -31,15 +33,18 @@ namespace itl {
 	class SpriteNode : public SceneNode {
 	public:
 		SpriteNode();
-		explicit			SpriteNode(const sf::Texture& texture);
-		SpriteNode(const sf::Texture& texture, const sf::IntRect& textureRect);
+		SpriteNode(const std::string & name, sf::Texture & texture);
+		SpriteNode(const std::string & name, const sf::Texture & texture, const sf::IntRect & textureRect);
 		void setTexture(const sf::Texture& texture);
 
 	private:
 		virtual void		drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
+		void updateCurrent(sf::Time dt);
+
 
 	private:
+		const std::string object_name;
 		sf::Sprite			mSprite;
 	};
 }

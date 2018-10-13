@@ -41,9 +41,9 @@ namespace itl {
 	class LuaObject : public SceneNode {
 	public:
 		
-		LuaObject(const std::string& n, const std::string& t, const TextureManager& tm,  const int x, const int y);
-		LuaObject(const std::string& n, const std::string& t, const TextureManager& tm, const int x, const int y, const int a);
-		LuaObject(const std::string& n, const std::string& t, const TextureManager& tm, const int x, const int y, const int a, const float sx, const float sy);
+		LuaObject(const std::string& n, const std::string& t, TextureManager& tm,  const int x, const int y);
+		LuaObject(const std::string& n, const std::string& t, TextureManager& tm, const int x, const int y, const int a);
+		LuaObject(const std::string& n, const std::string& t, TextureManager& tm, const int x, const int y, const int a, const float sx, const float sy);
 
 		void setTexture(const std::string& name);
 
@@ -69,9 +69,8 @@ namespace itl {
 
 		const std::string object_name;
 		sf::Vertex vertices[4];
-		const std::shared_ptr<LuaObject> t;
 		sf::Sprite sprite;
 		sf::Texture* texture_ref;
-		TextureManager tm;
+		TextureManager& tm;
 	};
 }

@@ -32,8 +32,6 @@
 namespace itl {
 	TextureManager texture_manager;
 	std::map<size_t, std::weak_ptr<SceneNode>>	scene_layers;
-	sf::Texture t;
-	SpriteNode sn;
 
 	Engine::Engine() {
 		start();
@@ -57,10 +55,10 @@ namespace itl {
 			);
 
 
-		l.new_usertype<LuaObject>("obj", sol::constructors<
+		l.new_usertype<LuaObject>("LuaObject", sol::constructors<
+			LuaObject(const std::string&, const std::string&, const TextureManager&, const int, const int),
 			LuaObject(const std::string&, const std::string&, const TextureManager&, const int, const int, const int),
-			LuaObject(const std::string&, const std::string&, const TextureManager&, const int, const int, const int, const int),
-			LuaObject(const std::string&, const std::string&, const TextureManager&, const int, const int, const int, const int, const float, const float)>(),
+			LuaObject(const std::string&, const std::string&, const TextureManager&, const int, const int, const int, const float, const float)>(),
 			"setPosition", sol::resolve<void(float, float)>(&LuaObject::Transformable::setPosition),
 			"scale", sol::overload(&LuaObject::getScale, sol::resolve<void(float, float)>(&LuaObject::Transformable::setScale)),
 			"texture", sol::overload(&LuaObject::getTexture, &LuaObject::setTexture),
@@ -69,12 +67,24 @@ namespace itl {
 			"scale", sol::resolve<void(float, float)>(&LuaObject::scale)
 			);
 
+		l.new_usertype<SpriteNode>("SpriteNode", sol::constructors<
+			SpriteNode(const std::string&, sf::Texture&),
+			SpriteNode(const std::string&, sf::Texture&, const sf::IntRect&)>(),
+
+			"setPosition", sol::resolve<void(float, float)>(&SpriteNode::Transformable::setPosition),
+			"scale", sol::overload(&SpriteNode::getScale, sol::resolve<void(float, float)>(&SpriteNode::setScale)),
+			"texture", &SpriteNode::setTexture,
+			"move", sol::resolve<void(float, float)>(&SpriteNode::move),
+			"rotate", &SpriteNode::rotate,
+			"scale", sol::resolve<void(float, float)>(&SpriteNode::scale)
+			);
+
 		l["utils"]["hash"]["string"] = [](const std::string& s) {
 			std::hash<std::string> hs;
 			return hs(s);
 		};
 
-		l["objects"]["setLayer"] = [this](SpriteNode& obj, size_t layer) {
+		l["objects"]["setLayer"] = [this](std::shared_ptr<SpriteNode> obj, size_t layer) {
 			auto r = scene_layers.find(layer);
 			if (r == scene_layers.end()) {
 				auto o = std::make_shared<SceneNode>();
@@ -85,27 +95,28 @@ namespace itl {
 				scene_graph.attachChild(r->second.lock());
 			}
 			r = scene_layers.find(layer);
-			r->second.lock()->attachChild(std::make_shared<SpriteNode>(std::move(obj)));
+			r->second.lock()->attachChild(obj);
 
+		};
+
+		l["objects"]["Object"] = [](const std::string& name, const std::string& texture, TextureManager& tm, const int x, const int y, const int a, const float sx, const float sy) -> std::shared_ptr<LuaObject> {
+			return std::make_shared<LuaObject>(name, texture, tm, x, y, a, sx, sy);
+		};
+
+		l["objects"]["SpriteObject"] = [this](const std::string& name, const std::string& texture, TextureManager& tm) -> std::shared_ptr<SpriteNode> {
+			std::hash<std::string> hs;
+			const itl::Texture* t = tm.find(hs(texture));
+			return std::make_shared<SpriteNode>(name, t->texture_ref, t->rect);
 		};
 
 		lua.postinit();
 		// Create the window
 		window.create(sf::VideoMode(1600, 900), "ITL Engine");
 		ImGui::SFML::Init(window);
-		
-		t.loadFromFile("test.png");
-		//l.script("test:move(100,100)");
+
+
 		//Load the textures here
-		//std::hash<std::string> hs;
-		//auto obj = SpriteNode(l["t"].get<TextureManager>().find(hs("test"))->texture_ref);
-		//scene_graph.attachChild(std::move(std::make_shared<SpriteNode>(obj)));
-		//l["objects"]["setLayer"].call(obj, 0);
-		scene_graph.setTexture(t);
-		sn.setTexture(t);
-		scene_graph.setPosition(100,100);
-		scene_graph.attachChild(std::make_shared<SpriteNode>(std::move(sn)));
-		sn.setPosition(0,100);
+
 		main();
 	}
 	void Engine::main() {
@@ -118,8 +129,7 @@ namespace itl {
 
 			// 2. Logic
 			scene_graph.update(clock.restart());
-			sn.move(0.1,0);
-			
+
 			//lua.lua["test"]["move"].call(10,10);
 			// 3. Render
 			clock.restart();

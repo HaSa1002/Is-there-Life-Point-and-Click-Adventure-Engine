@@ -53,7 +53,7 @@ namespace itl {
 		
 		
 		
-		SpriteNode									scene_graph;
+		SceneNode									scene_graph;
 		sf::RenderWindow							window;
 		sf::View									view;
 		sf::Clock									clock;

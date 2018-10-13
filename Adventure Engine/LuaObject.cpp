@@ -29,15 +29,15 @@ namespace itl {
 	extern std::map<size_t, std::weak_ptr<SceneNode>>	scene_layers;
 	extern SceneNode									scene_graph;
 
-	LuaObject::LuaObject(const std::string& n, const std::string& t, const TextureManager& tm, const int x, const int y) : LuaObject(n, t, tm, x, y, 0, 1.f, 1.f) { }
+	LuaObject::LuaObject(const std::string& n, const std::string& t, TextureManager& tm, const int x, const int y) : LuaObject(n, t, tm, x, y, 0, 1.f, 1.f) { }
 
 
 	////////////////////////////////////////////////////////////
-	LuaObject::LuaObject(const std::string& n, const std::string& t, const TextureManager& tm, const int x, const int y, const int a) : LuaObject(n, t, tm, x, y, a, 1.f, 1.f) { }
+	LuaObject::LuaObject(const std::string& n, const std::string& t, TextureManager& tm, const int x, const int y, const int a) : LuaObject(n, t, tm, x, y, a, 1.f, 1.f) { }
 
 
 	////////////////////////////////////////////////////////////
-	LuaObject::LuaObject(const std::string& n, const std::string& t, const TextureManager& tm, const int x, const int y, const int a, const float sx, const float sy) : object_name { n }, tm { tm } {
+	LuaObject::LuaObject(const std::string& n, const std::string& t, TextureManager& tm, const int x, const int y, const int a, const float sx, const float sy) : object_name { n }, tm { tm } {
 		setTexture(t);
 		setPosition(x,y);
 		setRotation(a);
@@ -74,21 +74,20 @@ namespace itl {
 
 		////////////////////////////////////////////////////////////
 		void LuaObject::updateCurrent(sf::Time dt) {
-		/*if (lua.lua["objects"]["test"].get_type() == sol::type::table) {
+		if (lua.lua["objects"]["test"].get_type() == sol::type::table) {
 			printf("Found");
 		} else {
 			printf("%d", lua.lua["objects"]["test"].get_type());
 		}
 		if (last_event == nullptr) lua.lua["objects"][object_name]["update"].call(dt.asSeconds());
-		else lua.lua["objects"][object_name]["update"].call(dt.asSeconds(), last_event->action, last_event->x, last_event->y);*/
+		else lua.lua["objects"][object_name]["update"].call(dt.asSeconds(), last_event->action, last_event->x, last_event->y);
 	}
 
 
 	////////////////////////////////////////////////////////////
 	void LuaObject::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {
 		if (texture_ref) {
-			states.texture = texture_ref;
-			target.draw(vertices, 4, sf::PrimitiveType::TriangleStrip, states);
+			target.draw(sprite, states);
 		} else {
 			printf("No texture set");
 		}

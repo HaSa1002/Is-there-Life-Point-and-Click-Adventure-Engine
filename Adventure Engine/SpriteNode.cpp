@@ -27,18 +27,26 @@
 
 namespace itl {
 
-	SpriteNode::SpriteNode(): mSprite() { }
-	SpriteNode::SpriteNode(const sf::Texture& texture) : mSprite(texture) { }
+	SpriteNode::SpriteNode() : mSprite() { }
+	SpriteNode::SpriteNode(const std::string& name, sf::Texture& texture) : mSprite(texture), object_name { name } { }
 
-	SpriteNode::SpriteNode(const sf::Texture& texture, const sf::IntRect& textureRect) : mSprite(texture, textureRect) { }
+	SpriteNode::SpriteNode(const std::string& name, const sf::Texture& texture, const sf::IntRect& textureRect) : mSprite(texture, textureRect), object_name { name } { }
 
 	void SpriteNode::setTexture(const sf::Texture & texture) {
 		mSprite = sf::Sprite(texture);
 	}
 
 	void SpriteNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {
+		//TODO: Exectue culling
 		target.draw(mSprite, states);
 	}
 
 
+	////////////////////////////////////////////////////////////
+	void SpriteNode::updateCurrent(sf::Time dt) {
+		if (lua.lua["objects"][object_name].get_type() == sol::type::table) {
+			if (last_event == nullptr) lua.lua["objects"][object_name]["update"].call(dt.asSeconds());
+			else lua.lua["objects"][object_name]["update"].call(dt.asSeconds(), last_event->action, last_event->x, last_event->y);
+		} else std::cout << "Object " + object_name + " or update() method wasn't found. Skipping update.\n";
+	}
 }
