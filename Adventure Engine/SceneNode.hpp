@@ -23,6 +23,8 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include "Event.hpp"
+
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/Transformable.hpp>
@@ -46,15 +48,15 @@ namespace itl {
 		void					attachChild(Ptr child);
 		Ptr						detachChild(const SceneNode& node);
 
-		void					update(sf::Time dt);
+		void					update(sf::Time dt, Event* e);
 
 		sf::Vector2f			getWorldPosition() const;
 		sf::Transform			getWorldTransform() const;
 
 
 	private:
-		virtual void			updateCurrent(sf::Time dt);
-		void					updateChildren(sf::Time dt);
+		virtual void			updateCurrent(sf::Time dt, Event* e);
+		void					updateChildren(sf::Time dt, Event* e);
 
 		virtual void			draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual void			drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;

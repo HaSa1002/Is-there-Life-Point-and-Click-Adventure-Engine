@@ -28,8 +28,8 @@
 
 namespace itl {
 	struct Event {
-		Event(const char act, const int x, const int y) :action { act }, x { x }, y { y } { }
-		Event(Event& e) :action { e.action }, x { e.x }, y { e.y } { }
+		Event(const char act, const int x, const int y, bool click) :action { act }, x { x }, y { y }, end { click } { }
+		Event(Event& e) :action { e.action }, x { e.x }, y { e.y }, end { e.end } { }
 
 		///Ether l (left), r (right), m (middle), '1' (extra Button 1), '2' (extra Button 2) or h (hover [no click])
 		const char action;
@@ -38,7 +38,8 @@ namespace itl {
 
 		//Mouse y
 		const int y;
-	};
 
-	static std::unique_ptr<Event> last_event;
+		//Click end = true | Click begin = false
+		const bool end;
+	};
 }

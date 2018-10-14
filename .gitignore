@@ -263,3 +263,6 @@ __pycache__/
 /Engine/textures
 /Engine/scenes/bedroom_old.pcscene
 /Adventure Engine/main_min.cpp
+/Adventure Engine/keypad
+/Adventure Engine/textureManager.res.png
+/Adventure Engine/t2.png

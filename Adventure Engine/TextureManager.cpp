@@ -67,7 +67,6 @@ namespace itl {
 
 	////////////////////////////////////////////////////////////
 	void TextureManager::build() {
-		printf("%d", sf::Texture::getMaximumSize());
 		std::list<rbp::RectSize> t_rects;
 		std::map<const hashedName, sf::Image> images;
 
@@ -126,6 +125,7 @@ namespace itl {
 		rbp::MaxRectsBinPack packing(maxSize, maxSize, false);
 
 		//FIXME: To work with multiple bins
+		//FIXME: Make square rects
 		//Step 4: Run the MaxRect Algorithm
 		packing.Insert(rects, res, rbp::MaxRectsBinPack::RectBestAreaFit);
 
@@ -133,16 +133,12 @@ namespace itl {
 		std::shared_ptr<sf::Texture> t = std::make_shared<sf::Texture>();
 		sf::Vector2u s = packing.Size();
 		t->create(s.x, s.y);
-		int x = 0;
-		int y = 0;
 		for (auto& i : res) {
 			auto img = images.find(i.name);
-			t->update(img->second, x, y);
+			t->update(img->second, i.x, i.y);
 			loaded_textures.emplace(i.name, std::move(Texture(sf::IntRect(i.x, i.y, i.width, i.height), i.name, *t)));
-			x = i.x;
-			y = i.y;
 		}
-
+		t->copyToImage().saveToFile("textureManager.res.png");
 		//Step 6: Push Textures to graphics device
 		textures.push_back(t);
 	}

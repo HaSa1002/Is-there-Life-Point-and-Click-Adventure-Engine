@@ -44,16 +44,16 @@ namespace itl {
 		return result;
 	}
 
-	void SceneNode::update(sf::Time dt) {
-		updateCurrent(dt);
-		updateChildren(dt);
+	void SceneNode::update(sf::Time dt, Event* e) {
+		updateCurrent(dt, e);
+		updateChildren(dt, e);
 	}
 
-	void SceneNode::updateCurrent(sf::Time) { }
+	void SceneNode::updateCurrent(sf::Time, Event* e) { }
 
-	void SceneNode::updateChildren(sf::Time dt) {
+	void SceneNode::updateChildren(sf::Time dt, Event* e) {
 		for (Ptr& child : mChildren)
-			child->update(dt);
+			child->update(dt, e);
 	}
 
 	void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const {

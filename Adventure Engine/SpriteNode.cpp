@@ -28,25 +28,56 @@
 namespace itl {
 
 	SpriteNode::SpriteNode() : mSprite() { }
-	SpriteNode::SpriteNode(const std::string& name, sf::Texture& texture) : mSprite(texture), object_name { name } { }
+	SpriteNode::SpriteNode(sf::Texture& texture) : mSprite(texture) { }
 
-	SpriteNode::SpriteNode(const std::string& name, const sf::Texture& texture, const sf::IntRect& textureRect) : mSprite(texture, textureRect), object_name { name } { }
+	SpriteNode::SpriteNode(const sf::Texture& texture, const sf::IntRect& textureRect) : mSprite(texture, textureRect) { }
 
-	void SpriteNode::setTexture(const sf::Texture & texture) {
-		mSprite = sf::Sprite(texture);
+	void SpriteNode::setTexture(size_t name, TextureManager & tm) {
+		const Texture* t = tm.find(name);
+		if (t == nullptr) {
+			std::cout << "Texture wasn't found! \n";
+		} else {
+			mSprite.setTexture(t->texture_ref, true);
+			mSprite.setTextureRect(t->rect);
+		}
+	}
+
+	void SpriteNode::updateFunction(sol::function & function) {
+		update = function;
 	}
 
 	void SpriteNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {
 		//TODO: Exectue culling
-		target.draw(mSprite, states);
+		sf::FloatRect view(0,0, target.getSize().x, target.getSize().y);
+		sf::FloatRect r = getWorldTransform().transformRect(mSprite.getGlobalBounds());
+		if (r.intersects(view))	target.draw(mSprite, states);
+	}
+
+	void SpriteNode::addMember(size_t name, sol::object o) {
+		lua_members.insert_or_assign(name, o);
+	}
+
+	sol::object SpriteNode::getMember(size_t name) {
+		auto r = lua_members.find(name);
+		if (r == lua_members.end()) {
+			std::cout << "Member (" << name << ") wasn't found.";
+			return sol::nil;
+		} else {
+			return r->second;
+		}
 	}
 
 
 	////////////////////////////////////////////////////////////
-	void SpriteNode::updateCurrent(sf::Time dt) {
-		if (lua.lua["objects"][object_name].get_type() == sol::type::table) {
-			if (last_event == nullptr) lua.lua["objects"][object_name]["update"].call(dt.asSeconds());
-			else lua.lua["objects"][object_name]["update"].call(dt.asSeconds(), last_event->action, last_event->x, last_event->y);
-		} else std::cout << "Object " + object_name + " or update() method wasn't found. Skipping update.\n";
+	void SpriteNode::updateCurrent(sf::Time dt, Event* e) {
+		if (update.valid()) {
+			if (e != nullptr) {
+				sf::Vector2f p = getWorldPosition();
+				
+				if (getWorldTransform().transformRect(mSprite.getGlobalBounds()).contains(e->x, e->y))
+					update.call(dt.asSeconds(), e->action, e->end, e->x, e->y);
+				else update.call(dt.asSeconds());
+			} else update.call(dt.asSeconds());
+		}
 	}
 }

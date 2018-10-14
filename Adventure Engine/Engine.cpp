@@ -30,8 +30,6 @@
 
 
 namespace itl {
-	TextureManager texture_manager;
-	std::map<size_t, std::weak_ptr<SceneNode>>	scene_layers;
 
 	Engine::Engine() {
 		start();
@@ -41,9 +39,7 @@ namespace itl {
 		// Bind the classes to Lua
 		sol::state& l = lua.lua;
 		l.script(R"(
-		textures = {};
 		objects = {};
-		objects.test = {};
 		utils = {};
 		utils.hash = {})");
 		l.new_usertype<TextureManager>("textures", sol::constructors<
@@ -54,29 +50,28 @@ namespace itl {
 			"build", &TextureManager::build
 			);
 
+		l.new_usertype<Texture>("texture");
 
-		l.new_usertype<LuaObject>("LuaObject", sol::constructors<
-			LuaObject(const std::string&, const std::string&, const TextureManager&, const int, const int),
-			LuaObject(const std::string&, const std::string&, const TextureManager&, const int, const int, const int),
-			LuaObject(const std::string&, const std::string&, const TextureManager&, const int, const int, const int, const float, const float)>(),
-			"setPosition", sol::resolve<void(float, float)>(&LuaObject::Transformable::setPosition),
-			"scale", sol::overload(&LuaObject::getScale, sol::resolve<void(float, float)>(&LuaObject::Transformable::setScale)),
-			"texture", sol::overload(&LuaObject::getTexture, &LuaObject::setTexture),
-			"move", sol::resolve<void(float, float)>(&LuaObject::move),
-			"rotate", &LuaObject::rotate,
-			"scale", sol::resolve<void(float, float)>(&LuaObject::scale)
-			);
+		l["tm"] = &texture_manager;
+
+		l.new_usertype<SceneNode>("SceneNode");
 
 		l.new_usertype<SpriteNode>("SpriteNode", sol::constructors<
-			SpriteNode(const std::string&, sf::Texture&),
-			SpriteNode(const std::string&, sf::Texture&, const sf::IntRect&)>(),
+			SpriteNode(sf::Texture&),
+			SpriteNode(sf::Texture&, const sf::IntRect&)>(),
+			sol::base_classes, sol::bases<SceneNode, sf::Transformable, sf::Drawable>(),
 
 			"setPosition", sol::resolve<void(float, float)>(&SpriteNode::Transformable::setPosition),
-			"scale", sol::overload(&SpriteNode::getScale, sol::resolve<void(float, float)>(&SpriteNode::setScale)),
+			"setScale", sol::overload(&SpriteNode::getScale, sol::resolve<void(float, float)>(&SpriteNode::setScale)),
+			"setOrigin", sol::resolve<void(float, float)>(&SpriteNode::setOrigin),
 			"texture", &SpriteNode::setTexture,
 			"move", sol::resolve<void(float, float)>(&SpriteNode::move),
 			"rotate", &SpriteNode::rotate,
-			"scale", sol::resolve<void(float, float)>(&SpriteNode::scale)
+			"scale", sol::resolve<void(float, float)>(&SpriteNode::scale),
+			"update", &SpriteNode::updateFunction,
+			"set", &SpriteNode::addMember,
+			"get", &SpriteNode::getMember,
+			"attach", &SpriteNode::attachChild
 			);
 
 		l["utils"]["hash"]["string"] = [](const std::string& s) {
@@ -99,20 +94,29 @@ namespace itl {
 
 		};
 
-		l["objects"]["Object"] = [](const std::string& name, const std::string& texture, TextureManager& tm, const int x, const int y, const int a, const float sx, const float sy) -> std::shared_ptr<LuaObject> {
-			return std::make_shared<LuaObject>(name, texture, tm, x, y, a, sx, sy);
+		l["objects"]["attach"] = [](std::shared_ptr<SpriteNode> parent, std::shared_ptr<SpriteNode> obj) {
+			parent->attachChild(obj);
 		};
 
-		l["objects"]["SpriteObject"] = [this](const std::string& name, const std::string& texture, TextureManager& tm) -> std::shared_ptr<SpriteNode> {
-			std::hash<std::string> hs;
-			const itl::Texture* t = tm.find(hs(texture));
-			return std::make_shared<SpriteNode>(name, t->texture_ref, t->rect);
+		l["Object"] = [this](size_t texture) -> std::shared_ptr<SpriteNode> {
+			const itl::Texture* t = texture_manager.find(texture);
+			return std::make_shared<SpriteNode>(t->texture_ref, t->rect);
 		};
+
+		l["changeScene"] = [this](const std::string& name) {
+			scene_graph = SceneNode();
+			scene_layers.clear();
+			lua.lua.script_file(name + ".lua");
+			scene_name = name;
+		};
+
+
 
 		lua.postinit();
 		// Create the window
 		window.create(sf::VideoMode(1600, 900), "ITL Engine");
 		ImGui::SFML::Init(window);
+		window.setFramerateLimit(60);
 
 
 		//Load the textures here
@@ -128,12 +132,9 @@ namespace itl {
 			this->processEvents();
 
 			// 2. Logic
-			scene_graph.update(clock.restart());
+			scene_graph.update(clock.restart(), last_event.get());
 
-			//lua.lua["test"]["move"].call(10,10);
 			// 3. Render
-			clock.restart();
-			has_focus = true;
 			if (has_focus) {
 				window.clear();
 
@@ -171,8 +172,30 @@ namespace itl {
 					has_focus = true;
 					break;
 				case sf::Event::MouseMoved:
-					last_event = std::make_unique<Event>(Event('h', event.mouseMove.x, event.mouseMove.y));
+					last_event = std::make_unique<Event>(Event('h', event.mouseMove.x, event.mouseMove.y, true));
 					break;
+				case sf::Event::MouseButtonPressed:	{
+						char btn = 'h';
+						switch (event.mouseButton.button) {
+							case sf::Mouse::Button::Left:
+								btn = 'l';
+								break;
+							case sf::Mouse::Button::Middle:
+								btn = 'm';
+								break;
+							case sf::Mouse::Button::Right:
+								btn = 'r';
+								break;
+							case sf::Mouse::Button::XButton1:
+								btn = '1';
+								break;
+							case sf::Mouse::Button::XButton2:
+								btn = '2';
+								break;
+						}
+						last_event = std::make_unique<Event>(Event(btn, event.mouseButton.x, event.mouseButton.y, false));
+						break;
+					}
 				case sf::Event::MouseButtonReleased: {
 						char btn = 'h';
 						switch (event.mouseButton.button) {
@@ -192,9 +215,22 @@ namespace itl {
 								btn = '2';
 								break;
 						}
-						last_event = std::make_unique<Event>(Event(btn, event.mouseButton.x, event.mouseButton.y));
+						last_event = std::make_unique<Event>(Event(btn, event.mouseButton.x, event.mouseButton.y, true));
 						break;
 					}
+				case sf::Event::KeyReleased:
+					switch (event.key.code) {
+						case sf::Keyboard::F3:
+							if (event.key.shift) {
+								std::string scene = scene_name;
+								lua.lua.script_file("ITL.lua");
+								lua.lua["changeScene"].call(scene);
+							}
+							break;
+						default:
+							break;
+					}
+					break;
 				default:
 					break;
 			}

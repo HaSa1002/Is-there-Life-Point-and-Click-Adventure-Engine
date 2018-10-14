@@ -26,6 +26,7 @@
 #include "Lua.hpp"
 #include "Event.hpp"
 #include "SceneNode.hpp"
+#include "TextureManager.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -33,18 +34,25 @@ namespace itl {
 	class SpriteNode : public SceneNode {
 	public:
 		SpriteNode();
-		SpriteNode(const std::string & name, sf::Texture & texture);
-		SpriteNode(const std::string & name, const sf::Texture & texture, const sf::IntRect & textureRect);
-		void setTexture(const sf::Texture& texture);
+		SpriteNode(sf::Texture & texture);
+		SpriteNode(const sf::Texture & texture, const sf::IntRect & textureRect);
+		void setTexture(size_t name, TextureManager& tm);
+		void updateFunction(sol::function& function);
+		void addMember(size_t name, sol::object o);
+		sol::object getMember(size_t name);
 
 	private:
 		virtual void		drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
-		void updateCurrent(sf::Time dt);
+		
+
+		void updateCurrent(sf::Time dt, Event* e);
 
 
 	private:
-		const std::string object_name;
-		sf::Sprite			mSprite;
+	typedef size_t hashedName;
+		std::map<hashedName, sol::object>	lua_members;
+		sf::Sprite										mSprite;
+		sol::function		update;
 	};
 }
