@@ -29,9 +29,10 @@
 namespace itl {
 	SceneNode::SceneNode() : mChildren(), mParent(nullptr) { }
 
-	void SceneNode::attachChild(Ptr child) {
+	SceneNode* SceneNode::attachChild(Ptr child) {
 		child->mParent = this;
 		mChildren.push_back(std::move(child));
+		return child.get();
 	}
 
 	SceneNode::Ptr SceneNode::detachChild(const SceneNode& node) {

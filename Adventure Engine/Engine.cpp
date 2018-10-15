@@ -106,7 +106,7 @@ namespace itl {
 		l["changeScene"] = [this](const std::string& name) {
 			scene_graph = SceneNode();
 			scene_layers.clear();
-			lua.lua.script_file(name + ".lua");
+			lua.lua.script_file(".\\data\\scenes\\" + name + ".lua");
 			scene_name = name;
 		};
 
@@ -223,7 +223,7 @@ namespace itl {
 						case sf::Keyboard::F3:
 							if (event.key.shift) {
 								std::string scene = scene_name;
-								lua.lua.script_file("ITL.lua");
+								lua.lua.script_file("engine/engine.lua");
 								lua.lua["changeScene"].call(scene);
 							}
 							break;

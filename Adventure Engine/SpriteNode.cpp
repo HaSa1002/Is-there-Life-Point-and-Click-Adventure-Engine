@@ -70,7 +70,7 @@ namespace itl {
 
 	////////////////////////////////////////////////////////////
 	void SpriteNode::updateCurrent(sf::Time dt, Event* e) {
-		if (update.valid()) {
+		if (update.valid() && update.lua_state() != nullptr) {
 			if (e != nullptr) {
 				sf::Vector2f p = getWorldPosition();
 				

@@ -51,7 +51,7 @@ namespace itl {
 
 	////////////////////////////////////////////////////////////
 	void TextureManager::add(const std::string & path, const size_t name) {
-		buffer.push_back(std::move(std::make_pair(path, name)));
+		buffer.push_back(std::move(std::make_pair("data/textures/" + path, name)));
 	}
 
 
