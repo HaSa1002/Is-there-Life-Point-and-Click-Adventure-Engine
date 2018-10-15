@@ -70,8 +70,7 @@ namespace itl {
 			"scale", sol::resolve<void(float, float)>(&SpriteNode::scale),
 			"update", &SpriteNode::updateFunction,
 			"set", &SpriteNode::addMember,
-			"get", &SpriteNode::getMember,
-			"attach", &SpriteNode::attachChild
+			"get", &SpriteNode::getMember
 			);
 
 		l["utils"]["hash"]["string"] = [](const std::string& s) {
@@ -79,7 +78,7 @@ namespace itl {
 			return hs(s);
 		};
 
-		l["objects"]["setLayer"] = [this](std::unique_ptr<SpriteNode> obj, size_t layer) {
+		l["objects"]["setLayer"] = [this](std::unique_ptr<SpriteNode>& obj, size_t layer) {
 			auto r = scene_layers.find(layer);
 			if (r == scene_layers.end()) {
 				auto o = std::make_unique<SceneNode>();
@@ -95,7 +94,7 @@ namespace itl {
 
 		};
 
-		l["objects"]["attach"] = [](SpriteNode* parent, std::unique_ptr<SpriteNode> obj) {
+		l["objects"]["attach"] = [](SpriteNode* parent, std::unique_ptr<SpriteNode>& obj) {
 			parent->attachChild(std::move(obj));
 		};
 
