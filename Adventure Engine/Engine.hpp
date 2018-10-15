@@ -53,7 +53,7 @@ namespace itl {
 		std::string									scene_name = "ITL";
 		std::unique_ptr<Event>						last_event;
 		TextureManager								texture_manager;
-		std::map<size_t, std::weak_ptr<SceneNode>>	scene_layers;
+		std::map<size_t, SceneNode*>				scene_layers;
 		SceneNode									scene_graph;
 		sf::RenderWindow							window;
 		sf::View									view;

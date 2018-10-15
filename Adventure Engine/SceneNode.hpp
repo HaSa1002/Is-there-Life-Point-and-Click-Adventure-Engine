@@ -39,7 +39,7 @@ namespace itl {
 
 	class SceneNode : public sf::Transformable, public sf::Drawable {
 	public:
-		typedef std::shared_ptr<SceneNode> Ptr;
+		typedef std::unique_ptr<SceneNode> Ptr;
 
 
 	public:

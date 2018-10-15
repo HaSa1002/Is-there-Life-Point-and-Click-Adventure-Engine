@@ -79,28 +79,29 @@ namespace itl {
 			return hs(s);
 		};
 
-		l["objects"]["setLayer"] = [this](std::shared_ptr<SpriteNode> obj, size_t layer) {
+		l["objects"]["setLayer"] = [this](std::unique_ptr<SpriteNode> obj, size_t layer) {
 			auto r = scene_layers.find(layer);
 			if (r == scene_layers.end()) {
-				auto o = std::make_shared<SceneNode>();
-				scene_graph.attachChild(o);
-				scene_layers.emplace(layer, o);
-			} else if (r->second.expired()) {
-				r->second = std::make_shared<SceneNode>();
-				scene_graph.attachChild(r->second.lock());
+				auto o = std::make_unique<SceneNode>();
+				scene_layers.emplace(layer, o.get());
+				scene_graph.attachChild(std::move(o));
+			} else if (r->second == nullptr) {
+				auto o = std::make_unique<SceneNode>();
+				r->second = o.get();
+				scene_graph.attachChild(std::move(o));
 			}
 			r = scene_layers.find(layer);
-			r->second.lock()->attachChild(obj);
+			r->second->attachChild(std::move(obj));
 
 		};
 
-		l["objects"]["attach"] = [](std::shared_ptr<SpriteNode> parent, std::shared_ptr<SpriteNode> obj) {
-			parent->attachChild(obj);
+		l["objects"]["attach"] = [](SpriteNode* parent, std::unique_ptr<SpriteNode> obj) {
+			parent->attachChild(std::move(obj));
 		};
 
-		l["Object"] = [this](size_t texture) -> std::shared_ptr<SpriteNode> {
+		l["Object"] = [this](size_t texture) -> std::unique_ptr<SpriteNode> {
 			const itl::Texture* t = texture_manager.find(texture);
-			return std::make_shared<SpriteNode>(t->texture_ref, t->rect);
+			return std::make_unique<SpriteNode>(t->texture_ref, t->rect);
 		};
 
 		l["changeScene"] = [this](const std::string& name) {
