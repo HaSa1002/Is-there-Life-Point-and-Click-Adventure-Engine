@@ -49,6 +49,9 @@
     <Filter Include="Quelldateien\Scripting">
       <UniqueIdentifier>{489b4d07-08f6-44c8-9246-ed3e59085ebb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\Update">
+      <UniqueIdentifier>{91271987-86a6-4899-96fa-81df00cb9652}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SFMLHelper.hpp">
@@ -113,6 +116,9 @@
     </ClInclude>
     <ClInclude Include="Event.hpp">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.hpp">
+      <Filter>Headerdateien\Update</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
