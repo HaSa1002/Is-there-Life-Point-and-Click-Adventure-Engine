@@ -138,7 +138,7 @@ namespace itl {
 			t->update(img->second, i.x, i.y);
 			loaded_textures.emplace(i.name, std::move(Texture(sf::IntRect(i.x, i.y, i.width, i.height), i.name, *t)));
 		}
-		t->copyToImage().saveToFile("textureManager.res.png");
+		t->copyToImage().saveToFile("engine/debug/textureManager.res.png");
 		//Step 6: Push Textures to graphics device
 		textures.push_back(t);
 	}
