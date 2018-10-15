@@ -16,4 +16,19 @@ function locals( string )
 end
 
 -- Load the first scene
+
+-----------------------------------------
+-- New Stuff to do since Moving to Lua --
+-----------------------------------------
+
+-- Register OOP Utility (middleclass) as class
+
+
+
+		-----------------------
+		-- End of that stuff --
+		-----------------------
+
+
+
 changeScene("scene");
