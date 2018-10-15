@@ -32,13 +32,13 @@ namespace itl {
 	}
 
 	void Lua::postinit() {
-		lua.script_file("ITL.lua");
+		lua.script_file("engine/engine.lua");
 	}
 
 
 	////////////////////////////////////////////////////////////
 	void Lua::bindClassMetatableHelper() {
-		lua.script(R"(
+		/*lua.script(R"(
 function class(base, init)
 	local c = {}    -- a new class instance
 	if not init and type(base) == 'function' then
@@ -81,6 +81,6 @@ function class(base, init)
 	end
 	setmetatable(c, mt)
 	return c
- end)");
+ end)");*/
 	}
 }
