@@ -124,32 +124,31 @@ namespace itl {
 		main();
 	}
 	void Engine::main() {
-
-		sf::Clock clock;
 		while (window.isOpen()) {
-			// 1. process events
-			last_event.release();
 			this->processEvents();
-
-			// 2. Logic
-			scene_graph.update(clock.restart(), last_event.get());
-
-			// 3. Render
-			if (has_focus) {
-				window.clear();
-
-				window.draw(scene_graph);
-
-				if (draw_imgui)
-					ImGui::SFML::Render(window);
-			}
-			window.display();
+			this->logicUpdate();
+			this->render();
 		}
+	}
 
+	void Engine::logicUpdate() {
+		scene_graph.update(clock.restart(), last_event.get());
+	}
 
+	void Engine::render() {
+		if (has_focus) {
+			window.clear();
+
+			window.draw(scene_graph);
+
+			if (draw_imgui)
+				ImGui::SFML::Render(window);
+		}
+		window.display();
 	}
 
 	void Engine::processEvents() {
+		last_event.release();
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			if (draw_imgui)

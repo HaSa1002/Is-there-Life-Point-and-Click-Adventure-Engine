@@ -45,6 +45,8 @@ namespace itl {
 
 	private:
 		void main();
+		void logicUpdate();
+		void render();
 		void processEvents();
 
 		////////////////////////////////////////////////////////////
