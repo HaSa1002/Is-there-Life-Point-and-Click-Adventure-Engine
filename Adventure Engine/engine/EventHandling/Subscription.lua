@@ -2,21 +2,16 @@ local class = require "middleclass"
 
 Subscription = class("Subscription")
 
+-- we need the params listener, eventType, and Callback
 function Subscription:initialize(params)
 	self.listener = params.listener
 	self.eventType = params.eventType
 	self.callback = params.callback
-	self.event = nil
 end
 
-function Subscription:call()
-	self.callback(self.listener, self.event)
+
+-- Call the Eventhandler
+function Subscription:call(event)
+	self.callback(self.listener, event)
 end
 
-function Subscription:wantsCall(event, eventType)
-	if (eventType == self.eventType) then
-		self.event = event
-		return true
-	else return false
-	end
-end
