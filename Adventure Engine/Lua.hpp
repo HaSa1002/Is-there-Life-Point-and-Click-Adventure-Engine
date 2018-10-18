@@ -35,10 +35,29 @@ namespace itl {
 
 		void postinit();
 
-
-
 	private:
-		void bindClassMetatableHelper();
+		void bindSfmlEventStructs();
+		void bindSizeEvent();
+		void bindKeyEnum();
+		void bindKeyEvent();
+		void bindTextEvent();
+		void bindMouseMoveEvent();
+		void bindMouseButtonEnum();
+		void bindMouseButtonEvent();
+		void bindMouseWheelEnum();
+		void bindMouseWheelEvent();
+		void bindMouseWheelScrollEvent();
+		void bindJoystickConnectEvent();
+		void bindJoystickAxisEnum();
+		void bindJoystickMoveEvent();
+		void bindJoystickButtonEvent();
+		void bindTouchEvent();
+		void bindSensorTypeEnum();
+		void bindSensorEvent();
+		void bindEventTypeEnum();
+		void bindEvent();
+		
+
 
 		////////////////////////////////////////////////////////////
 		// Function Bindings
