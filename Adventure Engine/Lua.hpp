@@ -25,6 +25,8 @@
 ////////////////////////////////////////////////////////////
 #define SOL_CHECK_ARGUMENTS 1
 #include "sol.hpp"
+
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <functional>
 
 namespace itl {
@@ -33,41 +35,14 @@ namespace itl {
 		sol::state lua;
 		void init();
 		void postinit();
+		void registerObjects();
 		sol::table eventHandler;
 
 
 	private:
 		void reqisterEventHandling();
 
-		void bindSfmlEventStructs();
-		void bindSizeEvent();
-		void bindKeyEnum();
-		void bindKeyEvent();
-		void bindTextEvent();
-		void bindMouseMoveEvent();
-		void bindMouseButtonEnum();
-		void bindMouseButtonEvent();
-		void bindMouseWheelEnum();
-		void bindMouseWheelEvent();
-		void bindMouseWheelScrollEvent();
-		void bindJoystickConnectEvent();
-		void bindJoystickAxisEnum();
-		void bindJoystickMoveEvent();
-		void bindJoystickButtonEvent();
-		void bindTouchEvent();
-		void bindSensorTypeEnum();
-		void bindSensorEvent();
-		void bindEventTypeEnum();
-		void bindEvent();
-		
-
-
-		////////////////////////////////////////////////////////////
-		// Function Bindings
-		////////////////////////////////////////////////////////////
-		std::function<void()> addObject;
-		std::function<void(const std::string&, const double)> setSubtitle;
-		//...
-		//TODO: expand list
 	};
+
 }
+	

@@ -18,41 +18,51 @@
 //
 ////////////////////////////////////////////////////////////
 
-#include "Lua.hpp"
-#include "LuaBindings.hpp"
-#include <SFML/Window/Event.hpp>
+#pragma once
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#define SOL_CHECK_ARGUMENTS 1
+#include "sol.hpp"
+
+#include <SFML/Graphics/RenderTarget.hpp>
 
 namespace itl {
-	void Lua::init() {
-		lua.open_libraries(sol::lib::base, sol::lib::coroutine, sol::lib::io, sol::lib::math, sol::lib::os, sol::lib::package, sol::lib::string, sol::lib::table, sol::lib::utf8);
-		lua.script(R"(package.path = package.path .. ";engine/3rdParty/?.lua")");
-		LuaBindings { lua }; // Create a septerate object file to save compile time
-		this->reqisterEventHandling();
-		this->registerObjects();
-	}
+	class LuaBindings {
+	public:
+		LuaBindings(sol::state& l);
 
-	void Lua::postinit() {
-		lua.script_file("engine/engine.lua");
-	}
+	private:
+		template<typename T, char N>
+		void bindSfmlVector();
 
-	void Lua::registerObjects() {
-		lua.script_file("engine/EventHandling/GameObject.lua");
-		lua.script_file("engine/EventHandling/RenderedObject.lua");
-	}
+		void bindRenderComponent();
+		void bindSfmlTransformable();
+		void bindSfmlEventStructs();
+		void bindSizeEvent();
+		void bindKeyEnum();
+		void bindKeyEvent();
+		void bindTextEvent();
+		void bindMouseMoveEvent();
+		void bindMouseButtonEnum();
+		void bindMouseButtonEvent();
+		void bindMouseWheelEnum();
+		void bindMouseWheelEvent();
+		void bindMouseWheelScrollEvent();
+		void bindJoystickConnectEvent();
+		void bindJoystickAxisEnum();
+		void bindJoystickMoveEvent();
+		void bindJoystickButtonEvent();
+		void bindTouchEvent();
+		void bindSensorTypeEnum();
+		void bindSensorEvent();
+		void bindEventTypeEnum();
+		void bindEvent();
 
 
-	void Lua::reqisterEventHandling() {
-		lua.script_file("engine/EventHandling/Subscription.lua");
-		auto ret = lua.script_file("engine/EventHandling/EventHandler.lua");
-		if (ret.valid()) {
-			eventHandler = ret.get<sol::table>();
-			lua["ecs"] = eventHandler;
-		} else std::cout << "Scheiße"; // Try to create new EventHandler else throw error
 
-	}
-
+	sol::state& lua;
+	};
 }
+#include "LuaBindings.inl"
