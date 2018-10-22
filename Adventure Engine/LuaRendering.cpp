@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 // 
 // ITLengine - Is there Life? Engine
-// Copyright (c) 2017-2018 Johannes Witt (johawitt@outlook.de)
+// Copyright (c) 2017-2018 Johannes Witt (johawitt@outlook.de) based on "SFML GAME DEVELOPMENT"
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
@@ -18,53 +18,15 @@
 //
 ////////////////////////////////////////////////////////////
 
-#pragma once
+#include "LuaRendering.hpp"
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "TextureManager.hpp"
-#include "SceneNode.hpp"
-#include "SpriteNode.hpp"
-#include "Lua.hpp"
-#include "LuaRendering.hpp"
-#include "Event.hpp"
-#include "imgui\ImGuiAddon.hpp"
-
-#include <SFML\Graphics\RenderWindow.hpp>
-
-#include <list>
-#include <map>
 
 namespace itl {
-	
-	class Engine {
-	public:
-		Engine();
-		void start();
+	void LuaRendering::draw(sf::RenderTarget & target, sf::RenderStates states) const { 
+		lua.eventHandler["render"].call(lua.eventHandler, target, states);
+	}
 
-
-	private:
-		void main();
-		void logicUpdate();
-		void render();
-		void processEvents();
-
-		////////////////////////////////////////////////////////////
-		// Memberdata
-		////////////////////////////////////////////////////////////
-		std::string									scene_name = "ITL";
-		std::unique_ptr<Event>						last_event;
-		TextureManager								texture_manager;
-		std::map<size_t, SceneNode*>				scene_layers;
-		SceneNode									scene_graph;
-		sf::RenderWindow							window;
-		sf::View									view;
-		sf::Clock									clock;
-		bool										has_focus = true;
-		bool										draw_imgui = false;
-		Lua											lua;
-		LuaRendering								ecs_wrapper{lua};
-		std::vector<sf::Event>						events;
-	};
 }

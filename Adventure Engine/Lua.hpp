@@ -32,10 +32,13 @@ namespace itl {
 	public:
 		sol::state lua;
 		void init();
-
 		void postinit();
+		sol::table eventHandler;
+
 
 	private:
+		void reqisterEventHandling();
+
 		void bindSfmlEventStructs();
 		void bindSizeEvent();
 		void bindKeyEnum();
@@ -67,6 +70,4 @@ namespace itl {
 		//...
 		//TODO: expand list
 	};
-
-	static Lua	lua;
 }

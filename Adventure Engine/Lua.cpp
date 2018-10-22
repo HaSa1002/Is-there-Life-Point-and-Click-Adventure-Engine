@@ -28,12 +28,28 @@
 namespace itl {
 	void Lua::init() {
 		lua.open_libraries(sol::lib::base, sol::lib::coroutine, sol::lib::io, sol::lib::math, sol::lib::os, sol::lib::package, sol::lib::string, sol::lib::table, sol::lib::utf8);
+		lua.script(R"(package.path = package.path .. ";engine/3rdParty/?.lua")");
 		this->bindSfmlEventStructs();
+		this->reqisterEventHandling();
 	}
 
 	void Lua::postinit() {
 		lua.script_file("engine/engine.lua");
 	}
+
+
+	void Lua::reqisterEventHandling() {
+		lua.script_file("engine/EventHandling/Subscription.lua");
+		auto ret = lua.script_file("engine/EventHandling/EventHandler.lua");
+		if (ret.valid()) {
+			eventHandler = ret.get<sol::table>();
+		} 
+		else std::cout << "Scheiße"; // Try to create new EventHandler else throw error
+
+		//eventHandler = lua["EventHandler"].call();
+
+	}
+
 
 	void Lua::bindSizeEvent() {
 		using SizeEvent = sf::Event::SizeEvent;
@@ -314,7 +330,7 @@ namespace itl {
 	void Lua::bindSensorTypeEnum() { 
 		using Type = sf::Sensor::Type;
 		lua.new_enum<Type>("SensorType", {
-			{"Accelerometer",		Type::Magnetometer}
+			{"Accelerometer",		Type::Magnetometer},
 			{"Gyroscope",			Type::Gyroscope},
 			{"Magnetometer",		Type::Magnetometer},
 			{"Gravity",				Type::Gravity},
@@ -337,14 +353,51 @@ namespace itl {
 	}
 
 	void Lua::bindEventTypeEnum() {
-	//TODO: Add the binding
-
+	using EventType = sf::Event::EventType;
+	lua.new_enum<EventType>("EventType", {
+		{"Closed",					EventType::Closed},
+		{"Resized",					EventType::Resized},
+		{"LostFocus",				EventType::LostFocus},
+		{"GainedFocus",				EventType::GainedFocus},
+		{"TextEntered",				EventType::TextEntered},
+		{"KeyPressed",				EventType::KeyPressed},
+		{"KeyReleased",				EventType::KeyReleased},
+		{"MouseWheelMoved",			EventType::MouseWheelMoved},
+		{"MouseWheelScrolled",		EventType::MouseWheelScrolled},
+		{"MouseButtonPressed",		EventType::MouseButtonPressed},
+		{"MouseButtonReleased",		EventType::MouseButtonReleased},
+		{"MouseMoved",				EventType::MouseMoved},
+		{"MouseEntered",			EventType::MouseEntered},
+		{"MouseLeft",				EventType::MouseLeft},
+		{"JoystickButtonPressed",	EventType::JoystickButtonPressed},
+		{"JoystickButtonReleased",	EventType::JoystickButtonReleased},
+		{"JoystickMoved",			EventType::JoystickMoved},
+		{"JoystickConnected",		EventType::JoystickConnected},
+		{"JoystickDisconnected",	EventType::JoystickDisconnected},
+		{"TouchBegan",				EventType::TouchBegan},
+		{"TouchMoved",				EventType::TouchMoved},
+		{"TouchEnded",				EventType::TouchEnded},
+		{"SensorChanged",			EventType::SensorChanged},
+		});
 	}
 
-	void Lua::bindEvent() { 
+	void Lua::bindEvent() {
+	using EventType = sf::Event::EventType;
 	lua.new_usertype<sf::Event>("Event",
-	sol::default_constructor
-	//TODO: Add the complete binding
+	sol::default_constructor,
+	"EventType", sol::readonly_property(&sf::Event::type),
+	"size",				&sf::Event::size,
+	"key",				&sf::Event::key,
+	"text",				&sf::Event::text,
+	"mouseMove",		&sf::Event::mouseMove,
+	"mouseButton",		&sf::Event::mouseButton,
+	"mouseWheel",		&sf::Event::mouseWheel,
+	"mouseWheelScroll",	&sf::Event::mouseWheelScroll,
+	"joystickMove",		&sf::Event::joystickMove,
+	"joystickButton",	&sf::Event::joystickButton,
+	"joystickConnect",	&sf::Event::joystickConnect,
+	"touch",			&sf::Event::touch,
+	"sensor",			&sf::Event::sensor
 	);
 	}
 
@@ -369,6 +422,8 @@ namespace itl {
 		this->bindTouchEvent();
 		this->bindSensorTypeEnum();
 		this->bindSensorEvent();
+		this->bindEventTypeEnum();
+		this->bindEvent();
 	}
 
 }

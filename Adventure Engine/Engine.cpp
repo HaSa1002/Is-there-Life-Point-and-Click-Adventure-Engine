@@ -132,14 +132,15 @@ namespace itl {
 	}
 
 	void Engine::logicUpdate() {
-		scene_graph.update(clock.restart(), last_event.get());
+		lua.eventHandler["update"].call(clock.restart());
+		//scene_graph.update(clock.restart(), last_event.get());
 	}
 
 	void Engine::render() {
 		if (has_focus) {
 			window.clear();
-
-			window.draw(scene_graph);
+			lua.eventHandler["render"].call(lua.eventHandler);
+			//window.draw(scene_graph);
 
 			if (draw_imgui)
 				ImGui::SFML::Render(window);
@@ -153,6 +154,9 @@ namespace itl {
 		while (window.pollEvent(event)) {
 			if (draw_imgui)
 				ImGui::SFML::ProcessEvent(event);
+
+			events.push_back(event);
+
 			switch (event.type) {
 				case sf::Event::Closed:
 					ImGui::SFML::Shutdown();
@@ -234,5 +238,8 @@ namespace itl {
 					break;
 			}
 		}
+
+		lua.eventHandler["setEvents"].call(lua.eventHandler, events);
+		lua.eventHandler["handleEvents"].call(lua.eventHandler);
 	}
 }

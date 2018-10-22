@@ -120,6 +120,9 @@
     <ClInclude Include="Command.hpp">
       <Filter>Headerdateien\Update</Filter>
     </ClInclude>
+    <ClInclude Include="LuaRendering.hpp">
+      <Filter>Headerdateien\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rect.cpp">
@@ -165,6 +168,9 @@
       <Filter>Quelldateien\TextureManager\RectanglePacking</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaRendering.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

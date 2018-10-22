@@ -23,48 +23,19 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "TextureManager.hpp"
-#include "SceneNode.hpp"
-#include "SpriteNode.hpp"
 #include "Lua.hpp"
-#include "LuaRendering.hpp"
-#include "Event.hpp"
-#include "imgui\ImGuiAddon.hpp"
-
-#include <SFML\Graphics\RenderWindow.hpp>
-
-#include <list>
-#include <map>
+#include <SFML/Graphics/Drawable.hpp>
 
 namespace itl {
-	
-	class Engine {
+	class LuaRendering : sf::Drawable {
 	public:
-		Engine();
-		void start();
-
+		LuaRendering(Lua& l) :lua{l} {};
+		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	private:
-		void main();
-		void logicUpdate();
-		void render();
-		void processEvents();
-
-		////////////////////////////////////////////////////////////
-		// Memberdata
-		////////////////////////////////////////////////////////////
-		std::string									scene_name = "ITL";
-		std::unique_ptr<Event>						last_event;
-		TextureManager								texture_manager;
-		std::map<size_t, SceneNode*>				scene_layers;
-		SceneNode									scene_graph;
-		sf::RenderWindow							window;
-		sf::View									view;
-		sf::Clock									clock;
-		bool										has_focus = true;
-		bool										draw_imgui = false;
-		Lua											lua;
-		LuaRendering								ecs_wrapper{lua};
-		std::vector<sf::Event>						events;
+		Lua& lua;
 	};
+
 }
+
+
