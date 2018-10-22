@@ -28,4 +28,4 @@ end
 
 
 
-changeScene("scene");
+changeScene("test");

@@ -102,9 +102,6 @@
     <ClInclude Include="SceneNode.hpp">
       <Filter>Headerdateien\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteNode.hpp">
-      <Filter>Headerdateien\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="Entity.hpp">
       <Filter>Headerdateien\Rendering</Filter>
     </ClInclude>
@@ -122,6 +119,12 @@
     </ClInclude>
     <ClInclude Include="LuaRendering.hpp">
       <Filter>Headerdateien\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.hpp">
+      <Filter>Headerdateien\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaBindings.hpp">
+      <Filter>Headerdateien\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +158,6 @@
     <ClCompile Include="SceneNode.cpp">
       <Filter>Quelldateien\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteNode.cpp">
-      <Filter>Quelldateien\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Quelldateien\Rendering</Filter>
     </ClCompile>
@@ -173,5 +173,16 @@
     <ClCompile Include="LuaRendering.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaBindings.cpp">
+      <Filter>Quelldateien\Scripting</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LuaBindings.inl">
+      <Filter>Headerdateien\Scripting</Filter>
+    </None>
   </ItemGroup>
 </Project>
