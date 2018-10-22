@@ -54,7 +54,7 @@ namespace itl {
 
 		l["tm"] = &texture_manager;
 
-		l.new_usertype<SceneNode>("SceneNode");
+		/*l.new_usertype<SceneNode>("SceneNode");
 
 		l.new_usertype<SpriteNode>("SpriteNode", sol::constructors<
 			SpriteNode(sf::Texture&),
@@ -73,10 +73,7 @@ namespace itl {
 			"get", &SpriteNode::getMember
 			);
 
-		l["utils"]["hash"]["string"] = [](const std::string& s) {
-			std::hash<std::string> hs;
-			return hs(s);
-		};
+		
 
 		l["objects"]["setLayer"] = [this](std::unique_ptr<SpriteNode>& obj, size_t layer) {
 			auto r = scene_layers.find(layer);
@@ -101,16 +98,18 @@ namespace itl {
 		l["Object"] = [this](size_t texture) -> std::unique_ptr<SpriteNode> {
 			const itl::Texture* t = texture_manager.find(texture);
 			return std::make_unique<SpriteNode>(t->texture_ref, t->rect);
-		};
+		};*/
 
 		l["changeScene"] = [this](const std::string& name) {
-			scene_graph = SceneNode();
-			scene_layers.clear();
+			lua.eventHandler["clearSubscriptions"].call(lua.eventHandler);
 			lua.lua.script_file(".\\data\\scenes\\" + name + ".lua");
 			scene_name = name;
 		};
 
-
+		l["utils"]["hash"]["string"] = [](const std::string& s) {
+			std::hash<std::string> hs;
+			return hs(s);
+		};
 
 		lua.postinit();
 		// Create the window
@@ -139,7 +138,7 @@ namespace itl {
 	void Engine::render() {
 		if (has_focus) {
 			window.clear();
-			lua.eventHandler["render"].call(lua.eventHandler);
+			window.draw(ecs_wrapper);
 			//window.draw(scene_graph);
 
 			if (draw_imgui)
