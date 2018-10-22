@@ -23,20 +23,33 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "Lua.hpp"
+#include "TextureManager.hpp"
+
 #include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
 namespace itl {
-	class LuaRendering : public sf::Drawable {
+	class RenderComponent : sf::Drawable{
 	public:
-		LuaRendering(Lua& l) :lua{l} {};
+		////////////////////////////////////////////////////////////
+		/// Creates the RenderComponent
+		///
+		/// param tm - TextureManager to be used
+		/// param texture - hashed string of the texture_name
+		///
+		/// Offensive Class: Panics Lua, if texture doesn't exist
+		///
+		////////////////////////////////////////////////////////////
+		RenderComponent(TextureManager& tm, size_t texture);
+
+
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+		sf::Transformable* getTransformable();
+
 	private:
-		Lua& lua;
+		sf::Sprite sprite;
+		TextureManager& tm;
 	};
-
 }
-
-

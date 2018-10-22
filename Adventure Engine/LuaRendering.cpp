@@ -24,6 +24,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 
+
 namespace itl {
 	void LuaRendering::draw(sf::RenderTarget & target, sf::RenderStates states) const { 
 		lua.eventHandler["render"].call(lua.eventHandler, target, states);

@@ -18,25 +18,34 @@
 //
 ////////////////////////////////////////////////////////////
 
-#pragma once
+#include "RenderComponent.hpp"
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "Lua.hpp"
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
+
+#include <iostream>
 
 namespace itl {
-	class LuaRendering : public sf::Drawable {
-	public:
-		LuaRendering(Lua& l) :lua{l} {};
-		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	RenderComponent::RenderComponent(TextureManager & tm, size_t texture) :tm { tm } {
+		try {
+			auto t = tm.find(texture);
+			sprite.setTexture(t->texture_ref);
+			sprite.setTextureRect(t->rect);
+		} catch (std::exception e) {
+			// We expect the texture to be existing (Offensive Programming), but in DEBUG Mode, we want to give an error, since this is called through Lua, 'cause we wouldn't get a satisfying error message
+#ifdef _DEBUG
+			std::cerr << e.what() << "\nIs the texture name correctly spelled and was the TextureManager build before?" << std::endl;
+#endif //_ DEBUG
+			throw; // We now panic the LuaState, but that can be handled elsewere, 'cause it's an scripting error
+		}
+	}
 
-	private:
-		Lua& lua;
-	};
-
+	void RenderComponent::draw(sf::RenderTarget & target, sf::RenderStates states) const {
+		target.draw(sprite, states);
+	}
+	sf::Transformable* RenderComponent::getTransformable() {
+		return &sprite;
+	}
 }
-
 
