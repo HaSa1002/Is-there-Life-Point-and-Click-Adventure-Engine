@@ -9,9 +9,10 @@ function EventHandler:initialize()
 	self.subscribers = {}
 	self.subscribers["update"] = {}
 	self.subscribers["draw"] = {}
-	for type in pairs(getmetatable(EventType).__index) do
-		self.subscribers[type] = {}
+	for type, v in pairs(getmetatable(EventType).__index) do
+		self.subscribers[v] = {}
 	end
+	
 end
 
 function EventHandler:setEvents(eventVector)
@@ -19,15 +20,21 @@ function EventHandler:setEvents(eventVector)
 end
 
 function EventHandler:handleEvents()
-	for e in self.events do
-		for s in self.subscribers[e.type] do
-			s:call(e)
+	local i = require "inspect"
+	--print(i(#self.events))
+	local e = self.events
+	for v=1, #e do
+		local type = e[v].type
+		--print(i(type))
+		for n, s in pairs(self.subscribers[type]) do
+			s:call(e[v])
 		end
 	end
+	
 end
 
 function EventHandler:update(dt)
-	for s in self.subscribers["update"] do
+	for n, s in pairs(self.subscribers.update) do
 		s:call(dt)
 	end
 end

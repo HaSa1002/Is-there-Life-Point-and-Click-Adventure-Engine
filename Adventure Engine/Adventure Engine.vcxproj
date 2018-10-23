@@ -130,6 +130,8 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>D:\Software\SFML-2.5.0\include;D:\Software\Is there Life Engine\Lua</AdditionalIncludeDirectories>
       <ConformanceMode>false</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <EnableModules>false</EnableModules>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>D:\Software\SFML-2.5.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

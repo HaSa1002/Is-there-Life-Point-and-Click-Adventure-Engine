@@ -19,3 +19,8 @@ end
 function RenderedObject:getTransformable()
 	return self.renderComponent:getTransformable()
 end
+
+function RenderedObject:getSize()
+	local fr = self.renderComponent:getLocalBounds()
+	return fr.width, fr.height
+end
