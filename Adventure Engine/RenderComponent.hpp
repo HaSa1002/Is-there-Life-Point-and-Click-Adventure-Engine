@@ -48,6 +48,11 @@ namespace itl {
 
 		sf::Transformable* getTransformable();
 
+		sf::FloatRect getLocalBounds();
+		sf::FloatRect getGlobalBounds();
+
+		std::pair<float, float> getSize();
+
 	private:
 		sf::Sprite sprite;
 		TextureManager& tm;

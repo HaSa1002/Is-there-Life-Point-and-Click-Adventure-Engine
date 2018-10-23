@@ -47,5 +47,15 @@ namespace itl {
 	sf::Transformable* RenderComponent::getTransformable() {
 		return &sprite;
 	}
+	sf::FloatRect RenderComponent::getLocalBounds() {
+		return sprite.getLocalBounds();
+	}
+	sf::FloatRect RenderComponent::getGlobalBounds() {
+		return sprite.getGlobalBounds();
+	}
+	std::pair<float, float> RenderComponent::getSize() {
+		auto r = sprite.getLocalBounds();
+		return std::pair<float, float>{r.width, r.height};
+	}
 }
 
