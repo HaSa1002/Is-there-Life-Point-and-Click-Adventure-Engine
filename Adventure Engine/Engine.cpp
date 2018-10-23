@@ -131,12 +131,12 @@ namespace itl {
 	}
 
 	void Engine::logicUpdate() {
-		lua.eventHandler["update"].call(clock.restart());
+		lua.eventHandler["update"].call(lua.eventHandler, clock.restart().asSeconds());
 		//scene_graph.update(clock.restart(), last_event.get());
 	}
 
 	void Engine::render() {
-		if (has_focus) {
+		if (has_focus || true) {
 			window.clear();
 			window.draw(ecs_wrapper);
 			//window.draw(scene_graph);
@@ -225,7 +225,7 @@ namespace itl {
 						case sf::Keyboard::F3:
 							if (event.key.shift) {
 								std::string scene = scene_name;
-								lua.lua.script_file("engine/engine.lua");
+								lua.postinit();
 								lua.lua["changeScene"].call(scene);
 							}
 							break;
@@ -240,5 +240,6 @@ namespace itl {
 
 		lua.eventHandler["setEvents"].call(lua.eventHandler, events);
 		lua.eventHandler["handleEvents"].call(lua.eventHandler);
+		events.clear();
 	}
 }

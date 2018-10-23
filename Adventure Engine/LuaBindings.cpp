@@ -33,6 +33,10 @@ namespace itl {
 		this->bindSfmlVector<float, 'f'>();
 		this->bindSfmlVector<int, 'i'>();
 		this->bindSfmlVector<unsigned int, 'u'>();
+		//Bind different sf::Rect
+		this->bindSfmlRect<float>("Float");
+		this->bindSfmlRect<int>("Int");
+
 
 		this->bindSfmlEventStructs();
 		this->bindSfmlTransformable();
@@ -43,7 +47,10 @@ namespace itl {
 		lua.new_usertype<RenderComponent>("RenderComponent",
 			sol::constructors<RenderComponent(TextureManager&, size_t)>(),
 			"getTransformable", &RenderComponent::getTransformable,
-			"draw", &RenderComponent::draw
+			"draw", &RenderComponent::draw,
+			"getLocalBounds", &RenderComponent::getLocalBounds,
+			"getGlobalBounds", &RenderComponent::getGlobalBounds,
+			"getSize", &RenderComponent::getSize
 			//sol::base_classes, sol::bases<sf::Drawable>()
 			);
 	}
@@ -402,7 +409,7 @@ namespace itl {
 		using EventType = sf::Event::EventType;
 		lua.new_usertype<sf::Event>("Event",
 			sol::default_constructor,
-			"EventType", sol::readonly_property(&sf::Event::type),
+			"type", sol::readonly_property(&sf::Event::type),
 			"size", &sf::Event::size,
 			"key", &sf::Event::key,
 			"text", &sf::Event::text,

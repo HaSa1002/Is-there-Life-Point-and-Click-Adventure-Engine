@@ -28,6 +28,7 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <functional>
+#include <filesystem>
 
 namespace itl {
 	class Lua {
@@ -35,6 +36,7 @@ namespace itl {
 		sol::state lua;
 		void init();
 		void postinit();
+		void registerUserObjects();
 		void registerObjects();
 		sol::table eventHandler;
 

@@ -19,24 +19,35 @@
 ////////////////////////////////////////////////////////////
 
 #include "Lua.hpp"
-#include "LuaBindings.hpp"
-#include <SFML/Window/Event.hpp>
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include "LuaBindings.hpp"
+#include <SFML/Window/Event.hpp>
+
 
 namespace itl {
 	void Lua::init() {
 		lua.open_libraries(sol::lib::base, sol::lib::coroutine, sol::lib::io, sol::lib::math, sol::lib::os, sol::lib::package, sol::lib::string, sol::lib::table, sol::lib::utf8);
 		lua.script(R"(package.path = package.path .. ";engine/3rdParty/?.lua")");
 		LuaBindings { lua }; // Create a septerate object file to save compile time
-		this->reqisterEventHandling();
-		this->registerObjects();
+
 	}
 
 	void Lua::postinit() {
+		this->reqisterEventHandling();
+		this->registerObjects();
+		this->registerUserObjects();
 		lua.script_file("engine/engine.lua");
+	}
+
+	void Lua::registerUserObjects() {
+		std::filesystem::directory_iterator p{"data/objects"};
+		for (auto i : p) {
+			if (i.path().extension() == ".lua")
+				lua.script_file(i.path().generic_string());
+		}
 	}
 
 	void Lua::registerObjects() {

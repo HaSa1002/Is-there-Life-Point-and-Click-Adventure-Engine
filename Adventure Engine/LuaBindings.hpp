@@ -37,6 +37,9 @@ namespace itl {
 		template<typename T, char N>
 		void bindSfmlVector();
 
+		template<typename T>
+		void bindSfmlRect(const std::string& s);
+
 		void bindRenderComponent();
 		void bindSfmlTransformable();
 		void bindSfmlEventStructs();
