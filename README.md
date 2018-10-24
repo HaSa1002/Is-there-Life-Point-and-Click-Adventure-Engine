@@ -6,10 +6,12 @@ This project is not finished. It is under active development. The mission is to 
 -	Designed for 2D Point and Click Adventure
 - Deliverd Lua support
 -	Animations
+- New Update Cirlce (Message/Event driven)
 
 ## In Development ##
 - Entity Component System (Lua, but with heavy impact for the Engine)
-- New Update Cirlce (Message/Event driven)
+- Player
+- TextObjects
 
 
 ## Planned ##
