@@ -30,7 +30,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 namespace itl {
-	class RenderComponent : sf::Drawable{
+	class RenderComponent : sf::Drawable {
 	public:
 		////////////////////////////////////////////////////////////
 		/// Creates the RenderComponent
@@ -53,8 +53,10 @@ namespace itl {
 
 		std::pair<float, float> getSize();
 
-	private:
-		sf::Sprite sprite;
+	protected:
 		TextureManager& tm;
+
+	private:
+		sf::Sprite drawable;
 	};
 }

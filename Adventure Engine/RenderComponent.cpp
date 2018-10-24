@@ -30,8 +30,8 @@ namespace itl {
 	RenderComponent::RenderComponent(TextureManager & tm, size_t texture) :tm { tm } {
 		try {
 			auto t = tm.find(texture);
-			sprite.setTexture(t->texture_ref);
-			sprite.setTextureRect(t->rect);
+			drawable.setTexture(t->texture_ref);
+			drawable.setTextureRect(t->rect);
 		} catch (std::exception e) {
 			// We expect the texture to be existing (Offensive Programming), but in DEBUG Mode, we want to give an error, since this is called through Lua, 'cause we wouldn't get a satisfying error message
 #ifdef _DEBUG
@@ -42,19 +42,19 @@ namespace itl {
 	}
 
 	void RenderComponent::draw(sf::RenderTarget & target, sf::RenderStates states) const {
-		target.draw(sprite, states);
+		target.draw(drawable, states);
 	}
 	sf::Transformable* RenderComponent::getTransformable() {
-		return &sprite;
+		return &drawable;
 	}
 	sf::FloatRect RenderComponent::getLocalBounds() {
-		return sprite.getLocalBounds();
+		return drawable.getLocalBounds();
 	}
 	sf::FloatRect RenderComponent::getGlobalBounds() {
-		return sprite.getGlobalBounds();
+		return drawable.getGlobalBounds();
 	}
 	std::pair<float, float> RenderComponent::getSize() {
-		auto r = sprite.getLocalBounds();
+		auto r = drawable.getLocalBounds();
 		return std::pair<float, float>{r.width, r.height};
 	}
 }
