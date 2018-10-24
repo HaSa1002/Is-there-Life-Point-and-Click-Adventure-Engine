@@ -24,11 +24,9 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "TextureManager.hpp"
-#include "SceneNode.hpp"
 #include "SpriteNode.hpp"
 #include "Lua.hpp"
 #include "LuaRendering.hpp"
-#include "Event.hpp"
 #include "imgui\ImGuiAddon.hpp"
 
 #include <SFML\Graphics\RenderWindow.hpp>
@@ -55,8 +53,6 @@ namespace itl {
 		////////////////////////////////////////////////////////////
 		std::string									scene_name = "ITL";
 		TextureManager								texture_manager;
-		std::map<size_t, SceneNode*>				scene_layers;
-		SceneNode									scene_graph;
 		sf::RenderWindow							window;
 		sf::View									view;
 		sf::Clock									clock;

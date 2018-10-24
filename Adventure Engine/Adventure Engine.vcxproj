@@ -36,7 +36,6 @@
     <ClInclude Include="MaxRectsBinPack.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="RenderComponent.hpp" />
-    <ClInclude Include="SceneNode.hpp" />
     <ClInclude Include="Lua.hpp" />
     <ClInclude Include="SFMLHelper.hpp" />
     <ClInclude Include="sol.hpp" />
@@ -59,7 +58,6 @@
     <ClCompile Include="MaxRectsBinPack.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
-    <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
