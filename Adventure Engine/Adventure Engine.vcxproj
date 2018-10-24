@@ -39,6 +39,7 @@
     <ClInclude Include="Lua.hpp" />
     <ClInclude Include="SFMLHelper.hpp" />
     <ClInclude Include="sol.hpp" />
+    <ClInclude Include="TextRenderComponent.hpp" />
     <ClInclude Include="Texture.hpp" />
     <ClInclude Include="TextureManager.hpp" />
   </ItemGroup>
@@ -58,6 +59,7 @@
     <ClCompile Include="MaxRectsBinPack.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
+    <ClCompile Include="TextRenderComponent.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>

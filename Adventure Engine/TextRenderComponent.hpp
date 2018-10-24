@@ -23,26 +23,29 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "TextureManager.hpp"
-
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
+#include "RenderComponent.hpp"
+#include "SFML/Graphics/Text.hpp"
 
 namespace itl {
-	class RenderComponent : public sf::Drawable {
+	class TextRenderComponent {
 	public:
-		////////////////////////////////////////////////////////////
-		/// Creates the RenderComponent
-		///
-		/// param tm - TextureManager to be used
-		/// param texture - hashed string of the texture_name
-		///
-		/// Offensive Class: Panics Lua, if texture doesn't exist
-		///
-		////////////////////////////////////////////////////////////
-		RenderComponent(TextureManager& tm, size_t texture);
+		TextRenderComponent(const std::wstring& s, const std::string& fontp, unsigned int charSize);
 
+		void setString(const std::wstring& s);
+
+		void setCharSize(unsigned int size);
+
+		void setLineSpacing(float factor);
+
+		void setLetterSpacing(float factor);
+
+		void setFillColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+
+		void setOutlineColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+
+		void setOutlineThickness(float thickness);
+
+		const std::wstring getString();
 
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -51,12 +54,8 @@ namespace itl {
 		sf::FloatRect getLocalBounds();
 		sf::FloatRect getGlobalBounds();
 
-		std::pair<float, float> getSize();
-
-	protected:
-		TextureManager& tm;
-
 	private:
-		sf::Sprite drawable;
+		sf::Text drawable;
+		sf::Font font;
 	};
 }

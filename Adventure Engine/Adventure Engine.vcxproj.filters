@@ -120,6 +120,9 @@
     <ClInclude Include="LuaBindings.hpp">
       <Filter>Headerdateien\Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="TextRenderComponent.hpp">
+      <Filter>Headerdateien\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rect.cpp">
@@ -169,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="LuaRendering.cpp">
       <Filter>Quelldateien\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderComponent.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
