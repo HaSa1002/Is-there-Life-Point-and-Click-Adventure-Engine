@@ -24,13 +24,15 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "TextureManager.hpp"
-#include "SpriteNode.hpp"
 #include "Lua.hpp"
 #include "LuaRendering.hpp"
 #include "imgui\ImGuiAddon.hpp"
 
 #include <SFML\Graphics\RenderWindow.hpp>
+#include <SFML/Window/Event.hpp>
 
+#include <string>
+#include <utility>
 #include <list>
 #include <map>
 
