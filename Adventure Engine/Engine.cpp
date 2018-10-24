@@ -122,51 +122,6 @@ namespace itl {
 				case sf::Event::GainedFocus:
 					has_focus = true;
 					break;
-				case sf::Event::MouseMoved:
-					break;
-				case sf::Event::MouseButtonPressed:	{
-						char btn = 'h';
-						switch (event.mouseButton.button) {
-							case sf::Mouse::Button::Left:
-								btn = 'l';
-								break;
-							case sf::Mouse::Button::Middle:
-								btn = 'm';
-								break;
-							case sf::Mouse::Button::Right:
-								btn = 'r';
-								break;
-							case sf::Mouse::Button::XButton1:
-								btn = '1';
-								break;
-							case sf::Mouse::Button::XButton2:
-								btn = '2';
-								break;
-						}
-						break;
-					}
-				case sf::Event::MouseButtonReleased: {
-						char btn = 'h';
-						switch (event.mouseButton.button) {
-							case sf::Mouse::Button::Left:
-								btn = 'l';
-								break;
-							case sf::Mouse::Button::Middle:
-								btn = 'm';
-								break;
-							case sf::Mouse::Button::Right:
-								btn = 'r';
-								break;
-							case sf::Mouse::Button::XButton1:
-								btn = '1';
-								break;
-							case sf::Mouse::Button::XButton2:
-								btn = '2';
-								break;
-						}
-						last_event = std::make_unique<Event>(Event(btn, event.mouseButton.x, event.mouseButton.y, true));
-						break;
-					}
 				case sf::Event::KeyReleased:
 					switch (event.key.code) {
 						case sf::Keyboard::F3:
