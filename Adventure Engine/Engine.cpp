@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////
 #include "LuaObject.hpp"
 #include "SpriteNode.hpp"
+#include <SFML/Window/Event.hpp>
 #include <string>
 #include <utility>
 
@@ -54,52 +55,6 @@ namespace itl {
 
 		l["tm"] = &texture_manager;
 
-		/*l.new_usertype<SceneNode>("SceneNode");
-
-		l.new_usertype<SpriteNode>("SpriteNode", sol::constructors<
-			SpriteNode(sf::Texture&),
-			SpriteNode(sf::Texture&, const sf::IntRect&)>(),
-			sol::base_classes, sol::bases<SceneNode, sf::Transformable, sf::Drawable>(),
-
-			"setPosition", sol::resolve<void(float, float)>(&SpriteNode::Transformable::setPosition),
-			"setScale", sol::overload(&SpriteNode::getScale, sol::resolve<void(float, float)>(&SpriteNode::setScale)),
-			"setOrigin", sol::resolve<void(float, float)>(&SpriteNode::setOrigin),
-			"texture", &SpriteNode::setTexture,
-			"move", sol::resolve<void(float, float)>(&SpriteNode::move),
-			"rotate", &SpriteNode::rotate,
-			"scale", sol::resolve<void(float, float)>(&SpriteNode::scale),
-			"update", &SpriteNode::updateFunction,
-			"set", &SpriteNode::addMember,
-			"get", &SpriteNode::getMember
-			);
-
-		
-
-		l["objects"]["setLayer"] = [this](std::unique_ptr<SpriteNode>& obj, size_t layer) {
-			auto r = scene_layers.find(layer);
-			if (r == scene_layers.end()) {
-				auto o = std::make_unique<SceneNode>();
-				scene_layers.emplace(layer, o.get());
-				scene_graph.attachChild(std::move(o));
-			} else if (r->second == nullptr) {
-				auto o = std::make_unique<SceneNode>();
-				r->second = o.get();
-				scene_graph.attachChild(std::move(o));
-			}
-			r = scene_layers.find(layer);
-			r->second->attachChild(std::move(obj));
-
-		};
-
-		l["objects"]["attach"] = [](SpriteNode* parent, std::unique_ptr<SpriteNode>& obj) {
-			parent->attachChild(std::move(obj));
-		};
-
-		l["Object"] = [this](size_t texture) -> std::unique_ptr<SpriteNode> {
-			const itl::Texture* t = texture_manager.find(texture);
-			return std::make_unique<SpriteNode>(t->texture_ref, t->rect);
-		};*/
-
 		l["changeScene"] = [this](const std::string& name) {
 			lua.eventHandler["clearSubscriptions"].call(lua.eventHandler);
 			lua.lua.script_file(".\\data\\scenes\\" + name + ".lua");
@@ -117,9 +72,6 @@ namespace itl {
 		ImGui::SFML::Init(window);
 		window.setFramerateLimit(60);
 
-
-		//Load the textures here
-
 		main();
 	}
 	void Engine::main() {
@@ -132,14 +84,12 @@ namespace itl {
 
 	void Engine::logicUpdate() {
 		lua.eventHandler["update"].call(lua.eventHandler, clock.restart().asSeconds());
-		//scene_graph.update(clock.restart(), last_event.get());
 	}
 
 	void Engine::render() {
 		if (has_focus || true) {
 			window.clear();
 			window.draw(ecs_wrapper);
-			//window.draw(scene_graph);
 
 			if (draw_imgui)
 				ImGui::SFML::Render(window);
@@ -148,7 +98,6 @@ namespace itl {
 	}
 
 	void Engine::processEvents() {
-		last_event.release();
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			if (draw_imgui)
@@ -174,7 +123,6 @@ namespace itl {
 					has_focus = true;
 					break;
 				case sf::Event::MouseMoved:
-					last_event = std::make_unique<Event>(Event('h', event.mouseMove.x, event.mouseMove.y, true));
 					break;
 				case sf::Event::MouseButtonPressed:	{
 						char btn = 'h';
@@ -195,7 +143,6 @@ namespace itl {
 								btn = '2';
 								break;
 						}
-						last_event = std::make_unique<Event>(Event(btn, event.mouseButton.x, event.mouseButton.y, false));
 						break;
 					}
 				case sf::Event::MouseButtonReleased: {

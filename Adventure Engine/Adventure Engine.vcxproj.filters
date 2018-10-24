@@ -111,9 +111,6 @@
     <ClInclude Include="sol.hpp">
       <Filter>Headerdateien\Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="Event.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="Command.hpp">
       <Filter>Headerdateien\Update</Filter>
     </ClInclude>
@@ -170,14 +167,14 @@
     <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="LuaRendering.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderComponent.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="LuaBindings.cpp">
       <Filter>Quelldateien\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Quelldateien\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaRendering.cpp">
+      <Filter>Quelldateien\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
