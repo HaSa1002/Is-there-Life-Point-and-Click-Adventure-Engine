@@ -7,21 +7,37 @@ This project is not finished. It is under active development. The mission is to 
 - Deliverd Lua support
 -	Animations
 - New Update Cirlce (Message/Event driven)
-
-## In Development ##
 - Entity Component System (Lua, but with heavy impact for the Engine)
 - Player
 - TextObjects
+- States
+- StateStack
+- Coroutined ActionLists
+- Texture manager
+-	Cutscenes (scripted)
 
+## In Development ##
+- Pathfinding
+- More Rendercomponents
+-	Scriptable GUI
+- HUD
 
 ## Planned ##
 - Editor mode [see](https://hasa1002.github.io/blog/2018/04/04/Basic-Engine/)
 -	Savegames
--	Cutscenes
-- Action Lists [see](https://eliasdaler.github.io/how-to-implement-action-sequences-and-cutscenes/)
--	Scriptable GUI
+- Clear-Up
+- Convineance functions
+- Audio Integration (perhaps Fmod. Not sure yet)
+- Dynamic Audio
+- Optimizations (Performance, usage, ...)
+- Shaders
 -	Doc
 -	Multiple Platforms
+
+## Ideas ##
+- sfeMovie Integration for rendered cutscenes and the splashscreen (would be an object, so that you can do whatever you want with it)
+- fmod (If I understood correctly, we would have massive control about the audio source as such (i.e channels))
+- Scene "description" pos, size, texture, etc. as JSON or XML and then functionality via Lua
 
 ## Installation ##
 You need to have Visual Studio 2017 installed (however I am sure, that you can get this on every Platform running, since I am not using any Windows specific librarys, but somebody has to make a makefile for the project)
@@ -41,4 +57,4 @@ This Software uses the following libraries:
 Since this is my hobby project I update here as I have time. I made this open, so that everyone can use and modify it and to let people influence this project.
 
 # Code Style Guide #
-For the detailed Guide, please visit the [Wiki Page](https://github.com/HaSa1002/SFML-Point-and-Click-Adventure-Engine/wiki/Code-Style-Guide).
+For the detailed Guide, please visit the [Wiki Page](https://github.com/HaSa1002/SFML-Point-and-Click-Adventure-Engine/wiki/Code-Style-Guide). However, currently I'm not going for it strictly, since I am hurring to implement new features to start my game development.
