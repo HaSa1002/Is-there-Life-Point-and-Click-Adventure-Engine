@@ -27,7 +27,7 @@
 #include "SFML/Graphics/Text.hpp"
 
 namespace itl {
-	class TextRenderComponent {
+	class TextRenderComponent : public sf::Drawable {
 	public:
 		TextRenderComponent(const std::wstring& s, const std::string& fontp, unsigned int charSize);
 
@@ -43,9 +43,11 @@ namespace itl {
 
 		void setOutlineColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
 
+		void setColor(unsigned char r, unsigned char g, unsigned char b, float a);
+
 		void setOutlineThickness(float thickness);
 
-		const std::wstring getString();
+		const std::wstring& getString();
 
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -55,6 +57,7 @@ namespace itl {
 		sf::FloatRect getGlobalBounds();
 
 	private:
+		std::wstring string;
 		sf::Text drawable;
 		sf::Font font;
 	};

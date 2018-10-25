@@ -1,9 +1,10 @@
 #include "TextRenderComponent.hpp"
+#include <cmath>
 
 namespace itl {
 
 	TextRenderComponent::TextRenderComponent(const std::wstring & s, const std::string & fontp, unsigned int charSize) { 
-		font.loadFromFile(fontp);
+		font.loadFromFile("data/fonts/" + fontp);
 		drawable.setFont(font);
 		drawable.setCharacterSize(charSize);
 		drawable.setString(s);
@@ -33,16 +34,24 @@ namespace itl {
 		drawable.setOutlineColor(sf::Color(r,g,b,a));
 	}
 
+	void TextRenderComponent::setColor(unsigned char r, unsigned char g, unsigned char b, float a) {
+		unsigned char alpha = static_cast<unsigned char>(std::round(a));
+		setFillColor(r, g, b, alpha);
+		setOutlineColor(r, g, b, alpha);
+	}
+
 	void TextRenderComponent::setOutlineThickness(float thickness) { 
 		drawable.setOutlineThickness(thickness);
 	}
 
-	const std::wstring TextRenderComponent::getString() {
-		return drawable.getString();
+	const std::wstring& TextRenderComponent::getString() {
+		string = drawable.getString();
+		return string;
 	}
 
 	void TextRenderComponent::draw(sf::RenderTarget & target, sf::RenderStates states) const {
-		target.draw(drawable, states);
+		if (target.getViewport(target.getView()).intersects(static_cast<sf::IntRect>(drawable.getGlobalBounds())))
+			target.draw(drawable, states);
 	}
 	sf::Transformable* TextRenderComponent::getTransformable() {
 		return &drawable;
