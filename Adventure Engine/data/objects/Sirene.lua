@@ -3,8 +3,8 @@ local i = require "inspect"
 
 Sirene = class("Sirene", RenderedObject)
 
-function Sirene:initialize()
-	 RenderedObject.initialize(self, "sirene")
+function Sirene:initialize(ecs, al)
+	 RenderedObject.initialize(self, "sirene", 1, ecs)
 	ecs:subscribe(Subscription{
 		listener = self,
 		eventType = "update",
