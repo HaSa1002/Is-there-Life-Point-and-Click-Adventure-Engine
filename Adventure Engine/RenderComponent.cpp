@@ -23,11 +23,15 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-
+#include <cmath>
 #include <iostream>
 
 namespace itl {
 	RenderComponent::RenderComponent(TextureManager & tm, size_t texture) :tm { tm } {
+		setTexture(texture);
+	}
+
+	void RenderComponent::setTexture(size_t texture) {
 		try {
 			auto t = tm.find(texture);
 			drawable.setTexture(t->texture_ref);
@@ -42,7 +46,8 @@ namespace itl {
 	}
 
 	void RenderComponent::draw(sf::RenderTarget & target, sf::RenderStates states) const {
-		target.draw(drawable, states);
+		if (target.getViewport(target.getView()).intersects(static_cast<sf::IntRect>(drawable.getGlobalBounds())))
+			target.draw(drawable, states);
 	}
 	sf::Transformable* RenderComponent::getTransformable() {
 		return &drawable;
@@ -56,6 +61,10 @@ namespace itl {
 	std::pair<float, float> RenderComponent::getSize() {
 		auto r = drawable.getLocalBounds();
 		return std::pair<float, float>{r.width, r.height};
+	}
+
+	void RenderComponent::setColor(unsigned char r, unsigned char g, unsigned char b, float a) {
+		drawable.setColor(sf::Color(r,g,b, static_cast<unsigned char>(std::round(a))));
 	}
 }
 

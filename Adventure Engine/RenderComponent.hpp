@@ -43,6 +43,8 @@ namespace itl {
 		////////////////////////////////////////////////////////////
 		RenderComponent(TextureManager& tm, size_t texture);
 
+		void setTexture(size_t texture);
+
 
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -52,6 +54,8 @@ namespace itl {
 		sf::FloatRect getGlobalBounds();
 
 		std::pair<float, float> getSize();
+
+		void setColor(unsigned char r, unsigned char g, unsigned char b, float a);
 
 	protected:
 		TextureManager& tm;
