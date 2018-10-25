@@ -51,12 +51,6 @@ namespace itl {
 
 		l["tm"] = &texture_manager;
 
-		l["changeScene"] = [this](const std::string& name) {
-			lua.eventHandler["clearSubscriptions"].call(lua.eventHandler);
-			lua.lua.script_file(".\\data\\scenes\\" + name + ".lua");
-			scene_name = name;
-		};
-
 		l["utils"]["hash"]["string"] = [](const std::string& s) {
 			std::hash<std::string> hs;
 			return hs(s);
@@ -64,10 +58,18 @@ namespace itl {
 
 		lua.postinit();
 		// Create the window
-		window.create(sf::VideoMode(1600, 900), "ITL Engine");
-		ImGui::SFML::Init(window);
-		window.setFramerateLimit(60);
 
+		//Load the Cursor
+		cursor_normal_img.loadFromFile("data/textures/cursor/normal.png");
+		cursor_normal.loadFromPixels(cursor_normal_img.getPixelsPtr(), sf::Vector2u(32, 32), sf::Vector2u(0,0));
+
+
+		window.create(sf::VideoMode(1600, 900), "ITL Engine");
+		window.setMouseCursor(cursor_normal);
+		ImGui::SFML::Init(window);
+		//window.setFramerateLimit(60);
+
+		clock.restart();
 		main();
 	}
 	void Engine::main() {
@@ -79,7 +81,14 @@ namespace itl {
 	}
 
 	void Engine::logicUpdate() {
-		lua.eventHandler["update"].call(lua.eventHandler, clock.restart().asSeconds());
+		if (lua.asyncInProgress) {
+			//if (lua.asyncLoad.wait_for(std::chrono::duration<long, std::atto>(1)) == std::future_status::ready) {
+				lua.asyncReturn["onFinish"].call(lua.asyncReturn);
+				lua.asyncInProgress = false;
+			//}
+		}
+
+		lua.lua["state"]["update"].call(lua.lua["state"], clock.restart().asSeconds());
 	}
 
 	void Engine::render() {
@@ -107,7 +116,7 @@ namespace itl {
 					window.close();
 					break;
 				case sf::Event::Resized: {
-						sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+						sf::FloatRect visibleArea(0.f, 0.f, static_cast<float>(event.size.width), static_cast<float>(event.size.height));
 						view = std::move(sf::View(visibleArea));
 						window.setView(view);
 						break;
@@ -124,7 +133,6 @@ namespace itl {
 							if (event.key.shift) {
 								std::string scene = scene_name;
 								lua.postinit();
-								lua.lua["changeScene"].call(scene);
 							}
 							break;
 						default:
@@ -136,8 +144,8 @@ namespace itl {
 			}
 		}
 
-		lua.eventHandler["setEvents"].call(lua.eventHandler, events);
-		lua.eventHandler["handleEvents"].call(lua.eventHandler);
+		lua.lua["state"]["setInput"].call(lua.lua["state"], events);
+		lua.lua["state"]["handleInput"].call(lua.lua["state"]);
 		events.clear();
 	}
 }

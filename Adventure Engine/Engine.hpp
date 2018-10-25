@@ -35,6 +35,8 @@
 #include <utility>
 #include <list>
 #include <map>
+#include <chrono>
+#include <ratio>
 
 namespace itl {
 	
@@ -53,7 +55,7 @@ namespace itl {
 		////////////////////////////////////////////////////////////
 		// Memberdata
 		////////////////////////////////////////////////////////////
-		std::string									scene_name = "ITL";
+		std::string									scene_name = "";
 		TextureManager								texture_manager;
 		sf::RenderWindow							window;
 		sf::View									view;
@@ -63,5 +65,11 @@ namespace itl {
 		Lua											lua;
 		LuaRendering								ecs_wrapper{lua};
 		std::vector<sf::Event>						events;
+
+		//Test:
+		sf::Image									cursor_normal_img;
+		sf::Cursor									cursor_normal;
+
+
 	};
 }
