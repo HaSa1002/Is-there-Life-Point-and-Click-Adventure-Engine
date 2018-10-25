@@ -20,8 +20,10 @@
 
 #include "LuaBindings.hpp"
 #include "RenderComponent.hpp"
+#include "TextRenderComponent.hpp"
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -30,9 +32,9 @@
 namespace itl {
 	LuaBindings::LuaBindings(sol::state & l) :lua { l } {
 		//Bind different sf::Vector
-		this->bindSfmlVector<float, 'f'>();
-		this->bindSfmlVector<int, 'i'>();
-		this->bindSfmlVector<unsigned int, 'u'>();
+		this->bindSfmlVector<float>("f");
+		this->bindSfmlVector<int>("i");
+		this->bindSfmlVector<unsigned int>("u");
 		//Bind different sf::Rect
 		this->bindSfmlRect<float>("Float");
 		this->bindSfmlRect<int>("Int");
@@ -41,6 +43,27 @@ namespace itl {
 		this->bindSfmlEventStructs();
 		this->bindSfmlTransformable();
 		this->bindRenderComponent();
+		this->bindTextRenderComponent();
+	}
+
+	void LuaBindings::bindTextRenderComponent() { 
+		lua.new_usertype<TextRenderComponent>("TextRenderComponent",
+			sol::constructors<TextRenderComponent(const std::wstring&, const std::string&, unsigned int)>(),
+			"getTransformable", &TextRenderComponent::getTransformable,
+			"draw", &TextRenderComponent::draw,
+			"getLocalBounds", &TextRenderComponent::getLocalBounds,
+			"getGlobalBounds", &TextRenderComponent::getGlobalBounds,
+			"setString", &TextRenderComponent::setString,
+			"setCharSize", &TextRenderComponent::setCharSize,
+			"setLineSpacing", &TextRenderComponent::setLineSpacing,
+			"setLetterSpacing", &TextRenderComponent::setLetterSpacing,
+			"setFillColor", &TextRenderComponent::setFillColor,
+			"setOutlineColor", &TextRenderComponent::setOutlineColor,
+			"setOutlineThickness", &TextRenderComponent::setOutlineThickness,
+			"getString", &TextRenderComponent::getString,
+			"setColor", &TextRenderComponent::setColor
+		
+			);
 	}
 
 	void LuaBindings::bindRenderComponent() {
@@ -50,8 +73,9 @@ namespace itl {
 			"draw", &RenderComponent::draw,
 			"getLocalBounds", &RenderComponent::getLocalBounds,
 			"getGlobalBounds", &RenderComponent::getGlobalBounds,
-			"getSize", &RenderComponent::getSize
-			//sol::base_classes, sol::bases<sf::Drawable>()
+			"getSize", &RenderComponent::getSize,
+			"setTexture", &RenderComponent::setTexture,
+			"setColor", &RenderComponent::setColor
 			);
 	}
 
@@ -88,7 +112,7 @@ namespace itl {
 
 	void LuaBindings::bindKeyEnum() {
 		using Key = sf::Keyboard::Key;
-		lua.new_enum<Key>("KeyboardKey", {
+		lua.new_enum<Key>("KeyCode", {
 			{"A",			Key::A},
 			{"B",			Key::B},
 			{"C",			Key::C},

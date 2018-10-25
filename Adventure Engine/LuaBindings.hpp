@@ -34,12 +34,13 @@ namespace itl {
 		LuaBindings(sol::state& l);
 
 	private:
-		template<typename T, char N>
-		void bindSfmlVector();
+		template<typename T>
+		void bindSfmlVector(const std::string& s);
 
 		template<typename T>
 		void bindSfmlRect(const std::string& s);
 
+		void bindTextRenderComponent();
 		void bindRenderComponent();
 		void bindSfmlTransformable();
 		void bindSfmlEventStructs();

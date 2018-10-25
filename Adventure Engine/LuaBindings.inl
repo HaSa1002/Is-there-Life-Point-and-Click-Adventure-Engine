@@ -2,14 +2,14 @@
 #pragma once
 
 namespace itl {
-	template<typename T, char N>
-	void LuaBindings::bindSfmlVector() {
-		lua.new_usertype<sf::Vector2<T>>("Vector2" + N,
+	template<typename T>
+	void LuaBindings::bindSfmlVector(const std::string& s) {
+		lua.new_usertype<sf::Vector2<T>>("Vector2" + s,
 			sol::constructors<sf::Vector2<T>(), sf::Vector2<T>(T,T)>(),
 			"x", &sf::Vector2<T>::x,
 			"y", &sf::Vector2<T>::y);
 
-		lua.new_usertype<sf::Vector3<T>>("Vector3" + N,
+		lua.new_usertype<sf::Vector3<T>>("Vector3" + s,
 			sol::default_constructor,
 			"x", &sf::Vector3<T>::x,
 			"y", &sf::Vector3<T>::y,
