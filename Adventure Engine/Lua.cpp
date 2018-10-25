@@ -28,42 +28,64 @@
 
 
 namespace itl {
+	//All compile-time bound stuff
 	void Lua::init() {
 		lua.open_libraries(sol::lib::base, sol::lib::coroutine, sol::lib::io, sol::lib::math, sol::lib::os, sol::lib::package, sol::lib::string, sol::lib::table, sol::lib::utf8);
 		lua.script(R"(package.path = package.path .. ";engine/3rdParty/?.lua")");
 		LuaBindings { lua }; // Create a septerate object file to save compile time
+		registerLoadAsync();
 
 	}
-
+	//Run-Time bound stuff
 	void Lua::postinit() {
 		this->reqisterEventHandling();
 		this->registerObjects();
-		this->registerUserObjects();
+		this->registerUserData();
 		lua.script_file("engine/engine.lua");
 	}
 
-	void Lua::registerUserObjects() {
-		std::filesystem::directory_iterator p{"data/objects"};
+	void Lua::bindPathfinding() {
+		lua["utils"]["findPath"] = [](std::vector<sf::IntRect>& rects, const sf::Vector2f start, const sf::Vector2f end) {
+			//TODO: FindNearestPoint(start, end)
+			//TODO: prepareRects(rects) // We check if the rects intersects and if they do, we create subrects to resolve the problem
+			//FindPath(...)
+		};
+	}
+
+	void Lua::iterateDirectory(const std::string& path) {
+		std::filesystem::directory_iterator p { path };
 		for (auto i : p) {
 			if (i.path().extension() == ".lua")
 				lua.script_file(i.path().generic_string());
 		}
 	}
 
+
+	void Lua::registerUserData() {
+		iterateDirectory("data/objects");
+		iterateDirectory("data/Scenes");
+	}
+
 	void Lua::registerObjects() {
-		lua.script_file("engine/EventHandling/GameObject.lua");
-		lua.script_file("engine/EventHandling/RenderedObject.lua");
+		iterateDirectory("engine/EventHandling");
 	}
 
 
 	void Lua::reqisterEventHandling() {
-		lua.script_file("engine/EventHandling/Subscription.lua");
-		auto ret = lua.script_file("engine/EventHandling/EventHandler.lua");
-		if (ret.valid()) {
-			eventHandler = ret.get<sol::table>();
-			lua["ecs"] = eventHandler;
-		} else std::cout << "Scheiße"; // Try to create new EventHandler else throw error
+		lua.script_file("engine/ActionList/Action.lua");
+		lua.script_file("engine/StateMachine/State.lua");
+		iterateDirectory("data/States");
+		lua.script_file("engine/StateMachine/StateStack.lua");
+	}
 
+
+	void Lua::registerLoadAsync() {
+		lua["loadAsync"] = [this](sol::table state, sol::table caller) {
+			//asyncLoad = std::async(std::launch::async, [state] () {return state["load"].call(state);});
+			state["load"].call(state);
+			asyncReturn = caller;
+			asyncInProgress = true;
+		};
 	}
 
 }

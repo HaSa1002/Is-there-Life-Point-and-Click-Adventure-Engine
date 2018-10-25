@@ -29,6 +29,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <functional>
 #include <filesystem>
+#include <future>
 
 namespace itl {
 	class Lua {
@@ -36,13 +37,19 @@ namespace itl {
 		sol::state lua;
 		void init();
 		void postinit();
-		void registerUserObjects();
+		void bindPathfinding();
+		void iterateDirectory(const std::string &);
+		void registerUserData();
 		void registerObjects();
 		sol::table eventHandler;
-
+		std::future<sol::protected_function_result> asyncLoad;
+		bool asyncInProgress = false;
+		sol::table asyncReturn;
 
 	private:
 		void reqisterEventHandling();
+
+		void registerLoadAsync();
 
 	};
 

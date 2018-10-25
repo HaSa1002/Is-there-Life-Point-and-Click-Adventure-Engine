@@ -27,7 +27,7 @@
 
 namespace itl {
 	void LuaRendering::draw(sf::RenderTarget & target, sf::RenderStates states) const { 
-		lua.eventHandler["render"].call(lua.eventHandler, target, states);
+		lua.lua["state"]["render"].call(lua.lua["state"], target, states);
 	}
 
 }
