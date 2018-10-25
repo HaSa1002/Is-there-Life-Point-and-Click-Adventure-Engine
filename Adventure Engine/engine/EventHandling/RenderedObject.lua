@@ -2,13 +2,14 @@ local class = require "middleclass"
 
 RenderedObject = class("RenderedObject", GameObject)
 
-function RenderedObject:initialize(texture)
+function RenderedObject:initialize(texture, layer, ecs)
 	self.renderComponent = RenderComponent.new(tm, utils.hash.string(texture))
-
+	print ("Init:", layer)
 	ecs:subscribe(Subscription{
 		listener = self,
 		eventType = "draw",
-		callback = RenderedObject.onRender
+		callback = RenderedObject.onRender,
+		layer = layer
 	})
 end
 

@@ -7,6 +7,7 @@ function Subscription:initialize(params)
 	self.listener = params.listener
 	self.eventType = params.eventType
 	self.callback = params.callback
+	self.layer = params.layer
 end
 
 
