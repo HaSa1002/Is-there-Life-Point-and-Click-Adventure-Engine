@@ -25,7 +25,7 @@ end
 		-----------------------
 		-- End of that stuff --
 		-----------------------
-tm:add("eolas.png", utils.hash.string("player"))
-changeScene("test");
+		
+--changeScene("test");
 
 
