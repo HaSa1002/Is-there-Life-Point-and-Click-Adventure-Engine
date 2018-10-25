@@ -35,7 +35,7 @@ namespace itl {
 
 
 	////////////////////////////////////////////////////////////
-	TextureManager::TextureManager(std::vector<std::pair<const std::string, const size_t>>& textures) {
+	TextureManager::TextureManager(std::map<std::string, size_t>& textures) {
 		buffer = std::move(textures);
 		this->build();
 	}
@@ -50,8 +50,8 @@ namespace itl {
 
 
 	////////////////////////////////////////////////////////////
-	void TextureManager::add(const std::string & path, const size_t name) {
-		buffer.push_back(std::move(std::make_pair("data/textures/" + path, name)));
+	void TextureManager::add(std::string path, size_t name) {
+		buffer.insert_or_assign("data/textures/" + path, name);
 	}
 
 
@@ -69,6 +69,10 @@ namespace itl {
 	void TextureManager::build() {
 		std::list<rbp::RectSize> t_rects;
 		std::map<const hashedName, sf::Image> images;
+
+		//Step 0: Skip Creation if there is no difference between buffer and loaded_textures
+		if (buffer.size() == loaded_textures.size())
+			return;
 
 		//Step 1: Load the texture files
 		for (const auto& i : buffer) {
@@ -91,7 +95,7 @@ namespace itl {
 
 		//Step 1.1: Load textures from the texture if existing
 		for (auto& i : loaded_textures) {
-			
+
 			//We should copy the images before and not every single time
 			sf::Image img;
 			img.create(i.second.rect.width, i.second.rect.height);
@@ -109,7 +113,8 @@ namespace itl {
 
 
 		//Step 2: Prepare container and sort loaded images
-		this->clear();
+		loaded_textures.clear();
+		textures.clear();
 
 		t_rects.sort(&sortRectSizes);
 

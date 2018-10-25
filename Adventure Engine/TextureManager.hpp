@@ -53,7 +53,7 @@ namespace itl {
 		///
 		/// param textures - std::vector of pairs of the path and hashed name
 		////////////////////////////////////////////////////////////
-		TextureManager(std::vector<std::pair<const std::string, const hashedName>>& textures);
+		TextureManager(std::map<std::string, size_t>& textures);
 
 		////////////////////////////////////////////////////////////
 		/// Gets the texture with the given name
@@ -70,7 +70,7 @@ namespace itl {
 		/// param name - hashed name of the texture
 		///
 		////////////////////////////////////////////////////////////
-		void add(const std::string& path, const size_t name);
+		void add(std::string path, size_t name);
 
 		////////////////////////////////////////////////////////////
 		/// Clears the buffer and given on the param also the texture atlas
@@ -92,11 +92,11 @@ namespace itl {
 
 
 	private:
-
+	
 		////////////////////////////////////////////////////////////
 		// Member Data
 		////////////////////////////////////////////////////////////
-		std::vector<std::pair<const std::string, const hashedName>>	buffer;				/// Saves the path and name of the textues to be loaded
+		std::map<std::string, hashedName>	buffer;				/// Saves the path and name of the textues to be loaded
 		std::map<hashedName, Texture>								loaded_textures;	/// Holds the loaded Textures
 		std::vector<std::shared_ptr<sf::Texture>>					textures;			/// Holds the texture atlas'
 
